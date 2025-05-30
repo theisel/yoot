@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "exports": {
     ".": "./src/index.ts",
-    "./core": null,
     "./html": "./src/html.ts",
     "./internal": "./src/internal.ts",
     "./jsx": "./src/jsx.ts"
