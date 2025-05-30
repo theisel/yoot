@@ -1,7 +1,7 @@
 {
   "name": "@yoot/sanity",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sanity adapter for @yoot/yoot",
   "keywords": [
     "sanity",
