@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:docs": "prettier --write .",
     "lint": "npx eslint .",
-    "release": "pnpm build:lib && pnpm changeset publish && ./scripts/sync-jsr-versions.js && pnpm jsr publish",
+    "version": "pnpm changeset version && node ./scripts/sync-jsr-versions.js",
+    "release": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
