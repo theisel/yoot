@@ -1,0 +1,198 @@
+---
+import {yoot, registerAdapters} from '@yoot/yoot';
+import {cloudinaryAdapter} from '@yoot/cloudinary';
+import {imgixAdapter} from '@yoot/imgix';
+import {sanityAdapter} from '@yoot/sanity';
+import {shopifyAdapter} from '@yoot/shopify';
+import Cloudinary from '../components/Cloudinary.tsx'; // React
+import Imgix from '../components/Imgix.svelte'; // Svelte
+import Sanity from '../components/Sanity.tsx'; // Solid
+import Shopify from '../components/Shopify.vue'; // Vue
+import Card from '../components/Card.astro';
+import Group from '../components/Group.astro';
+
+// Register adapters for different image services
+registerAdapters(cloudinaryAdapter, imgixAdapter, sanityAdapter, shopifyAdapter);
+
+// Longform
+const squarePreset = yoot().width(200).height(200);
+// Shortform
+const landscapePreset = yoot().w(200).h(100);
+// Using `map`: ensure you return `state` and is mutable
+const portraitPreset = yoot().map((state) => {
+  state.directives.width = 100;
+  state.directives.height = 200;
+  return state;
+});
+
+const cloudinary = yoot('https://res.cloudinary.com/demo/image/upload/pm/woman_car.jpg');
+
+const imgix = yoot('https://assets.imgix.net/unsplash/kayak.jpg');
+
+const sanity = yoot(
+  'https://cdn.sanity.io/images/kcbf19oh/aquae-sulis/764046aacd14269afe3819eea9929c96bee667f6-2048x1365.jpg'
+);
+
+const shopify = yoot({
+  src: 'https://cdn.shopify.com/s/files/1/0551/4566/0472/products/PDP5.jpg?v=1655932274',
+  width: 2048,
+  height: 2048,
+});
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>yoot - demo</title>
+  </head>
+  <body>
+    <p class="contribute-note">
+      This demo is a work in progress. <a href="https://github.com/theisel/yoot" target="_blank"
+        >Contributions are welcome!</a
+      > 🙏
+    </p>
+
+    <h1 class="hero-heading">
+      <span class="tag">@yoot/yoot</span>
+      <span class="subtitle">Image Output Demo</span>
+    </h1>
+
+    <section data-aspect-ratio="natural">
+      <h2>Original</h2>
+      <Group title="Natural Aspect Ratio">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary} /> </Card>
+        <Card title="Imgix"><Imgix nvc={imgix} /> </Card>
+        <Card title="Sanity"><Sanity nvc={sanity} /> </Card>
+        <Card title="Shopify"> <Shopify nvc={shopify} /> </Card>
+      </Group>
+    </section>
+
+    <section data-aspect-ratio="square">
+      <h2>Square (1x1)</h2>
+      <Group title=".fit('cover')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(squarePreset).fit('cover')} /></Card>
+        <Card title="Imgix"><Imgix nvc={imgix(squarePreset).fit('cover')} /></Card>
+        <Card title="Sanity"><Sanity nvc={sanity(squarePreset).fit('cover')} /></Card>
+        <Card title="Shopify"><Shopify nvc={shopify(squarePreset).fit('cover')} /></Card>
+      </Group>
+      <Group title=".fit('contain')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(squarePreset).fit('contain')} /></Card>
+        <Card title="Imgix"><Imgix nvc={imgix(squarePreset).fit('contain')} /></Card>
+        <Card title="Sanity"><Sanity nvc={sanity(squarePreset).fit('contain')} /></Card>
+        <Card title="Shopify"><Shopify nvc={shopify(squarePreset).fit('contain')} /></Card>
+      </Group>
+    </section>
+
+    <section data-aspect-ratio="landscape">
+      <h2>Landscape (2x1)</h2>
+      <Group title=".fit('cover')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(landscapePreset).fit('cover')} /></Card>
+        <Card title="Imgix"><Imgix nvc={imgix(landscapePreset).fit('cover')} /></Card>
+        <Card title="Sanity"><Sanity nvc={sanity(landscapePreset).fit('cover')} /></Card>
+        <Card title="Shopify"><Shopify nvc={shopify(landscapePreset).fit('cover')} /></Card>
+      </Group>
+      <Group title=".fit('contain')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(landscapePreset).fit('contain')} /></Card>
+        <Card title="Imgix"><Imgix nvc={imgix(landscapePreset).fit('contain')} /></Card>
+        <Card title="Sanity"><Sanity nvc={sanity(landscapePreset).fit('contain')} /></Card>
+        <Card title="Shopify"><Shopify nvc={shopify(landscapePreset).fit('contain')} /></Card>
+      </Group>
+    </section>
+
+    <section data-aspect-ratio="portrait">
+      <h2>Portrait (1x2)</h2>
+      <Group title=".fit('cover')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(portraitPreset).fit('cover')} /></Card>
+        <Card title="Imgix"><Imgix nvc={imgix(portraitPreset).fit('cover')} /></Card>
+        <Card title="Sanity"><Sanity nvc={sanity(portraitPreset).fit('cover')} /></Card>
+        <Card title="Shopify"><Shopify nvc={shopify(portraitPreset).fit('cover')} /></Card>
+      </Group>
+      <Group title=".fit('contain')">
+        <Card title="Cloudinary"><Cloudinary nvc={cloudinary(portraitPreset).fit('contain')} /> </Card>
+        <Card title="Imgix"> <Imgix nvc={imgix(portraitPreset).fit('contain')} /> </Card>
+        <Card title="Sanity"><Sanity nvc={sanity(portraitPreset).fit('contain')} /> </Card>
+        <Card title="Shopify"><Shopify nvc={shopify(portraitPreset).fit('contain')} /> </Card>
+      </Group>
+    </section>
+
+    <style>
+      :root {
+        --img-container-width: 200px;
+        --img-container-height: 200px;
+      }
+
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 2rem;
+        background: #fdfdfd;
+        color: #222;
+        line-height: 1.6;
+      }
+
+      .contribute-note {
+        width: fit-content;
+        margin: 2rem auto 3rem;
+        padding: 1rem 1.5rem;
+        background: #fffcf6;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 0.75rem;
+        color: #333;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-family: system-ui, sans-serif;
+
+        a {
+          font-weight: 600;
+          color: deeppink;
+          text-decoration: none;
+          border-bottom: 1px dashed deeppink;
+          transition:
+            color 0.2s ease,
+            border-color 0.2s ease;
+        }
+
+        a:hover {
+          color: #000;
+          border-color: #000;
+        }
+      }
+
+      .hero-heading {
+        text-align: center;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .tag {
+          background: black;
+          border-radius: 0.75rem;
+          color: deeppink;
+          display: inline-block;
+          font-family: monospace;
+          font-size: 1.25rem;
+          font-weight: 700;
+          letter-spacing: -0.5px;
+          padding: 0.25rem 1.15rem;
+          margin-inline: auto;
+          width: fit-content;
+        }
+
+        .subtitle {
+          color: #222;
+          font-size: 2.25rem;
+          font-weight: 600;
+          opacity: 0.6;
+        }
+      }
+
+      :global(img) {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </body>
+</html>

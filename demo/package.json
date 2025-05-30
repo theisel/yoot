@@ -1,0 +1,29 @@
+{
+  "name": "demo",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/svelte": "^7.1.0",
+    "@astrojs/vue": "^5.1.0",
+    "@yoot/cloudinary": "workspace:*",
+    "@yoot/imgix": "workspace:*",
+    "@yoot/yoot": "workspace:*",
+    "@yoot/sanity": "workspace:*",
+    "@yoot/shopify": "workspace:*",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.5",
+    "astro": "^5.8.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "svelte": "^5.33.4",
+    "typescript": "^5.8.3",
+    "vue": "^3.5.15"
+  }
+}
