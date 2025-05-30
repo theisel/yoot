@@ -4,8 +4,7 @@ on:
   pull_request:
     paths:
       - 'packages/**'
-    paths-ignore:
-      - '**/README.md'
+      - '!packages/**/README.md'
 
 permissions:
   contents: write

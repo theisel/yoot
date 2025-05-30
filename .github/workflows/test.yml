@@ -8,8 +8,7 @@ on:
   pull_request:
     paths:
       - 'packages/**'
-    paths-ignore:
-      - '**/*.md'
+      - '!packages/**/*.md'
 
 env:
   PNPM_VERSION: '10.11.0'
