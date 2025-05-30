@@ -9,7 +9,7 @@ Adapter for Sanity image URLs.
 **Signature:**
 
 ```typescript
-adapter: import('@yoot/yoot').Adapter;
+adapter: Adapter;
 ```
 
 ## Remarks
