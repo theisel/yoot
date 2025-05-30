@@ -1,0 +1,11 @@
+{
+  "name": "@yoot/test-kit",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "vitest": "^3.1.4"
+  }
+}
