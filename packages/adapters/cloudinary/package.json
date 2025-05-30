@@ -1,0 +1,74 @@
+{
+  "name": "@yoot/cloudinary",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Cloudinary adapter for @yoot/yoot",
+  "keywords": [
+    "cloudinary",
+    "yoot",
+    "yoot-adapter",
+    "image",
+    "images",
+    "cdn",
+    "responsive",
+    "optimization",
+    "transform",
+    "transformation",
+    "url",
+    "url-builder",
+    "img",
+    "picture",
+    "srcset",
+    "typescript"
+  ],
+  "author": "Tom Theisel <tom.theisel@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theisel/yoot.git",
+    "directory": "packages/adapters/cloudinary"
+  },
+  "bugs": {
+    "url": "https://github.com/theisel/yoot/issues"
+  },
+  "homepage": "https://github.com/theisel/yoot#readme",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./register": {
+      "types": "./dist/register.d.ts",
+      "import": "./dist/register.js"
+    },
+    "./core": null
+  },
+  "files": [
+    "dist/core/**/*{.js,.d.ts}",
+    "dist/{index,register}{.js,.d.ts}",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "api:docs": "npx api-documenter markdown -i temp -o ../../../docs/packages/adapters/cloudinary",
+    "api:build": "npx api-extractor run --verbose --local",
+    "build": "pnpm vite:build && pnpm ts:build && pnpm api:build && pnpm api:docs && pnpm cp:resources",
+    "clean": "rm -rf dist",
+    "cp:resources": "cp ../../../LICENSE .",
+    "test": "vitest run",
+    "ts:build": "tsc -p tsconfig.build.json",
+    "vite:build": "vite build"
+  },
+  "peerDependencies": {
+    "@yoot/yoot": "workspace:*"
+  },
+  "devDependencies": {
+    "@yoot/yoot": "workspace:*",
+    "@yoot/test-kit": "workspace:*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
