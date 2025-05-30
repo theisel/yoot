@@ -1,5 +1,5 @@
 import {createAdapter} from '@yoot/yoot';
-import type {DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
+import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';
 
 // -- Module Exports --
@@ -11,7 +11,7 @@ export {adapter};
  * @remarks Supports `.imgix.net` URLs and maps `yoot` directives to Imgix parameters.
  * @public
  */
-const adapter = createAdapter({
+const adapter: Adapter = createAdapter({
   supports: (url: URL) => url.hostname.endsWith('.imgix.net'),
   generateUrl,
 });

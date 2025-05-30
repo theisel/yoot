@@ -1,5 +1,5 @@
 import {createAdapter} from '@yoot/yoot';
-import type {DirectiveNames, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
+import type {Adapter, DirectiveNames, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {
   _isKeyOf as isKeyOf,
   _isEmpty as isEmpty,
@@ -19,7 +19,7 @@ export {getDimensionsFromUrl};
  *
  * @public
  */
-const adapter = createAdapter({
+const adapter: Adapter = createAdapter({
   supports: (url: URL) => url.hostname === 'cdn.sanity.io',
   generateUrl,
   primeState,

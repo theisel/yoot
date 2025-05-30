@@ -46,15 +46,6 @@ Merges the provided options into the existing global Yoot configuration.
 </td></tr>
 <tr><td>
 
-[registerAdapters(adapters)](./yoot.registeradapters.md)
-
-</td><td>
-
-Registers one or more adapters for image transformation.
-
-</td></tr>
-<tr><td>
-
 [yoot(init)](./yoot.yoot.md)
 
 </td><td>
@@ -165,6 +156,15 @@ Description
 </td><td>
 
 A ready-to-use adapter object that returns the source URL unmodified.
+
+</td></tr>
+<tr><td>
+
+[registerAdapters](./yoot.registeradapters.md)
+
+</td><td>
+
+Registers one or more adapters for image transformation.
 
 </td></tr>
 </tbody></table>

@@ -2,50 +2,15 @@
 
 [Home](/docs/README.md) &gt; [API Reference](/docs/api/README.md) &gt; [@yoot/yoot](./yoot.md) &gt; <span style="opacity:0.7;font-style:italic">registerAdapters</span>
 
-## registerAdapters() function
+## registerAdapters variable
 
 Registers one or more adapters for image transformation.
 
 **Signature:**
 
 ```typescript
-registerAdapters: (...adapters: Adapter[]) => void
+registerAdapters: RegisterAdaptersFunction;
 ```
-
-## Parameters
-
-<table><thead><tr><th>
-
-Parameter
-
-</th><th>
-
-Type
-
-</th><th>
-
-Description
-
-</th></tr></thead>
-<tbody><tr><td>
-
-adapters
-
-</td><td>
-
-[Adapter](./yoot.adapter.md)<!-- -->\[\]
-
-</td><td>
-
-One or more adapters to register.
-
-</td></tr>
-</tbody></table>
-**Returns:**
-
-void
-
-void
 
 ## Example
 

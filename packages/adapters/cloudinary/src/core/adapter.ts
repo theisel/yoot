@@ -1,5 +1,5 @@
 import {createAdapter} from '@yoot/yoot';
-import type {DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
+import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';
 
 // -- Module Exports --
@@ -15,7 +15,7 @@ export {urlParts};
  * @see https://github.com/mayashavin/cloudinary-api/blob/23b18d683dbe5d1d1d47c5a468803560f48f18e4/packages/url/lib/url.ts#L6
  * @public
  */
-const adapter = createAdapter({
+const adapter: Adapter = createAdapter({
   supports: (url: URL) => url.hostname === 'res.cloudinary.com' || url.hostname === 'cloudinary-a.akamaihd.net',
   generateUrl,
 });
