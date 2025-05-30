@@ -10,13 +10,14 @@
     "format": "prettier --write .",
     "format:docs": "prettier --write .",
     "lint": "npx eslint .",
-    "release": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
+    "release": "pnpm build:lib && pnpm changeset publish && ./scripts/sync-jsr-versions.js && pnpm jsr publish",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
     "@changesets/changelog-git": "^0.2.1",
     "@changesets/cli": "^2.29.4",
+    "@manypkg/get-packages": "^3.0.0",
     "@microsoft/api-documenter": "^7.26.27",
     "@microsoft/api-extractor": "^7.52.8",
     "@vitest/coverage-v8": "^3.1.4",
