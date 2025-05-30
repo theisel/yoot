@@ -52,6 +52,6 @@ jobs:
           commit: 'chore(release): version packages'
           title: 'chore(release): version packages'
           version: pnpm exec changeset version
-          publish: pnpm build:lib && pnpm changeset publish && pnpm jsr publish
+          publish: pnpm release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

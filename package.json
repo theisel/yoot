@@ -10,6 +10,7 @@
     "format": "prettier --write .",
     "format:docs": "prettier --write .",
     "lint": "npx eslint .",
+    "release": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
   },
