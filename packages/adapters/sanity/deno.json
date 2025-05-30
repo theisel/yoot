@@ -1,0 +1,30 @@
+{
+  "name": "@yoot/sanity",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./register": "./src/register.ts",
+    "./core": null
+  },
+  "publish": {
+    "include": ["src", "deno.json", "LICENSE", "README.md"],
+    "exclude": ["src/api-extractor.ts"]
+  },
+  "keywords": [
+    "sanity",
+    "yoot",
+    "yoot-adapter",
+    "image",
+    "images",
+    "cdn",
+    "responsive",
+    "optimization",
+    "transform",
+    "transformation",
+    "url",
+    "url-builder",
+    "img",
+    "picture",
+    "srcset"
+  ]
+}
