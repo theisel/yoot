@@ -1,0 +1,9 @@
+{
+  "workspace": [
+    "./packages/adapters/cloudinary",
+    "./packages/adapters/imgix",
+    "./packages/adapters/sanity",
+    "./packages/adapters/shopify",
+    "./packages/yoot"
+  ]
+}
