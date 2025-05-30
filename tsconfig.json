@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
+  "include": ["packages"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@yoot/yoot": ["./packages/yoot/src"],
+      "@yoot/yoot/internal": ["./packages/yoot/src/internal"]
+    }
+  }
+}

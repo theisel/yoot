@@ -1,0 +1,20 @@
+# Dependency directories
+node_modules/
+
+# Build output and cache
+coverage/
+dist/
+*.tsbuildinfo
+
+# Dev Container generated artifacts
+.pnpm-store/
+
+# API Extractor/Documenter
+temp/
+
+# Logs
+pnpm-debug.log*
+
+# LICENSE files within individual packages
+# This keeps the git history clean of redundant copies.
+packages/**/LICENSE

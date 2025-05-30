@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    // Environment & language features
+    "lib": ["ESNext", "DOM"],
+    "target": "ES2023",
+    "module": "ESNext",
+    "moduleDetection": "force",
+    // Bundler behavior
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    // Safety & strictness
+    "strict": true,
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true
+  }
+}

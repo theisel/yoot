@@ -1,0 +1,5 @@
+# Directories
+.astro/
+
+# Files
+pnpm-lock.yaml
