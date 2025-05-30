@@ -1,0 +1,31 @@
+{
+  "name": "@yoot/yoot",
+  "version": "0.1.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": null,
+    "./html": "./src/html.ts",
+    "./internal": "./src/internal.ts",
+    "./jsx": "./src/jsx.ts"
+  },
+  "publish": {
+    "include": ["src", "deno.json", "LICENSE", "README.md"],
+    "exclude": ["src/api-extractor.ts"]
+  },
+  "keywords": [
+    "yoot",
+    "yoot-adapter",
+    "image",
+    "images",
+    "cdn",
+    "responsive",
+    "optimization",
+    "transform",
+    "transformation",
+    "url",
+    "urlbuilder",
+    "img",
+    "picture",
+    "srcset"
+  ]
+}

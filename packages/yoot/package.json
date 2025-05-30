@@ -1,0 +1,81 @@
+{
+  "name": "@yoot/yoot",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "The core library for yoot, providing a CDN-agnostic, chainable API for image URL transformations and adapter integration.",
+  "keywords": [
+    "yoot",
+    "image",
+    "images",
+    "url",
+    "url-builder",
+    "cdn",
+    "cdn-agnostic",
+    "responsive",
+    "transformation",
+    "transform",
+    "optimization",
+    "presets",
+    "chainable-api",
+    "ssr",
+    "hydration",
+    "img",
+    "picture",
+    "srcset",
+    "typescript"
+  ],
+  "author": "Tom Theisel <tom.theisel@gmail.com>",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theisel/yoot.git",
+    "directory": "packages/yoot"
+  },
+  "bugs": {
+    "url": "https://github.com/theisel/yoot/issues"
+  },
+  "homepage": "https://github.com/theisel/yoot#readme",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./core": null,
+    "./html": {
+      "types": "./dist/html.d.ts",
+      "import": "./dist/html.js"
+    },
+    "./internal": {
+      "types": "./dist/internal.d.ts",
+      "import": "./dist/internal.js"
+    },
+    "./jsx": {
+      "types": "./dist/jsx.d.ts",
+      "import": "./dist/jsx.js"
+    }
+  },
+  "files": [
+    "dist/core/**/*{.js,.d.ts}",
+    "dist/{html,index,internal,jsx}{.js,.d.ts}",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "api:docs": "npx api-documenter markdown -i temp -o ../../docs/packages/yoot",
+    "api:build": "npx api-extractor run --verbose --local",
+    "build": "pnpm vite:build && pnpm ts:build && pnpm cp:resources && pnpm api:build && pnpm api:docs",
+    "clean": "rm -rf dist",
+    "cp:resources": "cp ../../LICENSE .",
+    "test": "vitest run",
+    "ts:build": "tsc -p tsconfig.build.json",
+    "vite:build": "vite build"
+  },
+  "devDependencies": {
+    "@yoot/test-kit": "workspace:*"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
