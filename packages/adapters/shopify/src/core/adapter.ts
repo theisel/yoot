@@ -1,5 +1,5 @@
 import {createAdapter} from '@yoot/yoot';
-import type {Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
+import type {Adapter, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {_isEmpty as isEmpty, _isNumber as isNumber} from '@yoot/yoot/internal';
 
 // -- Module Exports --
@@ -11,7 +11,7 @@ export {adapter};
  * @remarks Supports `cdn.shopify.com` URLs and maps `yoot` directives to Shopify path segments.
  * @public
  */
-const adapter = createAdapter({
+const adapter: Adapter = createAdapter({
   supports: (url: URL) => url.hostname === 'cdn.shopify.com',
   generateUrl,
   primeState,

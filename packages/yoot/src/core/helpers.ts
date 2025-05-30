@@ -301,8 +301,8 @@ type ImgAttrsOptions = Prettify<WithSrcSetBuilder & Omit<ImgAttrs, 'height' | 's
  * @param options - `<img>` attributes and optional `srcSetBuilder`.
  * @returns A function that accepts a `Yoot` object and returns HTML `<img>` attributes.
  */
-function withImgAttrs(options: ImgAttrsOptions) {
-  return (yoot: Yoot, overrideOptions?: ImgAttrsOptions) => getImgAttrs(yoot, {...options, ...overrideOptions});
+function withImgAttrs(options: ImgAttrsOptions): (yoot: Yoot, overrideOptions?: ImgAttrsOptions) => ImgAttrs {
+  return (yoot, overrideOptions) => getImgAttrs(yoot, {...options, ...overrideOptions});
 }
 
 // --- getSourceAttrs, withSourceAttrs, & WithSourceAttrsOptions type ---
@@ -419,8 +419,10 @@ type WithSrcSetBuilder = {
  * </picture>
  * ```
  */
-function withSourceAttrs(options: SourceAttrsOptions) {
-  return (yoot: Yoot, overrideOptions?: SourceAttrsOptions) => getSourceAttrs(yoot, {...options, ...overrideOptions});
+function withSourceAttrs(
+  options: SourceAttrsOptions,
+): (yoot: Yoot, overrideOptions?: SourceAttrsOptions) => SourceAttrs {
+  return (yoot, overrideOptions) => getSourceAttrs(yoot, {...options, ...overrideOptions});
 }
 
 /**
@@ -514,8 +516,8 @@ function getMimeType(yoot: Yoot): MimeType | undefined {
  * Returns a validator that asserts the value is a number within the specified range [start, end]
  * @internal
  */
-function mustBeInRange(start: number, end: number) {
-  return (key: string, value: unknown) => {
+function mustBeInRange(start: number, end: number): (key: string, value: unknown) => void | never {
+  return (key, value) => {
     invariant(isNumber(value), `${key} must be a number`);
     invariant(isFinite(value), `${key} must be a finite number`);
     invariant(value >= start && value <= end, `${key} must be between ${start} and ${end}`);

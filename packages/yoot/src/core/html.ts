@@ -68,9 +68,8 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
  * @param options - `<img>` attributes and optional `srcSetBuilder`.
  * @returns A function that accepts a `Yoot` object and returns HTML `<img>` attributes.
  */
-function withImgAttrs(options: ImgAttrsOptions) {
-  return (yoot: Yoot, overrideOptions?: ImgAttrsOptions): ImgAttrs =>
-    propsToKebabCase(_getImgAttrs(yoot, {...options, ...overrideOptions}));
+function withImgAttrs(options: ImgAttrsOptions): (yoot: Yoot, overrideOptions?: ImgAttrsOptions) => ImgAttrs {
+  return (yoot, overrideOptions) => propsToKebabCase(_getImgAttrs(yoot, {...options, ...overrideOptions}));
 }
 
 /**
@@ -118,9 +117,10 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
  * </picture>
  * ```
  */
-function withSourceAttrs(options: SourceAttrsOptions) {
-  return (yoot: Yoot, overrideOptions?: SourceAttrsOptions): SourceAttrs =>
-    propsToKebabCase(_getSourceAttrs(yoot, {...options, ...overrideOptions}));
+function withSourceAttrs(
+  options: SourceAttrsOptions,
+): (yoot: Yoot, overrideOptions?: SourceAttrsOptions) => SourceAttrs {
+  return (yoot, overrideOptions) => propsToKebabCase(_getSourceAttrs(yoot, {...options, ...overrideOptions}));
 }
 
 /**

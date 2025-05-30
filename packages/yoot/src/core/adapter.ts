@@ -21,7 +21,13 @@ export {getAdapter as _getAdapter};
  * registerAdapters(adapterOne, adapterTwo);
  * ```
  */
-const registerAdapters = (...adapters: Adapter[]) => adapterStore.register(...adapters);
+const registerAdapters: RegisterAdaptersFunction = (...adapters) => adapterStore.register(...adapters);
+
+/**
+ * Type definition for the function that registers adapters.
+ * @public
+ */
+type RegisterAdaptersFunction = (...adapters: Adapter[]) => void;
 
 /**
  * Creates a new adapter for image URL transformation.
@@ -133,7 +139,7 @@ const throwError = (error: Error): never => {
  * registerAdapters(shopifyAdapter, passThroughAdapter); // passThroughAdapter must be last
  * ```
  */
-const passThroughAdapter = createAdapter({
+const passThroughAdapter: Adapter = createAdapter({
   supports: () => true,
   generateUrl: ({src}) => src,
 });
