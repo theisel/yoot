@@ -1,1 +1,1 @@
-export {adapter as imgixAdapter, adapter as default} from './core/adapter';
+export {adapter as imgixAdapter, adapter as default} from './core/adapter.ts';

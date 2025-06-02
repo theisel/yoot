@@ -1,4 +1,4 @@
-import type {Adapter} from './adapter';
+import type {Adapter} from './adapter.ts';
 
 // -- Module Exports --
 export {adapterStore, YOOT_BRAND};
