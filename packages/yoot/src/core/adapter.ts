@@ -1,7 +1,7 @@
-import type {Directives, YootState, PrimeStateInput} from './yoot';
-import {_getConfig as getConfig} from './config';
-import {adapterStore} from './store';
-import {invariant} from './utils';
+import type {Directives, YootState, PrimeStateInput} from './yoot.ts';
+import {_getConfig as getConfig} from './config.ts';
+import {adapterStore} from './store.ts';
+import {invariant} from './utils.ts';
 
 // --- Module Exports ---
 export {createAdapter, passThroughAdapter, registerAdapters};

@@ -1,4 +1,4 @@
-import {getImgAttrs as _getImgAttrs, getSourceAttrs as _getSourceAttrs} from './helpers';
+import {getImgAttrs as _getImgAttrs, getSourceAttrs as _getSourceAttrs} from './helpers.ts';
 import type {
   BuildSrcSetOptions,
   ImgAttrs as _ImgAttrs,
@@ -6,12 +6,12 @@ import type {
   SourceAttrs as _SourceAttrs,
   SourceAttrsOptions,
   WithSrcSetBuilder,
-} from './helpers';
-import type {Yoot} from './yoot';
-import {isEmpty, isNullish} from './utils';
+} from './helpers.ts';
+import type {Yoot} from './yoot.ts';
+import {isEmpty, isNullish} from './utils.ts';
 
 // -- Module Exports --
-export {buildSrcSet, defineSrcSetBuilder} from './helpers';
+export {buildSrcSet, defineSrcSetBuilder} from './helpers.ts';
 export {getImgAttrs, getSourceAttrs, withImgAttrs, withSourceAttrs};
 export type {BuildSrcSetOptions, ImgAttrs, ImgAttrsOptions, SourceAttrs, SourceAttrsOptions, WithSrcSetBuilder};
 // For testing purposes

@@ -5,5 +5,5 @@ export {
   getSourceAttrs,
   withImgAttrs,
   withSourceAttrs,
-} from './core/helpers';
-export type * from './core/helpers';
+} from './core/helpers.ts';
+export type * from './core/helpers.ts';

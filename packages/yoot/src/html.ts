@@ -1,1 +1,1 @@
-export * from './core/html';
+export * from './core/html.ts';

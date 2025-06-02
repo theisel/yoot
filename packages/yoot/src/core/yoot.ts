@@ -1,7 +1,7 @@
-import {_getAdapter as getAdapter} from './adapter';
-import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers';
-import {YOOT_BRAND} from './store';
-import {invariant, isNullish, isNumber, isString} from './utils';
+import {_getAdapter as getAdapter} from './adapter.ts';
+import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers.ts';
+import {YOOT_BRAND} from './store.ts';
+import {invariant, isNullish, isNumber, isString} from './utils.ts';
 
 // -- Module Exports --
 // API function and helpers

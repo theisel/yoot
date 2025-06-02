@@ -1,7 +1,7 @@
-import type {GenerateUrlInput} from './adapter';
-import type {Directives, Yoot, YootState} from './yoot';
-import type {HTMLImageAttributes, HTMLSourceAttributes, Maybe, Prettify} from './types';
-import {isKeyOf, isFunction, hasIntrinsicDimensions, invariant, isNumber, isString, isNullish} from './utils';
+import type {GenerateUrlInput} from './adapter.ts';
+import type {Directives, Yoot, YootState} from './yoot.ts';
+import type {HTMLImageAttributes, HTMLSourceAttributes, Maybe, Prettify} from './types.ts';
+import {isKeyOf, isFunction, hasIntrinsicDimensions, invariant, isNumber, isString, isNullish} from './utils.ts';
 
 export {
   buildSrcSet,

@@ -2,6 +2,6 @@
  * Official Shopify adapter package.
  * @packageDocumentation
  */
-export * from './index';
+export * from './index.ts';
 
-export * as register from './register';
+export * as register from './register.ts';
