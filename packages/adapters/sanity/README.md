@@ -28,13 +28,13 @@
 
 ## Installation
 
-Install this adapter alongside the core library:
-
 ### Install via NPM
 
 ```bash
-npm install @yoot/sanity @yoot/yoot
+npm install @yoot/sanity
 ```
+
+> The core library (`@yoot/yoot`) will be installed alongside.
 
 ### Or via JSR
 
