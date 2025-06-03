@@ -27,7 +27,7 @@ export default defineConfig({
   },
   test: {
     include: ['**/*.test.ts'],
-    exclude: ['node_modules', '**/tests/deno/**'],
+    exclude: ['node_modules', '**/tests/bun/**', '**/tests/deno/**'],
     setupFiles: [path.resolve(__dirname, 'vitest.setup.ts')],
     chaiConfig: {
       truncateThreshold: 0,

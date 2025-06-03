@@ -2,6 +2,7 @@ packages:
   - demo
   - packages/**
 onlyBuiltDependencies:
+  - bun
   - deno
   - esbuild
   - sharp

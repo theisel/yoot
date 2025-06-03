@@ -13,6 +13,7 @@
     "version": "pnpm changeset version && node ./scripts/sync-jsr-versions.js",
     "release": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
     "test": "vitest run",
+    "test:bun": "pnpm --parallel -r test:bun",
     "test:deno": "pnpm --parallel -r test:deno",
     "test:coverage": "vitest run --coverage"
   },
@@ -23,6 +24,7 @@
     "@microsoft/api-documenter": "^7.26.27",
     "@microsoft/api-extractor": "^7.52.8",
     "@vitest/coverage-v8": "^3.1.4",
+    "bun": "^1.2.15",
     "deno": "^2.3.5",
     "eslint": "^9.27.0",
     "fast-glob": "^3.3.3",
