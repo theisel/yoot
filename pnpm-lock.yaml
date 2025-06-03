@@ -115,40 +115,44 @@ importers:
         version: 3.5.15(typescript@5.8.3)
 
   packages/adapters/cloudinary:
+    dependencies:
+      '@yoot/yoot':
+        specifier: workspace:*
+        version: link:../../yoot
     devDependencies:
       '@yoot/test-kit':
         specifier: workspace:*
         version: link:../../test-kit
-      '@yoot/yoot':
-        specifier: workspace:*
-        version: link:../../yoot
 
   packages/adapters/imgix:
+    dependencies:
+      '@yoot/yoot':
+        specifier: workspace:*
+        version: link:../../yoot
     devDependencies:
       '@yoot/test-kit':
         specifier: workspace:*
         version: link:../../test-kit
-      '@yoot/yoot':
-        specifier: workspace:*
-        version: link:../../yoot
 
   packages/adapters/sanity:
+    dependencies:
+      '@yoot/yoot':
+        specifier: workspace:*
+        version: link:../../yoot
     devDependencies:
       '@yoot/test-kit':
         specifier: workspace:*
         version: link:../../test-kit
-      '@yoot/yoot':
-        specifier: workspace:*
-        version: link:../../yoot
 
   packages/adapters/shopify:
+    dependencies:
+      '@yoot/yoot':
+        specifier: workspace:*
+        version: link:../../yoot
     devDependencies:
       '@yoot/test-kit':
         specifier: workspace:*
         version: link:../../test-kit
-      '@yoot/yoot':
-        specifier: workspace:*
-        version: link:../../yoot
 
   packages/test-kit:
     dependencies:

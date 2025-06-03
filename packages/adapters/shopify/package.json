@@ -65,11 +65,10 @@
     "ts:build": "tsc -p tsconfig.build.json",
     "vite:build": "vite build"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@yoot/yoot": "workspace:*"
   },
   "devDependencies": {
-    "@yoot/yoot": "workspace:*",
     "@yoot/test-kit": "workspace:*"
   },
   "engines": {
