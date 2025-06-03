@@ -59,6 +59,7 @@
     "cp:resources": "cp ../../../LICENSE .",
     "test": "vitest run",
     "test:bun": "pnpm bun test ./tests/bun",
+    "test:cloudflare": "vitest run ./tests/cloudflare",
     "test:deno": "deno test --config deno.test.json ./tests/deno",
     "ts:build": "tsc -p tsconfig.build.json",
     "vite:build": "vite build"
