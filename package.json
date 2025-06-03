@@ -12,11 +12,12 @@
     "lint": "npx eslint .",
     "version": "pnpm changeset version && node ./scripts/sync-jsr-versions.js",
     "release": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
-    "test": "vitest run",
+    "test": "pnpm -r --parallel --workspace-concurrency=1 test",
     "test:bun": "pnpm --parallel -r test:bun",
     "test:cloudflare": "pnpm -r --parallel --workspace-concurrency=1 test:cloudflare",
+    "test:coverage": "vitest run --coverage",
     "test:deno": "pnpm --parallel -r test:deno",
-    "test:coverage": "vitest run --coverage"
+    "test:node": "vitest run"
   },
   "devDependencies": {
     "@changesets/changelog-git": "^0.2.1",
