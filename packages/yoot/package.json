@@ -69,6 +69,7 @@
     "clean": "rm -rf dist",
     "cp:resources": "cp ../../LICENSE .",
     "test": "vitest run",
+    "test:deno": "deno test --config deno.test.json ./tests/deno",
     "ts:build": "tsc -p tsconfig.build.json",
     "vite:build": "vite build"
   },

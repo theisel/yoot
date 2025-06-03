@@ -1,7 +1,7 @@
 packages:
   - demo
   - packages/**
-
 onlyBuiltDependencies:
+  - deno
   - esbuild
   - sharp

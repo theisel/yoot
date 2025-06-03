@@ -12,6 +12,9 @@ dist/
 # API Extractor/Documenter
 temp/
 
+# Lock files
+deno.lock
+
 # Logs
 pnpm-debug.log*
 
