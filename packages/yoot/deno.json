@@ -7,6 +7,9 @@
     "./internal": "./src/internal.ts",
     "./jsx": "./src/jsx.ts"
   },
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom", "esnext"]
+  },
   "publish": {
     "include": ["src", "deno.json", "LICENSE", "README.md"],
     "exclude": ["src/api-extractor.ts"]

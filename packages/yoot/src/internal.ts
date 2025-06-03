@@ -10,4 +10,4 @@ export {
   isNullish as _isNullish,
   isNumber as _isNumber,
   isString as _isString,
-} from './core/utils';
+} from './core/utils.ts';
