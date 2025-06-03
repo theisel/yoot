@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@yoot/yoot/internal": "../../yoot/src/internal.ts",
+    "@yoot/yoot": "../../yoot/src/index.ts"
+  },
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom", "esnext"]
+  }
+}

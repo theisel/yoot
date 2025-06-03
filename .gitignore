@@ -2,6 +2,7 @@
 node_modules/
 
 # Build output and cache
+.wrangler/
 coverage/
 dist/
 *.tsbuildinfo
@@ -11,6 +12,9 @@ dist/
 
 # API Extractor/Documenter
 temp/
+
+# Lock files
+deno.lock
 
 # Logs
 pnpm-debug.log*

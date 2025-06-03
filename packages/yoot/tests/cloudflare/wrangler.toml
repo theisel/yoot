@@ -1,0 +1,4 @@
+name = 'yoot-worker'
+main = "worker.ts"
+compatibility_date = '2025-06-01'
+compatibility_flags = ['nodejs_compat_v2']
