@@ -1,12 +1,12 @@
 {
   "name": "@yoot/shopify",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "exports": {
     ".": "./src/index.ts",
     "./register": "./src/register.ts"
   },
   "imports": {
-    "@yoot/yoot": "jsr:@yoot/yoot@0.1.1"
+    "@yoot/yoot": "jsr:@yoot/yoot@0.2.0"
   },
   "compilerOptions": {
     "lib": ["deno.ns", "dom", "esnext"]
