@@ -28,13 +28,13 @@
 
 ## Installation
 
-Install this adapter alongside the core library:
-
 ### Install via NPM
 
 ```bash
-npm install @yoot/imgix @yoot/yoot
+npm install @yoot/imgix
 ```
+
+> The core library (`@yoot/yoot`) will be installed alongside.
 
 ### Or via JSR
 

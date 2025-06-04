@@ -28,19 +28,19 @@
 
 ## Installation
 
-Install this adapter alongside the core library:
-
 ### Install via NPM
 
 ```bash
-npm install @yoot/cloudinary @yoot/yoot
+npm install @yoot/cloudinary
 ```
+
+> The core library (`@yoot/yoot`) will be installed alongside.
 
 ### Or via JSR
 
 ```ts
-import {yoot} from 'jsr:@yoot/yoot';
 import cloudinary from 'jsr:@yoot/cloudinary';
+import {yoot} from 'jsr:@yoot/yoot';
 ```
 
 &nbsp;
