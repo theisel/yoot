@@ -1,12 +1,12 @@
 {
   "name": "@yoot/cloudinary",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "exports": {
     ".": "./src/index.ts",
     "./register": "./src/register.ts"
   },
   "imports": {
-    "@yoot/yoot": "jsr:@yoot/yoot@0.2.0"
+    "@yoot/yoot": "jsr:@yoot/yoot@0.2.1"
   },
   "compilerOptions": {
     "lib": ["deno.ns", "dom", "esnext"]

@@ -1,5 +1,13 @@
 # @yoot/imgix
 
+## 0.2.1
+
+### Patch Changes
+
+- 1bb1601: Applied module-level JSDoc annotations across all public packages for better clarity and JSR compatibility.
+- Updated dependencies [1bb1601]
+  - @yoot/yoot@0.2.1
+
 ## 0.2.0
 
 ### Minor Changes
