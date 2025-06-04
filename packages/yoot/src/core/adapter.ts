@@ -62,10 +62,15 @@ function createAdapter(options: AdapterOptions): Adapter {
  *
  * @internal
  * @param options - Adapter configuration to validate.
+ * @throws Will throw if the options do not implement the required interface.
  */
-function assertAdapterOptions(options: AdapterOptions): asserts options is Adapter {
+function assertAdapterOptions(options: AdapterOptions): asserts options is Adapter | never {
   invariant(typeof options.supports === 'function', 'Adapter must implement `supports` function');
   invariant(typeof options.generateUrl === 'function', 'Adapter must implement `generateUrl` function');
+
+  if ('primeState' in options) {
+    invariant(typeof options.primeState === 'function', 'Adapter `primeState` must be a function');
+  }
 }
 
 /**
