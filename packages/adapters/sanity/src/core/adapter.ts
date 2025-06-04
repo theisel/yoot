@@ -3,7 +3,7 @@
  * @remarks Handles Sanity CDN URLs and applies transformation directives via query parameters.
  * @module
  */
-import {createAdapter} from '@yoot/yoot';
+import {defineAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {
   _isKeyOf as isKeyOf,
@@ -24,7 +24,7 @@ export {getDimensionsFromUrl};
  *
  * @public
  */
-const adapter: Adapter = createAdapter({
+const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'cdn.sanity.io',
   generateUrl,
   primeState,
