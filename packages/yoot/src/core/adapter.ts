@@ -12,16 +12,24 @@ export {getAdapter as _getAdapter};
 /**
  * Registers one or more adapters for image transformation.
  *
+ * @remarks This function validates each adapter's options,
+ * freezes the adapter objects, and registers them in the adapter store.
+ *
  * @public
  * @param adapters - One or more adapters to register.
  * @returns void
+ * @throws Will throw if any adapter does not implement the required interface.
  *
  * @example
  * ```ts
  * registerAdapters(adapterOne, adapterTwo);
  * ```
  */
-const registerAdapters: RegisterAdaptersFunction = (...adapters) => adapterStore.register(...adapters);
+const registerAdapters: RegisterAdaptersFunction = (...adapters) => {
+  adapters.forEach(assertAdapterOptions); // Validate each adapter's options
+  const frozenAdapters = adapters.map<Adapter>(Object.freeze); // Freeze each adapter object
+  adapterStore.register(...frozenAdapters); // Register the adapters in the store
+};
 
 /**
  * Type definition for the function that registers adapters.
