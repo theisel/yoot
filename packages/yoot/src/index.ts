@@ -1,3 +1,9 @@
+/**
+ * Core library for Yoot, exporting `yoot`, adapter utilities, and configuration helpers.
+ * @module @yoot/yoot
+ * @packageDocumentation
+ * @public
+ */
 export {yoot} from './core/yoot.ts';
 export type * from './core/yoot.ts';
 

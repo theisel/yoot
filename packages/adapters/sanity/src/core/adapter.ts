@@ -1,3 +1,8 @@
+/**
+ * Sanity adapter implementation for Yoot.
+ * @remarks Handles Sanity CDN URLs and applies transformation directives via query parameters.
+ * @module
+ */
 import {createAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {

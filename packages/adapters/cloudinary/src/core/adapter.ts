@@ -1,3 +1,8 @@
+/**
+ * Cloudinary adapter implementation for Yoot.
+ * @remarks Handles Cloudinary CDN URLs and applies transformation directives via path segments.
+ * @module
+ */
 import {createAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';
