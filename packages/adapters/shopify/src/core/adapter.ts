@@ -1,3 +1,8 @@
+/**
+ * Shopify adapter implementation for Yoot.
+ * @remarks Handles Shopify CDN URLs and applies transformation directives via path segments.
+ * @module
+ */
 import {createAdapter} from '@yoot/yoot';
 import type {Adapter, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {_isEmpty as isEmpty, _isNumber as isNumber} from '@yoot/yoot/internal';

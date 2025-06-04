@@ -1,3 +1,9 @@
+/**
+ * JSX helpers for Yoot that generate attributes tailored for JSX-style syntax environments, e.g. React and Solid.
+ * @module @yoot/yoot/jsx
+ * @packageDocumentation
+ * @public
+ */
 export {
   buildSrcSet,
   defineSrcSetBuilder,

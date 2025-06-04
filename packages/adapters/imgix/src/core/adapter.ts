@@ -1,3 +1,8 @@
+/**
+ * Imgix adapter implementation for Yoot.
+ * @remarks Handles Imgix CDN URLs and applies transformation directives via query parameters.
+ * @module
+ */
 import {createAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';

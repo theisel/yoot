@@ -1,7 +1,11 @@
-// 🚨 INTERNAL API: DO NOT USE IN APPLICATION CODE
-// This module is intended for use only by @yoot/* adapter packages.
-// It is not part of the public API, may change without notice, and is unsupported.
-// All exports are prefixed with `_` to signal their internal status.
+/**
+ * 🚨 INTERNAL API: DO NOT USE IN APPLICATION CODE
+ * @remarks This module is strictly for internal use by `@yoot/*` adapter packages.
+ * It is not part of the public API and may change or be removed without notice.
+ * @module @yoot/yoot/internal
+ * @packageDocumentation
+ * @internal
+ */
 export {
   hasIntrinsicDimensions as _hasIntrinsicDimensions,
   isKeyOf as _isKeyOf,
