@@ -4,7 +4,7 @@ import {adapterStore} from './store.ts';
 import {invariant} from './utils.ts';
 
 // --- Module Exports ---
-export {createAdapter, passThroughAdapter, registerAdapters};
+export {createAdapter, defineAdapter, passThroughAdapter, registerAdapters};
 export type {Adapter, AdapterOptions, GenerateUrlInput};
 // The following are prefixed with underscored to show they are internal
 export {getAdapter as _getAdapter};
@@ -38,7 +38,9 @@ const registerAdapters: RegisterAdaptersFunction = (...adapters) => {
 type RegisterAdaptersFunction = (...adapters: Adapter[]) => void;
 
 /**
- * Creates a new adapter for image URL transformation.
+ * Defines a new adapter for image URL transformation.
+ *
+ * @remarks Use this as a helper to satisfy TypeScript typings to create adapter objects before registration.
  *
  * @public
  * @param options - Configuration for the adapter.
@@ -46,11 +48,10 @@ type RegisterAdaptersFunction = (...adapters: Adapter[]) => void;
  *   - `generateUrl` - A function to transform the image URL.
  *   - `primeState` - (Optional) A function to modify the input before transformation.
  * @returns An adapter object implementing `supports`, `generateUrl`, and optionally `primeState`.
- * @throws Will throw if `supports` or `generateUrl` is missing or not a function.
  *
  * @example
  * ```ts
- * const myAdapter = createAdapter({
+ * const myAdapter = defineAdapter({
  *   supports: (url) => url.hostname === 'cdn.example.com',
  *   generateUrl: ({src, directives}) => {
  *     const url = new URL(src);
@@ -60,10 +61,13 @@ type RegisterAdaptersFunction = (...adapters: Adapter[]) => void;
  * });
  * ```
  */
-function createAdapter(options: AdapterOptions): Adapter {
-  assertAdapterOptions(options);
-  return {...options};
-}
+const defineAdapter = (options: AdapterOptions): Adapter => ({...options});
+
+/**
+ * @deprecated Use `defineAdapter` instead.
+ * @remarks  This alias exists for backward compatibility.
+ */
+const createAdapter = defineAdapter;
 
 /**
  * Validates that adapter options implement the required interface.
@@ -152,7 +156,7 @@ const throwError = (error: Error): never => {
  * registerAdapters(shopifyAdapter, passThroughAdapter); // passThroughAdapter must be last
  * ```
  */
-const passThroughAdapter: Adapter = createAdapter({
+const passThroughAdapter: Adapter = defineAdapter({
   supports: () => true,
   generateUrl: ({src}) => src,
 });
