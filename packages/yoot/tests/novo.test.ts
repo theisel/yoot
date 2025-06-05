@@ -10,10 +10,10 @@ const generateUrl = () => `https://foo.com/images/image-${randomHash()}.webp`;
 let yoot: YootFactory;
 
 beforeEach(async () => {
-  const {createAdapter, registerAdapters, ...exports} = await import('../src');
+  const {defineAdapter, registerAdapters, ...exports} = await import('../src');
   yoot = exports.yoot;
 
-  const adapter = createAdapter({
+  const adapter = defineAdapter({
     supports: (url: URL) => url.hostname === 'foo.com',
     generateUrl: (input) => {
       const url = new URL(input.src);

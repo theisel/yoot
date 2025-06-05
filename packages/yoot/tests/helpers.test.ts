@@ -1,6 +1,6 @@
 import {vi} from 'vitest';
 import {beforeEach, describe, expect, it} from '@yoot/test-kit';
-import {createAdapter, yoot, registerAdapters, type Yoot} from '../src';
+import {defineAdapter, yoot, registerAdapters, type Yoot} from '../src';
 import * as jsx from '../src/jsx';
 import * as html from '../src/html';
 import {getAttrs, mustBeOneOf, mustBeInRange} from '../src/core/helpers';
@@ -8,7 +8,7 @@ import {invariant} from '../src/core/utils';
 
 const IMAGE_URL = 'https://cdn.example.com/images/image.jpg';
 
-const adapter = createAdapter({
+const adapter = defineAdapter({
   supports: () => true,
   generateUrl: (input) => {
     const url = new URL(input.src);

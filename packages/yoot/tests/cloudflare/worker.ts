@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import {yoot, createAdapter, registerAdapters} from '../../src/index.ts';
+import {yoot, defineAdapter, registerAdapters} from '../../src/index.ts';
 import * as html from '../../src/html.ts';
 import * as jsx from '../../src/jsx.ts';
 
@@ -37,19 +37,19 @@ export default {
 
     // -- Verify adapter creation and registration --
     // Test Adapter factory methods
-    assert.equal(typeof createAdapter, 'function', 'Expected createAdapter to be a function');
+    assert.equal(typeof defineAdapter, 'function', 'Expected defineAdapter to be a function');
     assert.equal(typeof registerAdapters, 'function', 'Expected registerAdapters to be a function');
 
-    // Test createAdapter
+    // Test defineAdapter
     assert.doesNotThrow(() => {
-      createAdapter({
+      defineAdapter({
         supports: () => true,
         generateUrl: ({src}) => src,
       });
-    }, 'Expected createAdapter to not throw');
+    }, 'Expected defineAdapter to not throw');
 
     // Create an adapter for further checks
-    const adapter = createAdapter({
+    const adapter = defineAdapter({
       supports: () => true,
       generateUrl: ({src}) => src,
     });
