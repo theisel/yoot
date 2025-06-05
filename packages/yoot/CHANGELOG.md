@@ -1,5 +1,16 @@
 # @yoot/yoot
 
+## 0.3.0
+
+### Minor Changes
+
+- d2d76fa: Adds `defineAdapter` TS helper function for adapter creation, replacing `createAdapter` and marking it as deprecated.
+
+### Patch Changes
+
+- d2d76fa: Adds validation to the `registerAdapters` function and freezes the adapters before being stored.
+- 60b87d5: Added ISC license to `deno.json` files for public packages.
+
 ## 0.2.1
 
 ### Patch Changes
