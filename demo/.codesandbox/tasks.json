@@ -1,0 +1,16 @@
+{
+  "$schema": "https://codesandbox.io/schemas/tasks.json",
+  "setupTasks": [
+    {
+      "name": "Installing Dependencies",
+      "command": "pnpm add @yoot/yoot@latest @yoot/cloudinary@latest @yoot/imgix@latest @yoot/sanity@latest @yoot/shopify@latest"
+    }
+  ],
+  "tasks": {
+    "run-dev": {
+      "name": "Demo App",
+      "command": "pnpm dev",
+      "runAtStart": true
+    }
+  }
+}
