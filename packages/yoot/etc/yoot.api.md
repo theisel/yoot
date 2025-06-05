@@ -24,8 +24,11 @@ interface BuildSrcSetOptions {
   widths?: number[];
 }
 
+// @public @deprecated (undocumented)
+export const createAdapter: (options: AdapterOptions) => Adapter;
+
 // @public
-export function createAdapter(options: AdapterOptions): Adapter;
+export const defineAdapter: (options: AdapterOptions) => Adapter;
 
 // @public
 export const defineConfig: (options: YootConfig) => void;

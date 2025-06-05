@@ -1,6 +1,6 @@
 import {describe, it} from 'jsr:@std/testing/bdd';
 import {expect} from 'jsr:@std/expect';
-import {yoot, createAdapter, registerAdapters} from '../../src/index.ts';
+import {yoot, defineAdapter, registerAdapters} from '../../src/index.ts';
 import * as html from '../../src/html.ts';
 import * as jsx from '../../src/jsx.ts';
 
@@ -33,18 +33,18 @@ describe('Deno `yoot` smoke tests', () => {
   });
 
   it('should create and register an adapter', () => {
-    expect(typeof createAdapter).toBe('function');
+    expect(typeof defineAdapter).toBe('function');
     expect(typeof registerAdapters).toBe('function');
 
     expect(() => {
-      createAdapter({
+      defineAdapter({
         supports: () => true,
         generateUrl: ({src}) => src,
       });
     }).not.toThrow();
 
     // Create an adapter for further checks
-    const adapter = createAdapter({
+    const adapter = defineAdapter({
       supports: () => true,
       generateUrl: ({src}) => src,
     });

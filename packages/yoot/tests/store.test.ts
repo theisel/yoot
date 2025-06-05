@@ -1,6 +1,6 @@
 import {beforeEach, vi} from 'vitest';
 import {describe, expect, it} from '@yoot/test-kit';
-import {createAdapter} from '../src';
+import {defineAdapter} from '../src';
 import type {AdapterStore} from '../src/core/store';
 
 let adapterStore: AdapterStore;
@@ -14,7 +14,7 @@ beforeEach(async () => {
 
 describe('@yoot/yoot - Store', () => {
   it('registers and retrieves a single adapter', () => {
-    const adapter = createAdapter({
+    const adapter = defineAdapter({
       supports: () => true,
       generateUrl: () => '',
     });
@@ -26,12 +26,12 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('respects adapter support logic and retrieves the correct adapter', () => {
-    const adapter1 = createAdapter({
+    const adapter1 = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: () => 'foo',
     });
 
-    const adapter2 = createAdapter({
+    const adapter2 = defineAdapter({
       supports: (url) => url.hostname === 'bar.com',
       generateUrl: () => 'bar',
     });
@@ -44,7 +44,7 @@ describe('@yoot/yoot - Store', () => {
 
   it('caches adapter by hostname after first lookup', () => {
     const supports = vi.fn(() => true);
-    const adapter = createAdapter({supports, generateUrl: () => ''});
+    const adapter = defineAdapter({supports, generateUrl: () => ''});
 
     adapterStore.register(adapter);
 
@@ -56,7 +56,7 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('does not add duplicate adapter instances', () => {
-    const adapter = createAdapter({supports: () => true, generateUrl: () => 'a'});
+    const adapter = defineAdapter({supports: () => true, generateUrl: () => 'a'});
     adapterStore.register(adapter, adapter); // Duplicate
 
     expect(adapterStore.size()).toBe(1);
@@ -69,7 +69,7 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('returns undefined if no adapter supports the URL', () => {
-    const adapter = createAdapter({
+    const adapter = defineAdapter({
       supports: (url) => url.hostname === 'bar.com',
       generateUrl: () => '',
     });
@@ -82,7 +82,7 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('reset clears all adapters and cache', () => {
-    const adapter = createAdapter({supports: () => true, generateUrl: () => ''});
+    const adapter = defineAdapter({supports: () => true, generateUrl: () => ''});
     adapterStore.register(adapter);
 
     expect(adapterStore.size()).toBe(1);

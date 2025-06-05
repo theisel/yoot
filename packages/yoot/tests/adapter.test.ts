@@ -1,5 +1,5 @@
 import {describe, it, expect} from '@yoot/test-kit';
-import {createAdapter, registerAdapters, defineConfig, yoot} from '../src';
+import {defineAdapter, registerAdapters, defineConfig, yoot} from '../src';
 
 const IMAGE_URL = 'https://foo.com/file.webp';
 
@@ -9,7 +9,7 @@ describe('@yoot/yoot - Adapter Behavior', () => {
   });
 
   it('uses onMissingAdapter if provided', () => {
-    const fallbackAdapter = createAdapter({
+    const fallbackAdapter = defineAdapter({
       supports: () => true,
       generateUrl: (input) => input.src + '?fallback=true',
     });
@@ -24,7 +24,7 @@ describe('@yoot/yoot - Adapter Behavior', () => {
   });
 
   it('resolves adapter via supports()', () => {
-    const adapter = createAdapter({
+    const adapter = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: (input) => input.src + '?matched=true',
     });
@@ -36,12 +36,12 @@ describe('@yoot/yoot - Adapter Behavior', () => {
   });
 
   it('registers multiple adapters and picks the correct one', () => {
-    const matchingAdapter = createAdapter({
+    const matchingAdapter = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: (input) => input.src + '?matched=true',
     });
 
-    const fallbackAdapter = createAdapter({
+    const fallbackAdapter = defineAdapter({
       supports: () => true,
       generateUrl: (input) => input.src + '?fallback=true',
     });

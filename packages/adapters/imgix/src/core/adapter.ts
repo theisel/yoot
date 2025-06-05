@@ -3,7 +3,7 @@
  * @remarks Handles Imgix CDN URLs and applies transformation directives via query parameters.
  * @module
  */
-import {createAdapter} from '@yoot/yoot';
+import {defineAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';
 
@@ -16,7 +16,7 @@ export {adapter};
  * @remarks Supports `.imgix.net` URLs and maps `yoot` directives to Imgix parameters.
  * @public
  */
-const adapter: Adapter = createAdapter({
+const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname.endsWith('.imgix.net'),
   generateUrl,
 });

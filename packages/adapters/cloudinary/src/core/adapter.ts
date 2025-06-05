@@ -3,7 +3,7 @@
  * @remarks Handles Cloudinary CDN URLs and applies transformation directives via path segments.
  * @module
  */
-import {createAdapter} from '@yoot/yoot';
+import {defineAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput} from '@yoot/yoot';
 import {_isKeyOf as isKeyOf, _isEmpty as isEmpty} from '@yoot/yoot/internal';
 
@@ -20,7 +20,7 @@ export {urlParts};
  * @see https://github.com/mayashavin/cloudinary-api/blob/23b18d683dbe5d1d1d47c5a468803560f48f18e4/packages/url/lib/url.ts#L6
  * @public
  */
-const adapter: Adapter = createAdapter({
+const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'res.cloudinary.com' || url.hostname === 'cloudinary-a.akamaihd.net',
   generateUrl,
 });

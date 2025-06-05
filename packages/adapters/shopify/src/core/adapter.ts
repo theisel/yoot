@@ -3,7 +3,7 @@
  * @remarks Handles Shopify CDN URLs and applies transformation directives via path segments.
  * @module
  */
-import {createAdapter} from '@yoot/yoot';
+import {defineAdapter} from '@yoot/yoot';
 import type {Adapter, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
 import {_isEmpty as isEmpty, _isNumber as isNumber} from '@yoot/yoot/internal';
 
@@ -16,7 +16,7 @@ export {adapter};
  * @remarks Supports `cdn.shopify.com` URLs and maps `yoot` directives to Shopify path segments.
  * @public
  */
-const adapter: Adapter = createAdapter({
+const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'cdn.shopify.com',
   generateUrl,
   primeState,

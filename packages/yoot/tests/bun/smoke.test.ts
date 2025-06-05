@@ -1,5 +1,5 @@
 import {expect, test} from 'bun:test';
-import {yoot, createAdapter, registerAdapters} from '../../src/index.ts';
+import {yoot, defineAdapter, registerAdapters} from '../../src/index.ts';
 import * as html from '../../src/html.ts';
 import * as jsx from '../../src/jsx.ts';
 
@@ -27,12 +27,12 @@ test('yoot factory should initialize and return a valid instance with core metho
 });
 
 test('should create and register an adapter', () => {
-  expect(typeof createAdapter).toBe('function');
+  expect(typeof defineAdapter).toBe('function');
   expect(typeof registerAdapters).toBe('function');
 
   expect(() => registerAdapters()).not.toThrow();
 
-  const adapter = createAdapter({
+  const adapter = defineAdapter({
     supports: () => true,
     generateUrl: ({src}) => src,
   });
