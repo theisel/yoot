@@ -23,7 +23,14 @@ Description
 
 </td><td>
 
-Creates a new adapter for image URL transformation.
+</td></tr>
+<tr><td>
+
+[defineAdapter(options)](./yoot.defineadapter.md)
+
+</td><td>
+
+Defines a new adapter for image URL transformation.
 
 </td></tr>
 <tr><td>

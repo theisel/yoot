@@ -12,6 +12,10 @@ Registers one or more adapters for image transformation.
 registerAdapters: RegisterAdaptersFunction;
 ```
 
+## Remarks
+
+This function validates each adapter's options, freezes the adapter objects, and registers them in the adapter store.
+
 ## Example
 
 ```ts

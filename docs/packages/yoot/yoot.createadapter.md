@@ -4,12 +4,14 @@
 
 ## createAdapter() function
 
-Creates a new adapter for image URL transformation.
+> Warning: This API is now obsolete.
+>
+> Use `defineAdapter` instead.
 
 **Signature:**
 
 ```typescript
-declare function createAdapter(options: AdapterOptions): Adapter;
+createAdapter: (options: AdapterOptions) => Adapter;
 ```
 
 ## Parameters
@@ -37,29 +39,12 @@ options
 
 </td><td>
 
-Configuration for the adapter. - `supports` - A function to determine whether this adapter supports a given URL. - `generateUrl` - A function to transform the image URL. - `primeState` - (Optional) A function to modify the input before transformation.
-
 </td></tr>
 </tbody></table>
 **Returns:**
 
 [Adapter](./yoot.adapter.md)
 
-An adapter object implementing `supports`<!-- -->, `generateUrl`<!-- -->, and optionally `primeState`<!-- -->.
+## Remarks
 
-## Exceptions
-
-Will throw if `supports` or `generateUrl` is missing or not a function.
-
-## Example
-
-```ts
-const myAdapter = createAdapter({
-  supports: (url) => url.hostname === 'cdn.example.com',
-  generateUrl: ({src, directives}) => {
-    const url = new URL(src);
-    url.searchParams.set('w', String(directives.width));
-    return url.href;
-  },
-});
-```
+This alias exists for backward compatibility.
