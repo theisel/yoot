@@ -6,8 +6,8 @@
   <strong>One API. Any CDN. Full control.</strong>
 </p>
 
-<p style="max-width:60ch;margin-inline:auto">
-    This core package exposes the <code>yoot</code> API and handles adapter registration for image transformations.
+<p style="margin-inline:auto">
+A lightweight, flexible, CDN-agnostic image URL builder, <br/>designed with SSR and hydration in mind.
 </p>
 
 <div style="max-width:80ch;margin-inline:auto">
@@ -44,8 +44,8 @@ npm install @yoot/yoot @yoot/shopify @yoot/cloudinary
 
 ## Table of contents
 
-- [Installation](#installation)
 - [Overview](#overview)
+- [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Resources](#resources)
 - [Demo](#demo)
@@ -79,6 +79,44 @@ Adapters translate `yoot` directives into CDN-specific URLs — handling each pr
 
 &nbsp;
 
+## Installation
+
+### Node / NPM
+
+```bash
+npm install @yoot/yoot
+```
+
+> Install CDN adapters as needed for your project. See the [full list of available adapters](https://github.com/theisel/yoot/#available-packages) here.
+
+### Deno / JSR
+
+```ts
+import {yoot} from 'jsr:@yoot/yoot';
+import adapter from 'jsr:@yoot/<adapter-name>';
+```
+
+> Replace `<adapter-name>` with the specific adapter you want to use, e.g. `shopify`, `cloudinary`.
+
+### Browser (importmap)
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "@yoot/yoot": "https://cdn.jsdelivr.net/npm/@yoot/yoot/+esm",
+      "@yoot/<adapter-name>": "https://cdn.jsdelivr.net/npm/@yoot/<adapter-name>/+esm"
+    }
+  }
+</script>
+<script type="module">
+  import {yoot} from '@yoot/yoot';
+  import adapter from '@yoot/<adapter-name>';
+</script>
+```
+
+&nbsp;
+
 ## Quick start
 
 ### Step 1. Register adapters
@@ -88,61 +126,94 @@ Do this once per runtime (server/client). Use a bootstrap file:
 #### Explicit registration
 
 ```ts
-// yoot-presets.ts
 import {registerAdapters} from '@yoot/yoot';
-import shopify from '@yoot/shopify';
-import cloudinary from '@yoot/cloudinary';
+import adapter1 from '@yoot/<adapter-name-1>';
+import adapter2 from '@yoot/<adapter-name-2>';
 
-registerAdapters(shopify, cloudinary);
+registerAdapters(adapter1, adapter2);
 ```
 
 #### Auto registration (via side-effect imports)
 
 ```ts
-// yoot-presets.ts
-import '@yoot/shopify/register';
-import '@yoot/cloudinary/register';
+import '@yoot/<adapter-name>/register';
 ```
 
 ### Step 2. Use the API
 
+#### Initializing
+
 The `yoot` function returns a chainable builder. You can optionally initialize it with an image URL or an image object.
+
+```ts
+import {yoot} from '@yoot/yoot';
+
+// Without arguments
+const preset = yoot();
+
+// With image URL
+const preset = yoot('https://...');
+
+// With an object
+const preset = yoot({
+  src: 'https://...',
+  alt: 'Alt text',
+  width: 1024, // Optional: intrinsic width
+  height: 1024, // Optional: intrinsic height
+});
+```
 
 #### Single use
 
 ```ts
-const imgPreset = yoot(imageUrl).width(1024).format('webp');
-const url = imgPreset.url;
-const attrs = getImgAttrs(imgPreset);
+const imgPreset = yoot('https://...').width(1024).aspectRatio(1).format('webp');
+
+const url = imgPreset.url; // Returns generated URL
+const attrs = getImgAttrs(imgPreset); // Attributes for `<img>`
 ```
+
+> 💡 **Shortform methods are available**
+>
+> yoot().w(1024).ar(1).fm('webp');
 
 #### Using presets
 
 ##### Create presets
 
 ```ts
+// yoot-presets.ts
+import {yoot} from '@yoot/yoot';
+import {defineSrcSetBuilder, withImgAttrs, withSourceAttrs} from '@yoot/yoot/jsx'; // Or '@yoot/yoot/html'
+
 // Hero presets
 export const heroPreset = yoot()
   .width(1024)
   .aspectRatio(16 / 9)
   .fit('cover');
-export const applyHeroImgAttrs = withImgAttrs({loading: 'eager'});
-export const applyHeroSourceAttrs = withSourceAttrs({
-  srcSetBuilder: buildSrcSet({densities: [1, 2, 3]}),
+
+export const getHeroImgAttrs = withImgAttrs({loading: 'eager'});
+
+export const getHeroSourceAttrs = withSourceAttrs({
+  srcSetBuilder: defineSrcSetBuilder({densities: [1, 2, 3]}),
 });
+
 // Thumbnail presets
 export const thumbnailPreset = yoot().width(100).aspectRatio(1).fit('cover');
-export const applyThumbnailImgAttrs = withImgAttrs({loading: 'lazy'});
-export const applyThumbnailSourceAttrs = withSourceAttrs({
-  srcSetBuilder: buildSrcSet({widths: [100, 200, 300]}),
+
+export const getThumbnailImgAttrs = withImgAttrs({loading: 'lazy'});
+
+export const getThumbnailSourceAttrs = withSourceAttrs({
+  srcSetBuilder: defineSrcSetBuilder({widths: [100, 200, 300]}),
 });
 ```
 
 > 💡 See the [API docs](https://github.com/theisel/yoot/tree/main/docs) for all transformation options.
 
-#### Use presets
+##### Use presets
 
 ```ts
+import {thumbnailPreset, getThumbnailImgAttrs, getThumbnailSourceAttrs} from './yoot-presets.ts';
+
 // With a URL string
 const thumbnail = thumbnailPreset('https://cdn.example.com/image.jpg');
 // Alternatively: thumbnailPreset.src('https://cdn.example.com/image.jpg');
@@ -153,6 +224,16 @@ const thumbnail = thumbnailPreset({
   alt: 'Alt text',
   width: 2048, // Intrinsic width
   height: 2048, // Intrinsic height
+});
+
+const thumbnailAttrs = getThumbnailImgAttrs(thumbnail);
+
+const webpSourceAttrs = getThumbnailSourceAttrs(thumbnail, {
+  type: 'image/webp', // this helper modifies the format to webp
+});
+
+const jpegSourceAttrs = getThumbnailSourceAttrs(thumbnail, {
+  type: 'image/jpeg', // this helper modifies the format to jpeg
 });
 ```
 
@@ -165,8 +246,7 @@ const thumbnail = thumbnailPreset({
 
 ```tsx
 import {yoot} from '@yoot/yoot';
-import {buildSrcSet, getImgAttrs, getSourceAttrs} from '@yoot/yoot/jsx';
-// import { buildSrcSet, getImgAttrs, getSourceAttrs } from '@yoot/yoot/html';
+import {defineSrcSetBuilder, getImgAttrs, getSourceAttrs} from '@yoot/yoot/jsx'; // Or '@yoot/yoot/html'
 
 const imgPreset = yoot('https://...').format('png').width(800);
 
@@ -176,14 +256,14 @@ const webpSourceAttrs = getSourceAttrs(imgPreset, {
   type: 'image/webp', // `type` overrides format 'png'
   media: '(min-width: 800px)',
   sizes: '(min-width: 800px) 800px, 100vw',
-  srcSetBuilder: buildSrcSet({widths: [600, 800, 1200]}),
+  srcSetBuilder: defineSrcSetBuilder({widths: [600, 800, 1200]}),
 });
 
 const jpegSourceAttrs = getSourceAttrs(imgPreset, {
   type: 'image/jpeg', // `type` overrides format 'png'
   media: '(max-width: 799px)',
   sizes: '(max-width: 799px) 100vw, 50vw',
-  srcSetBuilder: buildSrcSet({densities: [1, 2, 3]}),
+  srcSetBuilder: defineSrcSetBuilder({densities: [1, 2, 3]}),
 });
 
 return (
