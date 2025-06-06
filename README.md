@@ -6,8 +6,8 @@
   <strong>One API. Any CDN. Full control.</strong>
 </p>
 
-<p style="max-width:60ch;margin-inline:auto">
-    <code>yoot</code> is a CDN-agnostic image URL builder, built for modern web apps with SSR and hydration in mind. Write once. Deploy anywhere.
+<p style="margin-inline:auto">
+A lightweight, flexible, CDN-agnostic image URL builder, <br/>designed with SSR and hydration in mind.
 </p>
 
 <div style="max-width:80ch;margin-inline:auto">
