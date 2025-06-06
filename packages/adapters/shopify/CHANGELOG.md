@@ -1,5 +1,13 @@
 # @yoot/shopify
 
+## 0.2.3
+
+### Patch Changes
+
+- a5fba82: **Documentation:** Updates installation text and adds a browser usage example. Adds clarifying comments to examples.
+- Updated dependencies [a5fba82]
+  - @yoot/yoot@0.3.1
+
 ## 0.2.2
 
 ### Patch Changes

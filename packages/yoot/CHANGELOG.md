@@ -1,5 +1,11 @@
 # @yoot/yoot
 
+## 0.3.1
+
+### Patch Changes
+
+- a5fba82: **Documentation:** Enhances README by updating installation text, adding browser usage and initialization sections, fixing typos, and refining wording.
+
 ## 0.3.0
 
 ### Minor Changes
