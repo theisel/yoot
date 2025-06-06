@@ -28,19 +28,36 @@
 
 ## Installation
 
-### Install via NPM
+### Node / NPM
 
 ```bash
 npm install @yoot/sanity
 ```
 
-> The core library (`@yoot/yoot`) will be installed alongside.
+> The core library (`@yoot/yoot`) is automatically installed.
 
-### Or via JSR
+### Deno / JSR
 
 ```ts
 import {yoot} from 'jsr:@yoot/yoot';
 import sanity from 'jsr:@yoot/sanity';
+```
+
+### Browser (importmap)
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "@yoot/yoot": "https://cdn.jsdelivr.net/npm/@yoot/yoot/+esm",
+      "@yoot/sanity": "https://cdn.jsdelivr.net/npm/@yoot/sanity/+esm"
+    }
+  }
+</script>
+<script type="module">
+  import {yoot} from '@yoot/yoot';
+  import sanity from '@yoot/sanity';
+</script>
 ```
 
 &nbsp;
@@ -110,7 +127,7 @@ const imgAttrs = getImgAttrs(preset, {loading: 'lazy'});
 
 // Derive <source> attributes
 const sourceAttrs = getSourceAttrs(preset, {
-  type: 'image/webp',
+  type: 'image/webp', // this helper modifies the format to webp
   sizes: '200px',
   srcSetBuilder: defineSrcSetBuilder({widths: [200, 300, 400]}),
 });
@@ -153,11 +170,11 @@ const thumbnail = thumbnailPreset({
 const imgAttrs = getImgAttrs(thumbnail);
 
 const webpSourceAttrs = getThumbnailSourceAttrs(thumbnail, {
-  type: 'image/webp',
+  type: 'image/webp', // this helper modifies the format to webp
 });
 
 const jpegSourceAttrs = getThumbnailSourceAttrs(thumbnail, {
-  type: 'image/jpeg',
+  type: 'image/jpeg', // this helper modifies the format to jpeg
 });
 
 return (
