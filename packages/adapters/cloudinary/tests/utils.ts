@@ -20,6 +20,6 @@ function testEach(testCases: TestCase[]) {
   yootTestEach(testCases.map(applyInputDefaults({src: IMAGE_URL})));
 }
 
-function runTestCase(testCase: Omit<TestCase, 'description'>) {
-  yootRunTestCase(applyInputDefaults({src: IMAGE_URL}, testCase));
+async function runTestCase(testCase: Omit<TestCase, 'description'>) {
+  await yootRunTestCase(applyInputDefaults({src: IMAGE_URL}, testCase));
 }
