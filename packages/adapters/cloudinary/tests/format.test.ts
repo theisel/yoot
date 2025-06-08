@@ -1,13 +1,20 @@
-import {describe, expectString, getImageUrl, it, runTestCase} from './utils';
+import {describe, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {getImageUrl, testEach} from './utils';
 
-const testFormats = it.each(['auto', 'jpg', 'png', 'webp']);
+const FORMAT_TO_PATH_SEGMENT = [
+  ['auto', 'f_auto'],
+  ['jpg', 'f_jpg'],
+  ['png', 'f_png'],
+  ['webp', 'f_webp'],
+] as const;
 
-describe('Cloudinary Adapter - Format', () => {
-  testFormats('should generate correct path segment when format is %s', (format) => {
-    runTestCase({
-      // @ts-expect-error Accept any format value for test purposes
-      input: {directives: {format}},
-      expected: expectString(getImageUrl(`f_${format}`)),
-    });
-  });
+const formatTestCases: TestCase[] = FORMAT_TO_PATH_SEGMENT.map(([format, pathSegment]) => {
+  return {
+    description: `should add ${pathSegment} path segment to URL`,
+    input: {directives: {format}},
+    expected: expectString(getImageUrl(pathSegment)),
+  };
 });
+
+describe('Cloudinary Adapter - Format', () => testEach(formatTestCases));

@@ -1,9 +1,11 @@
-import {createTemplate, defineCases, describe, divide, multiply, expectParams, testEach} from './utils';
+import {createTemplate, describe, divide, multiply, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 import {IMAGE_METADATA, IMAGE_URL, IMAGE_URL_NO_DIMS} from './constants';
 
 const describeWith = createTemplate('should generate correct parameters for %s');
 
-const testCases = defineCases([
+const sizingTestCases: TestCase[] = [
   {
     description: describeWith`width only`,
     input: {directives: {width: 100}},
@@ -56,6 +58,6 @@ const testCases = defineCases([
     input: {src: IMAGE_URL_NO_DIMS, directives: {aspectRatio: 1}},
     expected: expectParams({}),
   },
-]);
+];
 
-describe('Sanity Adapter - Sizing', () => testEach(testCases));
+describe('Sanity Adapter - Sizing', () => testEach(sizingTestCases));

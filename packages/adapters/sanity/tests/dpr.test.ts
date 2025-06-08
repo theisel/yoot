@@ -1,11 +1,13 @@
-import {defineCases, describe, expectParams, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const testCases = defineCases([
+const dprTestCases: TestCase[] = [
   {
-    description: "should generate correct 'dpr' parameter",
+    description: 'should add dpr=2 query parameter to URL',
     input: {directives: {dpr: 2}},
     expected: expectParams({dpr: '2'}),
   },
-]);
+];
 
-describe('Sanity Adapter - Dpr', () => testEach(testCases));
+describe('Sanity Adapter - Dpr', () => testEach(dprTestCases));

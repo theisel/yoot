@@ -1,6 +1,6 @@
+import {describe, expect, it} from '@yoot/test-kit';
 import {getDimensionsFromUrl} from '../src/core/adapter';
 import {IMAGE_URL, IMAGE_METADATA, IMAGE_URL_NO_DIMS} from './constants';
-import {describe, it, expect} from './utils';
 
 describe('Sanity Adapter - Implementation', () => {
   describe('getDimensionsFromUrl', async () => {

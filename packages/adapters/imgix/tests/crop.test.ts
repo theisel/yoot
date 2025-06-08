@@ -1,33 +1,21 @@
-import {createTemplate, defineCases, describe, expectParams, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const describeCrop = createTemplate('should add `crop=%s` parameter to URL');
+const CROP_OPTIONS = ['top', 'bottom', 'left', 'right'] as const;
 
-const testCases = defineCases([
-  {
-    description: describeCrop`center`,
-    input: {directives: {crop: 'center'}},
-    expected: expectParams({}),
-  },
-  {
-    description: describeCrop`top`,
-    input: {directives: {crop: 'top'}},
-    expected: expectParams({crop: 'top'}),
-  },
-  {
-    description: describeCrop`bottom`,
-    input: {directives: {crop: 'bottom'}},
-    expected: expectParams({crop: 'bottom'}),
-  },
-  {
-    description: describeCrop`left`,
-    input: {directives: {crop: 'left'}},
-    expected: expectParams({crop: 'left'}),
-  },
-  {
-    description: describeCrop`right`,
-    input: {directives: {crop: 'right'}},
-    expected: expectParams({crop: 'right'}),
-  },
-]);
+const cropTestCases: TestCase[] = CROP_OPTIONS.map((crop) => {
+  return {
+    description: `should add crop=${crop} query parameter to URL`,
+    input: {directives: {crop}},
+    expected: expectParams({crop}),
+  };
+});
 
-describe('Imgix Adapter - Crop', () => testEach(testCases));
+const additionalCropTestCase: TestCase = {
+  description: 'should ignore crop center directive',
+  input: {directives: {crop: 'center'}},
+  expected: expectParams({}),
+};
+
+describe('Imgix Adapter - Crop', () => testEach(cropTestCases.concat(additionalCropTestCase)));

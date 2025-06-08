@@ -27,8 +27,11 @@ describe('@yoot/yoot - HTML Utilities', () => {
       expect(result).toBe('object-fit:cover;');
     });
 
-    it('should return empty string for empty style object', () => {
+    it('should return empty string when empty value is given', () => {
       expect(toInlineStyle({})).toBe('');
+      expect(toInlineStyle(null)).toBe('');
+      expect(toInlineStyle(undefined)).toBe('');
+      expect(toInlineStyle('')).toBe('');
     });
   });
 
@@ -77,6 +80,13 @@ describe('@yoot/yoot - HTML Utilities', () => {
         src: 'file.png',
         alt: '',
       });
+    });
+
+    it('omits style attribute when empty style value is given', () => {
+      expect(propsToKebabCase({style: {}})).toEqual({});
+      expect(propsToKebabCase({style: null})).toEqual({});
+      expect(propsToKebabCase({style: undefined})).toEqual({});
+      expect(propsToKebabCase({style: ''})).toEqual({});
     });
   });
 });

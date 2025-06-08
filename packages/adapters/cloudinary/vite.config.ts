@@ -1,8 +1,8 @@
 import path from 'node:path';
 import {mergeConfig} from 'vite';
-import config from '../../../vite.config';
+import rootConfig from '../../../vite.config';
 
-export default mergeConfig(config, {
+export default mergeConfig(rootConfig, {
   build: {
     lib: {
       entry: {
@@ -10,8 +10,5 @@ export default mergeConfig(config, {
         register: path.resolve(__dirname, 'src/register'),
       },
     },
-  },
-  test: {
-    setupFiles: [path.resolve(__dirname, 'tests/setup.ts')],
   },
 });

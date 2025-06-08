@@ -1,9 +1,11 @@
+import {createTemplate, describe, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
 import {IMAGE_METADATA, IMAGE_URL} from './constants';
-import {createTemplate, defineCases, describe, expectString, getImageUrl, testEach} from './utils';
+import {getImageUrl, testEach} from './utils';
 
 const describeWith = createTemplate('should generate correct path segment when %s');
 
-const testCases = defineCases([
+const testCases: TestCase[] = [
   {
     description: describeWith`only width is given`,
     input: {directives: {width: 100}},
@@ -60,6 +62,6 @@ const testCases = defineCases([
     },
     expected: expectString(getImageUrl('_592x333')),
   },
-]);
+];
 
 describe('Shopify Adapter - Sizing', () => testEach(testCases));

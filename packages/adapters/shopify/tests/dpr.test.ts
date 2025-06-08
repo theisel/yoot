@@ -1,11 +1,13 @@
-import {defineCases, describe, expectString, getImageUrl, testEach} from './utils';
+import {describe, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {getImageUrl, testEach} from './utils';
 
-const testCases = defineCases([
+const dprTestCases: TestCase[] = [
   {
-    description: 'should generate correct path segment when dpr is given',
+    description: 'should add dpr (@2x) path segment to URL',
     input: {directives: {dpr: 2}},
     expected: expectString(getImageUrl('@2x')),
   },
-]);
+];
 
-describe('Shopify Adapter - Dpr', () => testEach(testCases));
+describe('Shopify Adapter - Dpr', () => testEach(dprTestCases));

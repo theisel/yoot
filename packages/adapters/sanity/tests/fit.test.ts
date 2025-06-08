@@ -1,16 +1,18 @@
-import {describe, expectParams, it, runTestCase} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const testFits = it.each([
-  {fit: 'cover', params: {fit: 'crop'}},
-  {fit: 'contain', params: {fit: 'clip'}},
-]);
+const FIT_TO_QUERY_PARAM_VALUE = [
+  ['cover', 'crop'],
+  ['contain', 'clip'],
+] as const;
 
-describe('Sanity Adapter - Fit', () => {
-  testFits('should generate correct parameter when fit is $fit', ({fit, params}) => {
-    runTestCase({
-      // @ts-expect-error Accept any fit value for test purposes
-      input: {directives: {fit}},
-      expected: expectParams(params),
-    });
-  });
+const fitTestCases: TestCase[] = FIT_TO_QUERY_PARAM_VALUE.map(([fit, paramValue]) => {
+  return {
+    description: `should add fit=${paramValue} query parameter to URL`,
+    input: {directives: {fit}},
+    expected: expectParams({fit: paramValue}),
+  };
 });
+
+describe('Sanity Adapter - Fit', () => testEach(fitTestCases));
