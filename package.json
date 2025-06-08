@@ -25,6 +25,7 @@
     "@manypkg/get-packages": "^3.0.0",
     "@microsoft/api-documenter": "^7.26.27",
     "@microsoft/api-extractor": "^7.52.8",
+    "@std/assert": "jsr:^1.0.13",
     "@vitest/coverage-v8": "^3.1.4",
     "bun": "^1.2.15",
     "deno": "^2.3.5",
