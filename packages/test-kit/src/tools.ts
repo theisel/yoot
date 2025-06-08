@@ -2,11 +2,13 @@ import {expect, it} from 'vitest';
 import type {YootFactory, YootState} from '@yoot/yoot';
 
 // -- Module Exports --
-export {defineCases, expectParams, expectString, applyInputDefaults, inject, runTestCase, testEach};
+export {defineTestCase, defineTestCases, expectParams, expectString, applyInputDefaults, inject, runTestCase, testEach};
 export type {Expected, ExpectParams, ExpectString, TestCase};
 
+/** Helper to define a test case with type inference. */
+const defineTestCase = <T extends TestCase>(testCase: T) => testCase;
 /** Helper to define an array of test cases with type inference. */
-const defineCases = <T extends TestCase[]>(cases: T) => cases;
+const defineTestCases = <T extends TestCase[]>(testCases: T) => testCases;
 
 /** Shape of the inject handler that provides a fresh 'yoot' object. */
 type InjectHandler = () => Promise<{yoot: YootFactory}>;
