@@ -3,7 +3,7 @@ import tseslint from 'typescript-eslint';
 import {defineConfig} from 'eslint/config';
 
 export default defineConfig([
-  {ignores: ['**/.astro', '**/dist/**', '**/coverage/**']},
+  {ignores: ['**/.astro/**', '**/.wrangler/**', '**/dist/**', '**/coverage/**']},
   {files: ['**/*.ts'], languageOptions: {globals: {...globals.browser, ...globals.node}}},
   tseslint.configs.recommended,
   {
