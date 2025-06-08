@@ -75,10 +75,7 @@ function searchParamsReducer(params: URLSearchParams, [key, value]: [string, unk
 
 /** Applies `crop` parameter. */
 function applyCropParam(value: unknown, params: URLSearchParams): URLSearchParams {
-  const crop = String(value);
-  if (crop === 'center') return params;
-  params.set(API_MAP['crop'], String(value).replace(' ', ','));
-  return params;
+  return params.set(API_MAP['crop'], String(value)), params;
 }
 
 const FIT_MAP = {
