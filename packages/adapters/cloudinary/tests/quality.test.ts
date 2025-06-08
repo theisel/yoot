@@ -1,11 +1,13 @@
-import {defineCases, describe, expectString, getImageUrl, testEach} from './utils';
+import {describe, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {getImageUrl, testEach} from './utils';
 
-const testCases = defineCases([
+const qualityTestCases: TestCase[] = [
   {
-    description: 'should generate correct path segment when quality is given',
+    description: 'should add q_75 path segment to URL',
     input: {directives: {quality: 75}},
     expected: expectString(getImageUrl('q_75')),
   },
-]);
+];
 
-describe('Cloudinary Adapter - Quality', () => testEach(testCases));
+describe('Cloudinary Adapter - Quality', () => testEach(qualityTestCases));

@@ -1,16 +1,18 @@
-import {describe, expectString, getImageUrl, it, runTestCase} from './utils';
+import {describe, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {getImageUrl, testEach} from './utils';
 
-const testFit = it.each([
-  {fit: 'cover', expected: 'c_fill'},
-  {fit: 'contain', expected: 'c_fit'},
-]);
+const FIT_TO_PATH_SEGMENT = [
+  ['cover', 'c_fill'],
+  ['contain', 'c_fit'],
+] as const;
 
-describe('Cloudinary Adapter - Fit', () => {
-  testFit('should generate correct path segment when fit is $fit', ({fit, expected}) => {
-    runTestCase({
-      // @ts-expect-error Accept any fit value for test purposes
-      input: {directives: {fit}},
-      expected: expectString(getImageUrl(expected)),
-    });
-  });
+const fitTestCases: TestCase[] = FIT_TO_PATH_SEGMENT.map(([fit, pathSegment]) => {
+  return {
+    description: `should add ${pathSegment} path segment to URL`,
+    input: {directives: {fit}},
+    expected: expectString(getImageUrl(pathSegment)),
+  };
 });
+
+describe('Cloudinary Adapter - Fit', () => testEach(fitTestCases));

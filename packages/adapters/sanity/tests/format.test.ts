@@ -1,27 +1,21 @@
-import {defineCases, describe, expectParams, it, runTestCase, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const testFormats = it.each([
-  {format: 'jpg', expected: 'jpg'},
-  {format: 'png', expected: 'png'},
-  {format: 'webp', expected: 'webp'},
-]);
+const FORMAT_OPTIONS = ['jpg', 'png', 'webp'] as const;
 
-const additionalTests = defineCases([
-  {
-    description: 'should generate correct parameter when format is auto',
-    input: {directives: {format: 'auto'}},
-    expected: expectParams({auto: 'format'}),
-  },
-]);
-
-describe('Sanity Adapter - Format', () => {
-  testFormats('should generate correct parameter when format is $format', ({format, expected}) => {
-    runTestCase({
-      // @ts-expect-error Accept any format value for test purposes
-      input: {directives: {format}},
-      expected: expectParams({fm: expected}),
-    });
-  });
-
-  testEach(additionalTests);
+const formatTestCases: TestCase[] = FORMAT_OPTIONS.map((format) => {
+  return {
+    description: `should add fm=${format} query parameter to URL`,
+    input: {directives: {format}},
+    expected: expectParams({fm: format}),
+  };
 });
+
+const autoFormatTestCase: TestCase = {
+  description: 'should add auto=format query parameter to URL',
+  input: {directives: {format: 'auto'}},
+  expected: expectParams({auto: 'format'}),
+};
+
+describe('Sanity Adapter - Format', () => testEach(formatTestCases.concat(autoFormatTestCase)));

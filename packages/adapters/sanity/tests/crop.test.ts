@@ -1,19 +1,15 @@
-import {describe, expectParams, it, runTestCase} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const testCrops = it.each([
-  {crop: 'center', expected: 'center'},
-  {crop: 'top', expected: 'top'},
-  {crop: 'bottom', expected: 'bottom'},
-  {crop: 'left', expected: 'left'},
-  {crop: 'right', expected: 'right'},
-]);
+const CROP_OPTIONS = ['center', 'top', 'bottom', 'left', 'right'] as const;
 
-describe('Sanity Adapter - Crop', () => {
-  testCrops('should generate correct parameter when crop is $crop', ({crop, expected}) => {
-    runTestCase({
-      // @ts-expect-error Accept any crop value for test purposes
-      input: {directives: {crop}},
-      expected: expectParams({crop: expected}),
-    });
-  });
+const cropTestCases: TestCase[] = CROP_OPTIONS.map((crop) => {
+  return {
+    description: `should add crop=${crop} query parameter to URL`,
+    input: {directives: {crop}},
+    expected: expectParams({crop}),
+  };
 });
+
+describe('Sanity Adapter - Crop', () => testEach(cropTestCases));

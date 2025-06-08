@@ -1,8 +1,10 @@
-import {createTemplate, defineCases, describe, divide, expectString, getImageUrl, testEach} from './utils';
+import {createTemplate, describe, divide, expectString} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {getImageUrl, testEach} from './utils';
 
 const describeWith = createTemplate('should generate correct path segment for %s');
 
-const testCases = defineCases([
+const sizingTestCases: TestCase[] = [
   {
     description: describeWith`width only`,
     input: {directives: {width: 100}},
@@ -42,6 +44,6 @@ const testCases = defineCases([
     },
     expected: expectString(getImageUrl(`w_1000,h_${divide(1000, 1.777, Math.round)}`)),
   },
-]);
+];
 
-describe('Cloudinary Adapter - Sizing', () => testEach(testCases));
+describe('Cloudinary Adapter - Sizing', () => testEach(sizingTestCases));

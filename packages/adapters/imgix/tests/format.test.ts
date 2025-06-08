@@ -1,24 +1,21 @@
-import {defineCases, describe, expectParams, it, runTestCase, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-// File extensions to test
-const testFormats = it.each(['gif', 'jpg', 'png', 'webp']);
+const FORMAT_OPTIONS = ['jpg', 'png', 'webp'] as const;
 
-const additionalTests = defineCases([
-  {
-    description: 'should append `auto=format` parameter to URL',
-    input: {directives: {format: 'auto'}},
-    expected: expectParams({auto: 'format'}),
-  },
-]);
-
-describe('Imgix Adapter - Format', () => {
-  testFormats('should add `fm=%s` parameter to URL', (format) => {
-    runTestCase({
-      // @ts-expect-error Accept any format value for test purposes
-      input: {directives: {format}},
-      expected: expectParams({fm: format}),
-    });
-  });
-
-  testEach(additionalTests);
+const formatTestCases: TestCase[] = FORMAT_OPTIONS.map((format) => {
+  return {
+    description: `should add fm=${format} query parameter to URL`,
+    input: {directives: {format}},
+    expected: expectParams({fm: format}),
+  };
 });
+
+const autoFormatTestCase: TestCase = {
+  description: 'should add auto=format query parameter to URL',
+  input: {directives: {format: 'auto'}},
+  expected: expectParams({auto: 'format'}),
+};
+
+describe('Imgix Adapter - Format', () => testEach(formatTestCases.concat(autoFormatTestCase)));

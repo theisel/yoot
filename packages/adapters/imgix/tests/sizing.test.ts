@@ -1,8 +1,10 @@
-import {createTemplate, defineCases, describe, divide, expectParams, multiply, testEach} from './utils';
+import {createTemplate, describe, divide, multiply, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
 const describeWith = createTemplate('should generate correct parameters for %s');
 
-const testCases = defineCases([
+const testCases: TestCase[] = [
   {
     description: describeWith`width only`,
     input: {directives: {width: 100}},
@@ -45,6 +47,6 @@ const testCases = defineCases([
       h: `${divide(1000, 1.777, Math.round)}`,
     }),
   },
-]);
+];
 
 describe('Imgix Adapter - Sizing', () => testEach(testCases));

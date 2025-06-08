@@ -1,11 +1,13 @@
-import {defineCases, describe, expectParams, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const testCases = defineCases([
+const qualityTestCases: TestCase[] = [
   {
-    description: 'should add `q` parameter to URL',
+    description: 'should add q=75 query parameter to URL',
     input: {directives: {quality: 75}},
     expected: expectParams({q: '75'}),
   },
-]);
+];
 
-describe('Imgix Adapter - Quality', () => testEach(testCases));
+describe('Imgix Adapter - Quality', () => testEach(qualityTestCases));

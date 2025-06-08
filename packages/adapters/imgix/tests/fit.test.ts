@@ -1,20 +1,18 @@
-import {createTemplate, defineCases, describe, expectParams, testEach} from './utils';
+import {describe, expectParams} from '@yoot/test-kit';
+import type {TestCase} from '@yoot/test-kit';
+import {testEach} from './utils';
 
-const describeFit = createTemplate('should add `fit=%s` parameter to URL');
+const FIT_TO_QUERY_PARAM_VALUE = [
+  ['cover', 'crop'],
+  ['contain', 'clip'],
+] as const;
 
-const testCases = defineCases([
-  {
-    description: describeFit`cover`,
-    input: {directives: {fit: 'cover'}},
-    expected: expectParams({fit: 'crop'}),
-  },
-  {
-    description: describeFit`contain`,
-    input: {directives: {fit: 'contain'}},
-    expected: expectParams({fit: 'clip'}),
-  },
-]);
-
-describe('Imgix Adapter - Fit', () => {
-  testEach(testCases);
+const fitTestCases: TestCase[] = FIT_TO_QUERY_PARAM_VALUE.map(([fit, paramValue]) => {
+  return {
+    description: `should add fit=${paramValue} query parameter to URL`,
+    input: {directives: {fit}},
+    expected: expectParams({fit: paramValue}),
+  };
 });
+
+describe('Imgix Adapter - Fit', () => testEach(fitTestCases));
