@@ -1,4 +1,4 @@
-import {assert, assertEquals} from '@std/assert';
+import {assertEquals} from '@std/assert';
 import {yoot, defineAdapter, registerAdapters} from '../../src/index.ts';
 import * as html from '../../src/html.ts';
 import * as jsx from '../../src/jsx.ts';
