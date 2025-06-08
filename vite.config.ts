@@ -26,15 +26,28 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['**/*.test.ts'],
-    exclude: ['node_modules', '**/tests/bun/**', '**/tests/deno/**'],
     setupFiles: [path.resolve(__dirname, 'vitest.setup.ts')],
-    chaiConfig: {
-      truncateThreshold: 0,
-    },
+    /** @ts-expect-error The `projects` field in Vitest is not yet part of the Vite type definitions. */
+    projects: [
+      path.resolve(__dirname, 'packages/yoot/vitest.config.ts'),
+      path.resolve(__dirname, 'packages/adapters/cloudinary/vitest.config.ts'),
+      path.resolve(__dirname, 'packages/adapters/imgix/vitest.config.ts'),
+      path.resolve(__dirname, 'packages/adapters/sanity/vitest.config.ts'),
+      path.resolve(__dirname, 'packages/adapters/shopify/vitest.config.ts'),
+    ],
     coverage: {
       include: ['packages/**/src'],
-      exclude: ['**/*.d.ts', '**/index.ts', '**/api-extractor.ts', '**/register.ts', 'packages/test-kit'],
+      exclude: [
+        '**/*.d.ts',
+        '**/index.ts',
+        '**/types.ts',
+        '**/api-extractor.ts',
+        '**/register.ts',
+        'packages/test-kit',
+      ],
     },
+  },
+  chaiConfig: {
+    truncateThreshold: 0,
   },
 });

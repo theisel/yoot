@@ -12,10 +12,11 @@
     "lint": "npx eslint .",
     "changeset:version": "pnpm changeset version && node ./scripts/sync-jsr-versions.js",
     "changeset:publish": "pnpm build:lib && pnpm changeset publish && pnpm jsr publish",
-    "test": "pnpm -r --parallel --workspace-concurrency=1 test",
+    "test": "pnpm test:node && pnpm test:smoke",
+    "test:smoke": "pnpm test:bun && pnpm test:cloudflare && pnpm test:deno",
     "test:bun": "pnpm --parallel -r test:bun",
     "test:cloudflare": "pnpm -r --parallel --workspace-concurrency=1 test:cloudflare",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --config vite.config.ts --coverage",
     "test:deno": "pnpm --parallel -r test:deno",
     "test:node": "vitest run"
   },

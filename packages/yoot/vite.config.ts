@@ -1,8 +1,8 @@
 import path from 'node:path';
 import {mergeConfig} from 'vite';
-import config from '../../vite.config';
+import rootConfig from '../../vite.config.ts';
 
-export default mergeConfig(config, {
+export default mergeConfig(rootConfig, {
   build: {
     lib: {
       entry: {
