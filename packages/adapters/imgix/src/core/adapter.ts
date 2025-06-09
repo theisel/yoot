@@ -19,7 +19,20 @@ export {adapter};
 const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname.endsWith('.imgix.net'),
   generateUrl,
+  normalizeUrl,
 });
+
+/**
+ * Converts a URL to a base URL by removing transformation directives.
+ * @param url - The URL to clean.
+ * @returns The base URL without transformation directives.
+ */
+function normalizeUrl(url: URL): string {
+  const baseUrl = new URL(url.href);
+  baseUrl.search = ''; // Remove query parameters
+  baseUrl.hash = ''; // Remove hash fragment
+  return baseUrl.href;
+}
 
 /** Returns an Imgix image URL with applied transformation directives as query parameters. */
 function generateUrl(input: GenerateUrlInput): string {

@@ -35,6 +35,7 @@ test('should create and register an adapter', () => {
   const adapter = defineAdapter({
     supports: () => true,
     generateUrl: ({src}) => src,
+    normalizeUrl: (url) => url.href,
   });
 
   expect(() => registerAdapters(adapter)).not.toThrow();

@@ -1,7 +1,7 @@
 import {_getAdapter as getAdapter} from './adapter.ts';
 import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers.ts';
 import {YOOT_BRAND} from './store.ts';
-import {invariant, isNullish, isNumber, isString} from './utils.ts';
+import {invariant, isEmpty, isNullish, isNumber, isString} from './utils.ts';
 
 // -- Module Exports --
 // API function and helpers
@@ -79,6 +79,23 @@ function yoot(state: YootState): Yoot {
   }
 
   /**
+   * Normalizes the url to its base URL.
+   * @returns The normalized URL or `null` if `state.src` is empty.
+   */
+  function baseUrl() {
+    const src = state.src;
+    // If src is empty, return null
+    if (isEmpty(src)) return null;
+    try {
+      const url = new URL(src);
+      const adapter = getAdapter(url);
+      return adapter?.normalizeUrl(url) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * Clones the current state, suitable for serialization.
    *
    * @returns The current state as a JSON object
@@ -118,6 +135,7 @@ function yoot(state: YootState): Yoot {
     toJSON: {value: toJSON},
     toString: {value: generateUrl},
     url: {get: generateUrl},
+    baseUrl: {get: baseUrl},
   });
 
   return Object.freeze(api) as Yoot;
@@ -353,6 +371,11 @@ interface OutputMethods {
    * @throws Error If `state.src` is not a valid string.
    */
   readonly url: string;
+  /**
+   * Returns the base (normalized) URL.
+   * @remarks This is `null` if `src` is empty.
+   */
+  readonly baseUrl: string | null;
 }
 
 /**

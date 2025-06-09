@@ -19,8 +19,30 @@ export {adapter};
 const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'cdn.shopify.com',
   generateUrl,
+  normalizeUrl,
   primeState,
 });
+
+/**
+ * Converts a URL to a base URL by removing transformation directives.
+ * @param url - The URL to clean.
+ * @returns The base URL without transformation directives.
+ */
+function normalizeUrl(url: URL): string {
+  const version = url.searchParams.get('v'); // Preserve Shopify's 'v' parameter
+
+  const baseUrl = new URL(url.href);
+  const [pathNameWithoutExt, baseExtension] = urlParts(baseUrl);
+  baseUrl.pathname = stripDirectives(pathNameWithoutExt).concat(baseExtension); // Strip transformation segments from path
+  baseUrl.search = ''; // Remove query parameters
+  baseUrl.hash = ''; // Remove hash fragment
+
+  if (!isEmpty(version)) {
+    baseUrl.searchParams.set('v', version); // Apply 'v' if it existed
+  }
+
+  return baseUrl.href;
+}
 
 /**
  * Returns a Shopify image URL with applied transformation directives as path segments.
@@ -64,18 +86,32 @@ type PathSegments = {
 /** Returns a URL by injecting Shopify path segments and extension. */
 function buildUrl(url: URL, pathSegments: PathSegments): string {
   const {crop, dimensions, dpr, extension} = pathSegments;
-  const [pathNameWithoutExt, baseExtension] = url.pathname.split('.') as [string, string];
-  const basePathName = normalizedPath(pathNameWithoutExt).concat(`${dimensions}${crop}${dpr}`);
+  const [pathNameWithoutExt, baseExtension] = urlParts(url);
+  const basePathName = stripDirectives(pathNameWithoutExt).concat(`${dimensions}${crop}${dpr}`);
 
-  url.pathname = `${basePathName}.${baseExtension}${extension}`;
+  url.pathname = `${basePathName}${baseExtension}${extension}`;
   return url.href;
 }
+
+/**
+ * Splits a URL pathname into the base path and original file extension.
+ *
+ * @remarks The format extension is omitted in the tuple.
+ * @param url - The URL to split.
+ * @returns A tuple of [basePath, fileExtension].
+ */
+function urlParts(url: URL): [BasePath, FileExtension] {
+  return url.pathname.split(/(\.[^.]+)(\.(jpg|png|webp))?$/) as [BasePath, FileExtension];
+}
+
+type BasePath = string;
+type FileExtension = `.${string}`;
 
 // Regex to strip existing Shopify transformations from path
 const DIRECTIVES_REGEX = /(_(\d+)?x(\d+)?)?(_crop_[^@]+)?(@\d+x)?$/;
 
 /** Removes existing transformation segments from the Shopify image path. */
-function normalizedPath(pathName: string): string {
+function stripDirectives(pathName: string): string {
   return pathName.replace(DIRECTIVES_REGEX, '');
 }
 

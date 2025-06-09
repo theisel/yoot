@@ -6,6 +6,14 @@ import * as jsx from '../../src/jsx.ts';
 
 const IMAGE_URL = 'https://cdn.example.com/file.png';
 
+// Normalize URL by removing search and hash
+function normalizeUrl(url: URL): string {
+  const baseUrl = new URL(url.href);
+  baseUrl.search = '';
+  baseUrl.hash = '';
+  return baseUrl.href;
+}
+
 describe('Deno `yoot` smoke tests', () => {
   it('should initialize a Yoot object with core methods', () => {
     expect(typeof yoot).toBe('function');
@@ -40,6 +48,7 @@ describe('Deno `yoot` smoke tests', () => {
       defineAdapter({
         supports: () => true,
         generateUrl: ({src}) => src,
+        normalizeUrl,
       });
     }).not.toThrow();
 
@@ -47,6 +56,7 @@ describe('Deno `yoot` smoke tests', () => {
     const adapter = defineAdapter({
       supports: () => true,
       generateUrl: ({src}) => src,
+      normalizeUrl,
     });
 
     expect(typeof adapter).toBe('object');

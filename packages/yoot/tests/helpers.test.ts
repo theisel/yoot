@@ -10,6 +10,7 @@ const IMAGE_URL = 'https://cdn.example.com/images/image.jpg';
 
 const adapter = defineAdapter({
   supports: () => true,
+  normalizeUrl: (url) => (((url.search = ''), (url.hash = '')), url.href),
   generateUrl: (input) => {
     const url = new URL(input.src);
     const params = Object.entries(input.directives).reduce((params, [key, value]) => {

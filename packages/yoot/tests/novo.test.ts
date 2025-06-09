@@ -1,11 +1,28 @@
 import {beforeEach, describe, expect, it} from 'vitest';
 import {createTemplate} from '@yoot/test-kit';
-import type {YootFactory, YootInput} from '../src';
+import type {GenerateUrlInput, YootFactory, YootInput} from '../src';
 
 const IMAGE_URL = 'https://foo.com/images/file.webp';
+const IMAGE_URL_WITH_DIRECTIVES = 'https://foo.com/images/file.webp?width=300&height=200&format=webp';
 
 const randomHash = () => Math.random().toString(16).substring(2, 15);
-const generateUrl = () => `https://foo.com/images/image-${randomHash()}.webp`;
+const generateImageUrl = () => `https://foo.com/images/image-${randomHash()}.webp`;
+
+const generateUrl = (input: GenerateUrlInput) => {
+  const params = Object.entries({...input.directives}).reduce((params, [key, value]) => {
+    return params.set(key, String(value)), params;
+  }, new URLSearchParams());
+
+  const url = new URL(input.src);
+  url.search = String(params);
+  return url.href;
+};
+
+const normalizeUrl = (url: URL) => {
+  url.search = '';
+  url.hash = '';
+  return url.href;
+};
 
 let yoot: YootFactory;
 
@@ -15,14 +32,8 @@ beforeEach(async () => {
 
   const adapter = defineAdapter({
     supports: (url: URL) => url.hostname === 'foo.com',
-    generateUrl: (input) => {
-      const url = new URL(input.src);
-      const params = Object.entries({...input.directives}).reduce((params, [key, value]) => {
-        return params.set(key, String(value)), params;
-      }, new URLSearchParams());
-      url.search = String(params);
-      return url.href;
-    },
+    normalizeUrl,
+    generateUrl,
   });
 
   registerAdapters(adapter);
@@ -117,10 +128,10 @@ describe('@yoot/yoot - Core Functionality', () => {
     });
 
     it('should update src when invoking the API object directly with a URL string', () => {
-      const baseSrc = generateUrl();
+      const baseSrc = generateImageUrl();
       const base = yoot({src: baseSrc});
 
-      const updatedSrc = generateUrl();
+      const updatedSrc = generateImageUrl();
       const updated = base(updatedSrc);
 
       expect(base.toJSON().src).toBe(baseSrc);
@@ -162,6 +173,16 @@ describe('@yoot/yoot - Core Functionality', () => {
     it('should return a transformed URL', () => {
       const nvc = yoot(IMAGE_URL).width(300).height(200).format('webp');
       expect(nvc.url).toBe(`${IMAGE_URL}?width=300&height=200&format=webp`);
+    });
+
+    describe('baseUrl', () => {
+      it('should return a normalized URL', () => {
+        expect(yoot(IMAGE_URL_WITH_DIRECTIVES).baseUrl).toBe(IMAGE_URL);
+      });
+
+      it('should return null when a bad src URL is given', () => {
+        expect(yoot({src: 'oops'}).baseUrl).toBe(null);
+      });
     });
 
     it('should successfully serialize and deserialize', () => {

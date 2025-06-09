@@ -79,6 +79,7 @@ const createAdapter = defineAdapter;
 function assertAdapterOptions(options: AdapterOptions): asserts options is Adapter | never {
   invariant(typeof options.supports === 'function', 'Adapter must implement `supports` function');
   invariant(typeof options.generateUrl === 'function', 'Adapter must implement `generateUrl` function');
+  invariant(typeof options.normalizeUrl === 'function', 'Adapter must implement `normalizeUrl` function');
 
   if ('primeState' in options) {
     invariant(typeof options.primeState === 'function', 'Adapter `primeState` must be a function');
@@ -159,6 +160,7 @@ const throwError = (error: Error): never => {
 const passThroughAdapter: Adapter = defineAdapter({
   supports: () => true,
   generateUrl: ({src}) => src,
+  normalizeUrl: (url) => url.href,
 });
 
 /**
@@ -176,6 +178,11 @@ type Adapter = {
    * @param input - The transformation input.
    */
   generateUrl: (input: GenerateUrlInput) => string;
+  /**
+   * Normalizes a URL to its natural URL.
+   * @param url - The URL to convert.
+   */
+  normalizeUrl: (url: URL) => string;
   /**
    * (Optional) Primes the state before transformation.
    * @param input - The state to prime.

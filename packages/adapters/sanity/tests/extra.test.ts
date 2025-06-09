@@ -1,6 +1,7 @@
-import {describe, expectParams} from '@yoot/test-kit';
+import {describe, expect, expectParams, it} from '@yoot/test-kit';
 import type {TestCase} from '@yoot/test-kit';
-import {IMAGE_URL_WITH_DIRECTIVES} from './constants';
+import {adapter} from '../src/core/adapter';
+import {IMAGE_URL, IMAGE_URL_WITH_DIRECTIVES} from './constants';
 import {testEach} from './utils';
 
 const testCases: TestCase[] = [
@@ -11,4 +12,16 @@ const testCases: TestCase[] = [
   },
 ];
 
-describe('Sanity Adapter - Extra', () => testEach(testCases));
+describe('Sanity Adapter - Extra', () => {
+  testEach(testCases);
+
+  it('should return a normalized url', () => {
+    // Ensure base URL strips directives and hash
+    const transformedUrl = new URL(IMAGE_URL_WITH_DIRECTIVES);
+    transformedUrl.hash = '#baz';
+
+    const baseUrl = adapter.normalizeUrl(transformedUrl);
+
+    expect(baseUrl).toBe(IMAGE_URL);
+  });
+});

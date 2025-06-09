@@ -3,6 +3,12 @@ import {defineAdapter, registerAdapters, defineConfig, yoot} from '../src';
 
 const IMAGE_URL = 'https://foo.com/file.webp';
 
+const normalizeUrl = (url: URL) => {
+  url.search = '';
+  url.hash = '';
+  return url.href;
+};
+
 describe('@yoot/yoot - Adapter Behavior', () => {
   it('throws when no adapter matches and no onMissingAdapter is defined', () => {
     expect(() => yoot(IMAGE_URL).url).toThrow();
@@ -12,6 +18,7 @@ describe('@yoot/yoot - Adapter Behavior', () => {
     const fallbackAdapter = defineAdapter({
       supports: () => true,
       generateUrl: (input) => input.src + '?fallback=true',
+      normalizeUrl,
     });
 
     defineConfig({
@@ -27,6 +34,7 @@ describe('@yoot/yoot - Adapter Behavior', () => {
     const adapter = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: (input) => input.src + '?matched=true',
+      normalizeUrl,
     });
 
     registerAdapters(adapter);
@@ -39,11 +47,13 @@ describe('@yoot/yoot - Adapter Behavior', () => {
     const matchingAdapter = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: (input) => input.src + '?matched=true',
+      normalizeUrl,
     });
 
     const fallbackAdapter = defineAdapter({
       supports: () => true,
       generateUrl: (input) => input.src + '?fallback=true',
+      normalizeUrl,
     });
 
     registerAdapters(matchingAdapter, fallbackAdapter);

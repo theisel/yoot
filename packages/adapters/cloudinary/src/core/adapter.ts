@@ -23,7 +23,23 @@ export {urlParts};
 const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'res.cloudinary.com' || url.hostname === 'cloudinary-a.akamaihd.net',
   generateUrl,
+  normalizeUrl,
 });
+
+/**
+ * Converts a URL to a base URL by removing transformation directives.
+ * @param url - The URL to clean.
+ * @returns The base URL without transformation directives.
+ */
+function normalizeUrl(url: URL): string {
+  const [left, right] = urlParts(url.href);
+
+  const baseUrl = new URL(`${left}${right}`);
+  baseUrl.search = ''; // Remove query parameters
+  baseUrl.hash = ''; // Remove hash fragment
+
+  return baseUrl.href;
+}
 
 /**
  * Returns a Cloudinary image URL with applied transformation directives as path segments.

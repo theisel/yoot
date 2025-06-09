@@ -5,6 +5,8 @@ import type {AdapterStore} from '../src/core/store';
 
 let adapterStore: AdapterStore;
 
+const normalizeUrl = (url: URL) => (((url.search = ''), (url.hash = '')), url.href);
+
 beforeEach(async () => {
   const module = await import('../src/core/store');
 
@@ -17,6 +19,7 @@ describe('@yoot/yoot - Store', () => {
     const adapter = defineAdapter({
       supports: () => true,
       generateUrl: () => '',
+      normalizeUrl,
     });
 
     adapterStore.register(adapter);
@@ -29,11 +32,13 @@ describe('@yoot/yoot - Store', () => {
     const adapter1 = defineAdapter({
       supports: (url) => url.hostname === 'foo.com',
       generateUrl: () => 'foo',
+      normalizeUrl,
     });
 
     const adapter2 = defineAdapter({
       supports: (url) => url.hostname === 'bar.com',
       generateUrl: () => 'bar',
+      normalizeUrl,
     });
 
     adapterStore.register(adapter1, adapter2);
@@ -44,7 +49,12 @@ describe('@yoot/yoot - Store', () => {
 
   it('caches adapter by hostname after first lookup', () => {
     const supports = vi.fn(() => true);
-    const adapter = defineAdapter({supports, generateUrl: () => ''});
+
+    const adapter = defineAdapter({
+      supports,
+      generateUrl: () => '',
+      normalizeUrl,
+    });
 
     adapterStore.register(adapter);
 
@@ -56,7 +66,11 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('does not add duplicate adapter instances', () => {
-    const adapter = defineAdapter({supports: () => true, generateUrl: () => 'a'});
+    const adapter = defineAdapter({
+      supports: () => true,
+      generateUrl: () => 'a',
+      normalizeUrl,
+    });
     adapterStore.register(adapter, adapter); // Duplicate
 
     expect(adapterStore.size()).toBe(1);
@@ -72,6 +86,7 @@ describe('@yoot/yoot - Store', () => {
     const adapter = defineAdapter({
       supports: (url) => url.hostname === 'bar.com',
       generateUrl: () => '',
+      normalizeUrl,
     });
 
     adapterStore.register(adapter);
@@ -82,7 +97,11 @@ describe('@yoot/yoot - Store', () => {
   });
 
   it('reset clears all adapters and cache', () => {
-    const adapter = defineAdapter({supports: () => true, generateUrl: () => ''});
+    const adapter = defineAdapter({
+      supports: () => true,
+      generateUrl: () => '',
+      normalizeUrl,
+    });
     adapterStore.register(adapter);
 
     expect(adapterStore.size()).toBe(1);
