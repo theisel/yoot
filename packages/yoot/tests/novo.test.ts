@@ -185,6 +185,16 @@ describe('@yoot/yoot - Core Functionality', () => {
       });
     });
 
+    describe('hasSrc', () => {
+      it('should return true when src is given', () => {
+        expect(yoot(IMAGE_URL).hasSrc).toBe(true);
+      });
+
+      it('should return false when src is empty', () => {
+        expect(yoot().hasSrc).toBe(false);
+      });
+    });
+
     it('should successfully serialize and deserialize', () => {
       const input: YootInput = {
         src: IMAGE_URL,

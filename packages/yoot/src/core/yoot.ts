@@ -136,6 +136,7 @@ function yoot(state: YootState): Yoot {
     toString: {value: generateUrl},
     url: {get: generateUrl},
     baseUrl: {get: baseUrl},
+    hasSrc: {get: () => !isEmpty(state.src)},
   });
 
   return Object.freeze(api) as Yoot;
@@ -366,6 +367,10 @@ interface OutputMethods {
    * @throws Error If `state.src` is not a valid string.
    */
   toString: () => string;
+  /**
+   * Returns true if `src` has been given.
+   */
+  readonly hasSrc: boolean;
   /**
    * Returns the generated image URL.
    * @throws Error If `state.src` is not a valid string.
