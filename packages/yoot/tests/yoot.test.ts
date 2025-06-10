@@ -43,7 +43,16 @@ describe('@yoot/yoot - Core Functionality', () => {
   describe('Initialization', () => {
     it('should initialize with empty state if no input is provided', () => {
       const api = yoot();
+      expect(api.toJSON()).toEqual({directives: {}});
+    });
 
+    it('should safely initialize with an invalid string input', () => {
+      const api = yoot('oops');
+      expect(api.toJSON()).toEqual({directives: {}});
+    });
+
+    it('should safely initialize with an invalid JSON string', () => {
+      const api = yoot('{oops}');
       expect(api.toJSON()).toEqual({directives: {}});
     });
 
