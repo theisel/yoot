@@ -44,6 +44,7 @@ export default {
     const adapter = defineAdapter({
       supports: () => true,
       generateUrl: ({src}) => src,
+      normalizeUrl: (url) => url.href,
     });
 
     // Verify adapter registration: It should not throw an error

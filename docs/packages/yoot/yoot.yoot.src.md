@@ -9,7 +9,7 @@ Sets the image source URL.
 **Signature:**
 
 ```typescript
-src(src: string | undefined): Yoot;
+src(src: string): Yoot;
 ```
 
 ## Parameters
@@ -33,7 +33,7 @@ src
 
 </td><td>
 
-string \| undefined
+string
 
 </td><td>
 
@@ -44,3 +44,7 @@ The image URL.
 **Returns:**
 
 [Yoot](./yoot.yoot.md)
+
+## Exceptions
+
+If `src` is not a valid URL string.

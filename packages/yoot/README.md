@@ -14,7 +14,9 @@ A lightweight, flexible, CDN-agnostic image URL builder, <br/>designed with SSR 
   <a href="https://npmjs.com/package/@yoot/yoot">
     <img src="https://img.shields.io/npm/v/@yoot/yoot?style=flat-square&logo=npm&logoColor=white" alt="NPM version for @yoot/yoot" />
   </a>
-  <img src="https://img.shields.io/jsr/v/@yoot/yoot?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/yoot" />
+  <a href="https://jsr.io/@yoot/yoot">
+    <img src="https://img.shields.io/jsr/v/@yoot/yoot?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/yoot" />
+  </a>
   <a href="https://bundlephobia.com/result?p=@yoot/yoot">
     <img src="https://img.shields.io/bundlephobia/minzip/@yoot/yoot?style=flat-square&label=minzipped" alt="Bundle size"  />
   </a>
@@ -81,13 +83,15 @@ Adapters translate `yoot` directives into CDN-specific URLs — handling each pr
 
 ## Installation
 
+Install this core library, plus [CDN adapters](https://github.com/theisel/yoot/#available-packages) needed for your project:
+
+> Replace `<adapter-name>` with the specific adapter you want to use, e.g. `shopify`, `cloudinary`.
+
 ### Node / NPM
 
 ```bash
-npm install @yoot/yoot
+npm install @yoot/yoot @yoot/<adapter-name>
 ```
-
-> Install CDN adapters as needed for your project. See the [full list of available adapters](https://github.com/theisel/yoot/#available-packages) here.
 
 ### Deno / JSR
 
@@ -95,8 +99,6 @@ npm install @yoot/yoot
 import {yoot} from 'jsr:@yoot/yoot';
 import adapter from 'jsr:@yoot/<adapter-name>';
 ```
-
-> Replace `<adapter-name>` with the specific adapter you want to use, e.g. `shopify`, `cloudinary`.
 
 ### Browser (importmap)
 
@@ -143,7 +145,7 @@ import '@yoot/<adapter-name>/register';
 
 #### Initializing
 
-The `yoot` function returns a chainable builder. You can optionally initialize it with an image URL or an image object.
+The `yoot` function returns a chainable builder. You can optionally initialize it with an image URL or an object.
 
 ```ts
 import {yoot} from '@yoot/yoot';
@@ -167,14 +169,11 @@ const preset = yoot({
 
 ```ts
 const imgPreset = yoot('https://...').width(1024).aspectRatio(1).format('webp');
+// Shortform: yoot('https://...').w(1024).ar(1).fm('webp');
 
 const url = imgPreset.url; // Returns generated URL
 const attrs = getImgAttrs(imgPreset); // Attributes for `<img>`
 ```
-
-> 💡 **Shortform methods are available**
->
-> yoot().w(1024).ar(1).fm('webp');
 
 #### Using presets
 
@@ -183,7 +182,7 @@ const attrs = getImgAttrs(imgPreset); // Attributes for `<img>`
 ```ts
 // yoot-presets.ts
 import {yoot} from '@yoot/yoot';
-import {defineSrcSetBuilder, withImgAttrs, withSourceAttrs} from '@yoot/yoot/jsx'; // Or '@yoot/yoot/html'
+import {defineSrcSetBuilder, withImgAttrs, withSourceAttrs} from '@yoot/yoot/jsx'; // Or @yoot/yoot/html
 
 // Hero presets
 export const heroPreset = yoot()
@@ -207,7 +206,7 @@ export const getThumbnailSourceAttrs = withSourceAttrs({
 });
 ```
 
-> 💡 See the [API docs](https://github.com/theisel/yoot/tree/main/docs) for all transformation options.
+> See the [API docs](https://github.com/theisel/yoot/tree/main/docs) for all transformation options.
 
 ##### Use presets
 
@@ -252,6 +251,9 @@ const imgPreset = yoot('https://...').format('png').width(800);
 
 const imgAttrs = getImgAttrs(imgPreset);
 
+// Example demonstrating that format can be overridden via `type`
+// and different `srcset` strategies can be used per <source>.
+
 const webpSourceAttrs = getSourceAttrs(imgPreset, {
   type: 'image/webp', // `type` overrides format 'png'
   media: '(min-width: 800px)',
@@ -262,7 +264,7 @@ const webpSourceAttrs = getSourceAttrs(imgPreset, {
 const jpegSourceAttrs = getSourceAttrs(imgPreset, {
   type: 'image/jpeg', // `type` overrides format 'png'
   media: '(max-width: 799px)',
-  sizes: '(max-width: 799px) 100vw, 50vw',
+  sizes: '(max-width: 799px) 100vw',
   srcSetBuilder: defineSrcSetBuilder({densities: [1, 2, 3]}),
 });
 

@@ -14,7 +14,9 @@
     <a href="https://npmjs.com/package/@yoot/imgix">
       <img src="https://img.shields.io/npm/v/@yoot/imgix?style=flat-square&logo=npm&logoColor=white" alt="NPM version for @yoot/imgix" />
     </a>
-    <img src="https://img.shields.io/jsr/v/@yoot/imgix?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/imgix" />
+    <a href="https://jsr.io/@yoot/imgix">
+      <img src="https://img.shields.io/jsr/v/@yoot/imgix?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/imgix" />
+    </a>
     <a href="https://bundlephobia.com/result?p=@yoot/imgix">
       <img src="https://img.shields.io/bundlephobia/minzip/@yoot/imgix?style=flat-square&label=minzipped" alt="Bundle size"  />
     </a>

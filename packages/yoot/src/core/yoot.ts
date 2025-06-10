@@ -1,7 +1,7 @@
 import {_getAdapter as getAdapter} from './adapter.ts';
 import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers.ts';
 import {YOOT_BRAND} from './store.ts';
-import {invariant, isNullish, isNumber, isString} from './utils.ts';
+import {invariant, isEmpty, isNullish, isNumber, isString, isUrl} from './utils.ts';
 
 // -- Module Exports --
 // API function and helpers
@@ -79,6 +79,23 @@ function yoot(state: YootState): Yoot {
   }
 
   /**
+   * Normalizes the url to its base URL.
+   * @returns The normalized URL or `null` if `state.src` is empty.
+   */
+  function baseUrl() {
+    const src = state.src;
+    // If src is empty, return null
+    if (isEmpty(src)) return null;
+    try {
+      const url = new URL(src);
+      const adapter = getAdapter(url);
+      return adapter?.normalizeUrl(url) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  /**
    * Clones the current state, suitable for serialization.
    *
    * @returns The current state as a JSON object
@@ -97,7 +114,10 @@ function yoot(state: YootState): Yoot {
   };
 
   // -- Image metadata and map to change state --
-  api.src = (src: string) => api({src});
+  api.src = (src: string) => {
+    invariant(isUrl(src), "[yoot] src isn't a valid URL");
+    return api({src});
+  };
   api.alt = (alt: string) => api({alt});
   api.map = (fn: (state: YootState) => YootState) => api(fn({...state}));
   // -- Directive methods --
@@ -118,6 +138,8 @@ function yoot(state: YootState): Yoot {
     toJSON: {value: toJSON},
     toString: {value: generateUrl},
     url: {get: generateUrl},
+    baseUrl: {get: baseUrl},
+    hasSrc: {get: () => !isEmpty(state.src)},
   });
 
   return Object.freeze(api) as Yoot;
@@ -130,7 +152,7 @@ function yoot(state: YootState): Yoot {
  */
 function unwrapInput(input?: YootInput): SomeYootState {
   if (isString(input)) {
-    if (input.startsWith('http')) return {src: input};
+    if (isUrl(input)) return {src: input};
 
     try {
       // We may have a JSON string representing a state.
@@ -190,7 +212,7 @@ function deriveState(current: SomeYootState, next: SomeYootState = {}): YootStat
     directives: {...current.directives, ...next.directives},
   };
 
-  if (isString(src)) state.src = src;
+  if (isUrl(src)) state.src = src;
   if (isString(alt)) state.alt = alt;
   if (isNumber(width)) state.width = width;
   if (isNumber(height)) state.height = height;
@@ -264,8 +286,9 @@ interface Yoot extends YootFactory, DirectiveMethods, OutputMethods {
   /**
    * Sets the image source URL.
    * @param src - The image URL.
+   * @throws If `src` is not a valid URL string.
    */
-  src(src: string | undefined): Yoot;
+  src(src: string): Yoot;
   /**
    * Sets the image alt text (stored in state).
    * @param alt - The alt text.
@@ -349,10 +372,19 @@ interface OutputMethods {
    */
   toString: () => string;
   /**
+   * Returns true if `src` has been given.
+   */
+  readonly hasSrc: boolean;
+  /**
    * Returns the generated image URL.
    * @throws Error If `state.src` is not a valid string.
    */
   readonly url: string;
+  /**
+   * Returns the base (normalized) URL.
+   * @remarks This is `null` if `src` is empty.
+   */
+  readonly baseUrl: string | null;
 }
 
 /**

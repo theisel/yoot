@@ -1,4 +1,4 @@
-export const IMAGE_URL_TEMPLATE = 'https://cdn.shopify.com/s/files/1/2/3/4/files/123456789_2048%s';
+export const IMAGE_URL_TEMPLATE = 'https://cdn.shopify.com/s/files/1/2/3/4/files/123456789_2048%s?v=1234567890';
 export const IMAGE_FILE_EXTENSION = '.jpg';
 export const IMAGE_URL = IMAGE_URL_TEMPLATE.replace('%s', IMAGE_FILE_EXTENSION);
 

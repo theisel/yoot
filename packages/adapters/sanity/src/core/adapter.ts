@@ -27,8 +27,21 @@ export {getDimensionsFromUrl};
 const adapter: Adapter = defineAdapter({
   supports: (url: URL) => url.hostname === 'cdn.sanity.io',
   generateUrl,
+  normalizeUrl,
   primeState,
 });
+
+/**
+ * Converts a URL to a base URL by removing transformation directives.
+ * @param url - The URL to clean.
+ * @returns The base URL without transformation directives.
+ */
+function normalizeUrl(url: URL): string {
+  const baseUrl = new URL(url.href);
+  baseUrl.search = ''; // Remove query parameters
+  baseUrl.hash = ''; // Remove hash fragment
+  return baseUrl.href;
+}
 
 /**
  * Applies intrinsic image dimensions to the state if they are missing,

@@ -14,7 +14,9 @@
     <a href="https://npmjs.com/package/@yoot/cloudinary">
       <img src="https://img.shields.io/npm/v/@yoot/cloudinary?style=flat-square&logo=npm&logoColor=white" alt="NPM version for @yoot/cloudinary" />
     </a>
-    <img src="https://img.shields.io/jsr/v/@yoot/cloudinary?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/cloudinary" />
+    <a href="https://jsr.io/@yoot/cloudinary">
+      <img src="https://img.shields.io/jsr/v/@yoot/cloudinary?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/cloudinary" />
+    </a>
     <a href="https://bundlephobia.com/result?p=@yoot/cloudinary">
       <img src="https://img.shields.io/bundlephobia/minzip/@yoot/cloudinary?style=flat-square&label=minzipped" alt="Bundle size"  />
     </a>

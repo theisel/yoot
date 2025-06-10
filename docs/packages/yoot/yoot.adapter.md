@@ -12,6 +12,7 @@ Represents an image adapter.
 type Adapter = {
   supports: (url: URL) => boolean;
   generateUrl: (input: GenerateUrlInput) => string;
+  normalizeUrl: (url: URL) => string;
   primeState?: (input: PrimeStateInput) => YootState;
 };
 ```
