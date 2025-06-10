@@ -7,6 +7,7 @@
 export type Adapter = {
   supports: (url: URL) => boolean;
   generateUrl: (input: GenerateUrlInput) => string;
+  normalizeUrl: (url: URL) => string;
   primeState?: (input: PrimeStateInput) => YootState;
 };
 
@@ -231,6 +232,8 @@ function normalizeDirectives(input: YootState): Directives;
 
 // @public
 export interface OutputMethods {
+  readonly baseUrl: string | null;
+  readonly hasSrc: boolean;
   toJSON: () => YootState;
   toString: () => string;
   readonly url: string;
@@ -298,7 +301,7 @@ export interface Yoot extends YootFactory, DirectiveMethods, OutputMethods {
   readonly [YOOT_BRAND]: true;
   alt(alt: string): Yoot;
   map(fn: (state: YootState) => YootState): Yoot;
-  src(src: string | undefined): Yoot;
+  src(src: string): Yoot;
 }
 
 // @public
