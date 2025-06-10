@@ -1,5 +1,19 @@
 # @yoot/cloudinary
 
+## 0.3.0
+
+### Minor Changes
+
+- a5d3d8b: Adds `baseUrl` getter to `Yoot` object, returning the normalized base URL or null when `src` is empty.
+  Adapters now implement the `normalizeUrl` handler to perform this conversion.
+
+### Patch Changes
+
+- Updated dependencies [a5d3d8b]
+- Updated dependencies [a5d3d8b]
+- Updated dependencies [a5d3d8b]
+  - @yoot/yoot@0.4.0
+
 ## 0.2.2
 
 ### Patch Changes
