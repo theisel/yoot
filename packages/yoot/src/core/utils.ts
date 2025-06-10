@@ -1,6 +1,22 @@
 // -- Module Exports --
 export {hasIntrinsicDimensions, invariant};
-export {isKeyOf, isEmpty, isFunction, isNullish, isNumber, isString};
+export {isKeyOf, isEmpty, isFunction, isNullish, isNumber, isString, isUrl};
+
+/**
+ * Determines if a value is a valid URL string.
+ *
+ * @internal
+ * @param value - The value to check.
+ * @returns True if the value is a valid URL.
+ */
+function isUrl(value: unknown): value is string {
+  try {
+    new URL(String(value));
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /**
  * Checks if the input object possesses defined numeric `width` and `height` properties.

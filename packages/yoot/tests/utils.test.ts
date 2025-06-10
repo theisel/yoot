@@ -9,6 +9,7 @@ import {
   isKeyOf,
   invariant,
   isString,
+  isUrl,
 } from '../src/core/utils';
 
 describe('utils', () => {
@@ -76,6 +77,16 @@ describe('utils', () => {
       expect(isKeyOf('a', obj)).toBe(true);
       expect(isKeyOf(3, obj)).toBe(true);
       expect(isKeyOf('missing', obj)).toBe(false);
+    });
+  });
+
+  describe('isUrl', () => {
+    it('should return true with valid URL', () => {
+      expect(isUrl('https://foo.com')).toBe(true);
+    });
+
+    it('should return false with invalid URL', () => {
+      expect(isUrl('foo')).toBe(false);
     });
   });
 
