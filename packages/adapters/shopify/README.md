@@ -14,7 +14,9 @@
     <a href="https://npmjs.com/package/@yoot/shopify">
       <img src="https://img.shields.io/npm/v/@yoot/shopify?style=flat-square&logo=npm&logoColor=white" alt="NPM version for @yoot/shopify" />
     </a>
-    <img src="https://img.shields.io/jsr/v/@yoot/shopify?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/shopify" />
+    <a href="https://jsr.io/@yoot/shopify">
+      <img src="https://img.shields.io/jsr/v/@yoot/shopify?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/shopify" />
+    </a>
     <a href="https://bundlephobia.com/result?p=@yoot/shopify">
       <img src="https://img.shields.io/bundlephobia/minzip/@yoot/shopify?style=flat-square&label=minzipped" alt="Bundle size"  />
     </a>

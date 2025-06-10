@@ -14,7 +14,9 @@
     <a href="https://npmjs.com/package/@yoot/sanity">
       <img src="https://img.shields.io/npm/v/@yoot/sanity?style=flat-square&logo=npm&logoColor=white" alt="NPM version for @yoot/sanity" />
     </a>
-    <img src="https://img.shields.io/jsr/v/@yoot/sanity?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/sanity" />
+    <a href="https://jsr.io/@yoot/sanity">
+      <img src="https://img.shields.io/jsr/v/@yoot/sanity?style=flat-square&logo=jsr&logoColor=white" alt="JSR version for @yoot/sanity" />
+    </a>
     <a href="https://bundlephobia.com/result?p=@yoot/sanity">
       <img src="https://img.shields.io/bundlephobia/minzip/@yoot/sanity?style=flat-square&label=minzipped" alt="Bundle size"  />
     </a>
