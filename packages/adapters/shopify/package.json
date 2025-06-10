@@ -1,7 +1,7 @@
 {
   "name": "@yoot/shopify",
   "type": "module",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Shopify adapter for @yoot/yoot",
   "keywords": [
     "shopify",

@@ -1,5 +1,18 @@
 # @yoot/yoot
 
+## 0.4.0
+
+### Minor Changes
+
+- a5d3d8b: Adds `baseUrl` getter to `Yoot` object, returning the normalized base URL or null when `src` is empty.
+  Adapters now implement the `normalizeUrl` handler to perform this conversion.
+- a5d3d8b: Adds `hasSrc` getter to `Yoot` object, returns true if `src` has been given.
+
+### Patch Changes
+
+- a5d3d8b: Enhances `Yoot` object by validating `.src()` to accept only valid URL strings.
+  Use `.map()` to unset `src`. Fixes type to accept only strings.
+
 ## 0.3.0
 
 ### Minor Changes
