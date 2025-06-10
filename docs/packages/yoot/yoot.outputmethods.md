@@ -33,6 +33,40 @@ Description
 </th></tr></thead>
 <tbody><tr><td>
 
+[baseUrl](./yoot.outputmethods.baseurl.md)
+
+</td><td>
+
+`readonly`
+
+</td><td>
+
+string \| null
+
+</td><td>
+
+Returns the base (normalized) URL.
+
+</td></tr>
+<tr><td>
+
+[hasSrc](./yoot.outputmethods.hassrc.md)
+
+</td><td>
+
+`readonly`
+
+</td><td>
+
+boolean
+
+</td><td>
+
+Returns true if `src` has been given.
+
+</td></tr>
+<tr><td>
+
 [toJSON](./yoot.outputmethods.tojson.md)
 
 </td><td>
