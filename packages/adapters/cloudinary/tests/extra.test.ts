@@ -15,6 +15,14 @@ const testCases: TestCase[] = [
 describe('Cloudinary Adapter - Extra', () => {
   testEach(testCases);
 
+  it('should support `res.cloudinary.com` and `cloudinary-a.akamaihd.net` hostnames', () => {
+    expect(adapter.supports(new URL('https://res.cloudinary.com'))).toBe(true);
+    expect(adapter.supports(new URL('https://cloudinary-a.akamaihd.net'))).toBe(true);
+    // Should return false for the following hostnames
+    expect(adapter.supports(new URL('https://cdn.cloudinary.com'))).toBe(false);
+    expect(adapter.supports(new URL('https://foo.com'))).toBe(false);
+  });
+
   it('should return a normalized url', () => {
     // Ensure base URL strips directives, hash, and query parameters
     const transformedUrl = new URL(IMAGE_URL_WITH_DIRECTIVES);

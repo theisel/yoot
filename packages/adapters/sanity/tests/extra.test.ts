@@ -15,6 +15,13 @@ const testCases: TestCase[] = [
 describe('Sanity Adapter - Extra', () => {
   testEach(testCases);
 
+  it('should support `cdn.sanity.io` hostname', () => {
+    expect(adapter.supports(new URL('https://cdn.sanity.io'))).toBe(true);
+    // Should return false for the following hostnames
+    expect(adapter.supports(new URL('https://assets.sanity.io'))).toBe(false);
+    expect(adapter.supports(new URL('https://foo.com'))).toBe(false);
+  });
+
   it('should return a normalized url', () => {
     // Ensure base URL strips directives and hash
     const transformedUrl = new URL(IMAGE_URL_WITH_DIRECTIVES);

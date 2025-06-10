@@ -15,6 +15,13 @@ const testCases: TestCase[] = [
 describe('Imgix Adapter - Extra', () => {
   testEach(testCases);
 
+  it('should support `imgix.net` hostname', () => {
+    expect(adapter.supports(new URL('https://assets.imgix.net'))).toBe(true);
+    expect(adapter.supports(new URL('https://cdn.imgix.net'))).toBe(true);
+    // Should return false for the following hostnames
+    expect(adapter.supports(new URL('https://foo.com'))).toBe(false);
+  });
+
   it('should return a normalized url', () => {
     // Ensure base URL strips directives and hash
     const transformedUrl = new URL(IMAGE_URL_WITH_DIRECTIVES);
