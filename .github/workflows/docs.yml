@@ -10,8 +10,8 @@ permissions:
   contents: write
 
 env:
-  NODE_VERSION: '22'
-  PNPM_VERSION: '10.11.0'
+  NODE_VERSION: 24
+  PNPM_VERSION: 10.12.1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref }}

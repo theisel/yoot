@@ -1,10 +1,10 @@
 {
   "name": "@yoot development",
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers-extra/features/pnpm:2": {
-      "version": "10.11.0"
+      "version": "10.12.1"
     }
   },
   // Configure tool-specific properties.

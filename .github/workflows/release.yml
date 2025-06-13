@@ -12,8 +12,8 @@ permissions:
 
 env:
   NPM_CONFIG_PROVENANCE: true
-  NODE_VERSION: '22'
-  PNPM_VERSION: '10.11.0'
+  NODE_VERSION: 24
+  PNPM_VERSION: 10.12.1
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
