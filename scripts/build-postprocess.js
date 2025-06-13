@@ -1,4 +1,5 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
+import 'zx/globals';
 
 // Run the post-processing script for the documentation
 echo('Running post-processing script for the documentation...');

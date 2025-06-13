@@ -1,4 +1,5 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
+import 'zx/globals';
 
 // Run pre-processing script for the build
 echo('Running pre-processing script for the build...');
