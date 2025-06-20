@@ -1,5 +1,13 @@
 # @yoot/shopify
 
+## 0.3.1
+
+### Patch Changes
+
+- Updated dependencies [d93e38b]
+- Updated dependencies [d93e38b]
+  - @yoot/yoot@0.4.1
+
 ## 0.3.0
 
 ### Minor Changes

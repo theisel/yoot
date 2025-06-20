@@ -1,5 +1,12 @@
 # @yoot/yoot
 
+## 0.4.1
+
+### Patch Changes
+
+- d93e38b: Ensures `.map()` returns a new immutable Yoot object to prevent unintended mutations.
+- d93e38b: Ensures `buildSrcSet` updates the `height` directive using aspect ratio when the directive is defined.
+
 ## 0.4.0
 
 ### Minor Changes
