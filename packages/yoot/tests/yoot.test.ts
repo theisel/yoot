@@ -72,11 +72,11 @@ describe('@yoot/yoot - Core Functionality', () => {
     });
 
     it('should initialize with a Yoot object', () => {
-      const nvc = yoot(IMAGE_URL);
-      const nvc2 = yoot(nvc);
+      const ute = yoot(IMAGE_URL);
+      const ute2 = yoot(ute);
 
-      expect(nvc.toJSON().src).toBe(IMAGE_URL);
-      expect(nvc2.toJSON().src).toBe(IMAGE_URL);
+      expect(ute.toJSON().src).toBe(IMAGE_URL);
+      expect(ute2.toJSON().src).toBe(IMAGE_URL);
     });
 
     it('should be immutable', () => {
@@ -180,8 +180,8 @@ describe('@yoot/yoot - Core Functionality', () => {
 
   describe('Output Methods', () => {
     it('should return a transformed URL', () => {
-      const nvc = yoot(IMAGE_URL).width(300).height(200).format('webp');
-      expect(nvc.url).toBe(`${IMAGE_URL}?width=300&height=200&format=webp`);
+      const ute = yoot(IMAGE_URL).width(300).height(200).format('webp');
+      expect(ute.url).toBe(`${IMAGE_URL}?width=300&height=200&format=webp`);
     });
 
     describe('baseUrl', () => {
@@ -220,8 +220,8 @@ describe('@yoot/yoot - Core Functionality', () => {
     });
 
     it('should serialize correctly when optional directives are nullish', () => {
-      const nvc = yoot({src: IMAGE_URL, alt: 'Test', directives: undefined});
-      const serialized = JSON.stringify(nvc);
+      const ute = yoot({src: IMAGE_URL, alt: 'Test', directives: undefined});
+      const serialized = JSON.stringify(ute);
       const deserialized = JSON.parse(serialized);
 
       expect(deserialized).toEqual({src: IMAGE_URL, alt: 'Test', directives: {}});
