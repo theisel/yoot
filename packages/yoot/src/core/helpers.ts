@@ -98,51 +98,42 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
   if (Array.isArray(widths) && widths.length > 0) {
     for (const width of widths) {
       if (!isNumber(width) || width < 1) continue;
-      srcsetParts.push(yoot.width(width).toString().concat(` ${width}w`));
+
+      const ute = yoot.map((state) => {
+        const {directives} = state;
+        const {width: directiveWidth, height: directiveHeight} = directives;
+
+        // Set the width directive to the srcset width.
+        directives.width = width;
+
+        // If `height` isn't a number, there is no need to calculate the new value and set it.
+        if (!isNumber(directiveHeight)) return state;
+
+        // Calculate aspect ratio
+        const aspectRatio = isNumber(directiveWidth)
+          ? directiveWidth / directiveHeight // Prioritize defined dimensions
+          : isNumber(directives.aspectRatio)
+            ? directives.aspectRatio
+            : hasIntrinsicDimensions(state)
+              ? state.width / state.height
+              : undefined;
+
+        directives.height = isNumber(aspectRatio) ? Math.round(width / aspectRatio) : undefined;
+
+        return state;
+      });
+
+      srcsetParts.push(ute.url.concat(` ${width}w`));
     }
   } else if (Array.isArray(densities) && densities.length > 0) {
     for (const density of densities) {
       if (!isNumber(density) || density < 1) continue;
-      srcsetParts.push(yoot.dpr(density).toString().concat(` ${density}x`));
+      srcsetParts.push(yoot.dpr(density).url.concat(` ${density}x`));
     }
   }
 
   return srcsetParts.join(', ');
 }
-
-// /**
-//  * Returns a `srcset` string, or a function to generate one based on the given configuration.
-//  *
-//  * @remarks Supports currying: `buildSrcSet(options)(yoot)`.
-//  * Uses `widths` if available; otherwise falls back to `densities`.
-//  * @public
-//  * @param options - Configuration for srcset variants.
-//  * @param yoot - Optional Yoot object for immediate use.
-//  * @returns A `srcset` string or a function that returns one.
-//  */
-// function buildSrcSet(options: BuildSrcSetOptions, yoot?: Yoot) {
-//   const provideSrcSet = (_yoot: Yoot) => {
-//     const {widths, densities} = options;
-//     const srcsetParts = [];
-
-//     // `widths` takes precedence over `densities`.
-//     if (Array.isArray(widths) && widths.length > 0) {
-//       for (const width of widths) {
-//         if (!isNumber(width) || width < 1) continue;
-//         srcsetParts.push(_yoot.width(width).toString().concat(` ${width}w`));
-//       }
-//     } else if (Array.isArray(densities) && densities.length > 0) {
-//       for (const density of densities) {
-//         if (!isNumber(density) || density < 1) continue;
-//         srcsetParts.push(_yoot.dpr(density).toString().concat(` ${density}x`));
-//       }
-//     }
-
-//     return srcsetParts.join(', ');
-//   };
-
-//   return yoot ? provideSrcSet(yoot) : provideSrcSet;
-// }
 
 /**
  * Extracts base attributes from a `Yoot` object's `toJSON()` state.
@@ -507,7 +498,7 @@ function getMimeType(yoot: Yoot): MimeType | undefined {
   // Try to get the format from the directives first
   if (isKeyOf(format, MIME_TYPES)) return MIME_TYPES[format];
   // If no format is specified, try to get it from the file extension
-  const extension = new URL(yoot.toString()).pathname.split('.').pop()?.toLowerCase();
+  const extension = new URL(yoot.url).pathname.split('.').pop()?.toLowerCase();
 
   return isKeyOf(extension, MIME_TYPES) ? MIME_TYPES[extension] : undefined;
 }

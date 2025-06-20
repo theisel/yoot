@@ -23,7 +23,7 @@ const adapter = defineAdapter({
   },
 });
 
-const nvc = yoot(IMAGE_URL);
+const ute = yoot(IMAGE_URL);
 
 beforeEach(() => {
   registerAdapters(adapter);
@@ -32,63 +32,81 @@ beforeEach(() => {
 describe('@yoot/yoot - Helpers', () => {
   describe('buildSrcSet', () => {
     it('builds srcset with width descriptors', () => {
-      const jsxSrcset = jsx.buildSrcSet({widths: [300, 600]}, nvc);
-      const htmlSrcset = html.buildSrcSet({widths: [300, 600]}, nvc);
+      const jsxSrcset = jsx.buildSrcSet({widths: [300, 600]}, ute);
+      const htmlSrcset = html.buildSrcSet({widths: [300, 600]}, ute);
 
       expect(jsxSrcset).toBe(`${IMAGE_URL}?width=300 300w, ${IMAGE_URL}?width=600 600w`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
+    it('builds srcset with width descriptors and initial width and height', () => {
+      const uteWithDimensions = ute.width(600).height(300);
+      const jsxSrcset = jsx.buildSrcSet({widths: [600, 900]}, uteWithDimensions);
+      const htmlSrcset = html.buildSrcSet({widths: [600, 900]}, uteWithDimensions);
+
+      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300 600w, ${IMAGE_URL}?width=900&height=450 900w`);
+      expect(htmlSrcset).toBe(jsxSrcset);
+    });
+
     it('builds srcset with density descriptors', () => {
-      const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, nvc);
-      const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, nvc);
+      const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, ute);
+      const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, ute);
 
       expect(jsxSrcset).toBe(`${IMAGE_URL}?dpr=1 1x, ${IMAGE_URL}?dpr=2 2x`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
+    it('builds srcset with density descriptors with initial width and height', () => {
+      const uteWithDimensions = ute.width(600).height(300);
+      const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, uteWithDimensions);
+      const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, uteWithDimensions);
+
+      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300&dpr=1 1x, ${IMAGE_URL}?width=600&height=300&dpr=2 2x`);
+      expect(htmlSrcset).toBe(jsxSrcset);
+    });
+
     it('prioritizes widths over densities if both provided', () => {
-      const jsxSrcset = jsx.buildSrcSet({widths: [300], densities: [1, 2]}, nvc);
-      const htmlSrcset = html.buildSrcSet({widths: [300], densities: [1, 2]}, nvc);
+      const jsxSrcset = jsx.buildSrcSet({widths: [300], densities: [1, 2]}, ute);
+      const htmlSrcset = html.buildSrcSet({widths: [300], densities: [1, 2]}, ute);
 
       expect(jsxSrcset).toBe(`${IMAGE_URL}?width=300 300w`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
     it('returns empty string for empty or invalid inputs', () => {
-      expect(jsx.buildSrcSet({}, nvc)).toBe('');
-      expect(html.buildSrcSet({}, nvc)).toBe('');
+      expect(jsx.buildSrcSet({}, ute)).toBe('');
+      expect(html.buildSrcSet({}, ute)).toBe('');
 
-      expect(jsx.buildSrcSet({widths: []}, nvc)).toBe('');
-      expect(html.buildSrcSet({widths: []}, nvc)).toBe('');
+      expect(jsx.buildSrcSet({widths: []}, ute)).toBe('');
+      expect(html.buildSrcSet({widths: []}, ute)).toBe('');
 
-      expect(jsx.buildSrcSet({densities: []}, nvc)).toBe('');
-      expect(html.buildSrcSet({densities: []}, nvc)).toBe('');
+      expect(jsx.buildSrcSet({densities: []}, ute)).toBe('');
+      expect(html.buildSrcSet({densities: []}, ute)).toBe('');
 
-      expect(jsx.buildSrcSet({widths: [0, -100]}, nvc)).toBe('');
-      expect(html.buildSrcSet({widths: [0, -100]}, nvc)).toBe('');
+      expect(jsx.buildSrcSet({widths: [0, -100]}, ute)).toBe('');
+      expect(html.buildSrcSet({widths: [0, -100]}, ute)).toBe('');
 
-      expect(jsx.buildSrcSet({densities: [0, -1]}, nvc)).toBe('');
-      expect(html.buildSrcSet({densities: [0, -1]}, nvc)).toBe('');
+      expect(jsx.buildSrcSet({densities: [0, -1]}, ute)).toBe('');
+      expect(html.buildSrcSet({densities: [0, -1]}, ute)).toBe('');
     });
 
     it('skips invalid width and density values', () => {
-      const jsxSrcsetWidths = jsx.buildSrcSet({widths: [0, -100, 300, 400]}, nvc);
-      const htmlSrcsetWidths = html.buildSrcSet({widths: [0, -100, 300, 400]}, nvc);
+      const jsxSrcsetWidths = jsx.buildSrcSet({widths: [0, -100, 300, 400]}, ute);
+      const htmlSrcsetWidths = html.buildSrcSet({widths: [0, -100, 300, 400]}, ute);
 
       expect(jsxSrcsetWidths).toBe(`${IMAGE_URL}?width=300 300w, ${IMAGE_URL}?width=400 400w`);
       expect(htmlSrcsetWidths).toBe(jsxSrcsetWidths);
 
-      const jsxSrcsetDensities = jsx.buildSrcSet({densities: [0, -1, 1, 2]}, nvc);
-      const htmlSrcsetDensities = html.buildSrcSet({densities: [0, -1, 1, 2]}, nvc);
+      const jsxSrcsetDensities = jsx.buildSrcSet({densities: [0, -1, 1, 2]}, ute);
+      const htmlSrcsetDensities = html.buildSrcSet({densities: [0, -1, 1, 2]}, ute);
 
       expect(jsxSrcsetDensities).toBe(`${IMAGE_URL}?dpr=1 1x, ${IMAGE_URL}?dpr=2 2x`);
       expect(htmlSrcsetDensities).toBe(jsxSrcsetDensities);
     });
 
     it('includes transformations from Yoot instance', () => {
-      const _nvc = nvc.format('webp').quality(80);
-      const srcset = jsx.buildSrcSet({widths: [300]}, _nvc);
+      const _ute = ute.format('webp').quality(80);
+      const srcset = jsx.buildSrcSet({widths: [300]}, _ute);
 
       const [href] = srcset.split(' ');
       const url = new URL(String(href));
@@ -103,12 +121,12 @@ describe('@yoot/yoot - Helpers', () => {
   describe('defineSrcSetBuilder', () => {
     it('should be callable', () => {
       const jsxSrcSetBuilder = jsx.defineSrcSetBuilder({widths: [400]});
-      const jsxBuildResult = jsxSrcSetBuilder(nvc);
+      const jsxBuildResult = jsxSrcSetBuilder(ute);
 
       expect(jsxBuildResult).toBe(`${IMAGE_URL}?width=400 400w`);
 
       const htmlSrcSetBuilder = html.defineSrcSetBuilder({widths: [400]});
-      const htmlBuildResult = htmlSrcSetBuilder(nvc);
+      const htmlBuildResult = htmlSrcSetBuilder(ute);
 
       expect(htmlBuildResult).toBe(`${IMAGE_URL}?width=400 400w`);
     });
@@ -116,14 +134,14 @@ describe('@yoot/yoot - Helpers', () => {
 
   describe('getAttrs', () => {
     it('returns alt and intrinsic dimensions', () => {
-      const attrs = getAttrs(nvc({alt: 'test alt', width: 1000, height: 800}));
+      const attrs = getAttrs(ute({alt: 'test alt', width: 1000, height: 800}));
       expect(attrs.alt).toBe('test alt');
       expect(attrs.width).toBe(1000);
       expect(attrs.height).toBe(800);
     });
 
     it('returns only src when no alt or dimensions set', () => {
-      const attrs = getAttrs(nvc);
+      const attrs = getAttrs(ute);
       expect(attrs.src).toBe(IMAGE_URL);
       expect(attrs.alt).toBeUndefined();
       expect(attrs.width).toBeUndefined();
@@ -131,10 +149,10 @@ describe('@yoot/yoot - Helpers', () => {
     });
 
     it('returns overridden width and height separately and combined', () => {
-      expect(getAttrs(nvc({width: 1000, height: 800}).width(500)).width).toBe(500);
-      expect(getAttrs(nvc({width: 1000, height: 800}).height(500)).height).toBe(500);
+      expect(getAttrs(ute({width: 1000, height: 800}).width(500)).width).toBe(500);
+      expect(getAttrs(ute({width: 1000, height: 800}).height(500)).height).toBe(500);
 
-      const attrs = getAttrs(nvc({width: 1000, height: 800}).width(500).height(500));
+      const attrs = getAttrs(ute({width: 1000, height: 800}).width(500).height(500));
       expect(attrs.width).toBe(500);
       expect(attrs.height).toBe(500);
     });
@@ -142,48 +160,48 @@ describe('@yoot/yoot - Helpers', () => {
 
   describe('getImgAttrs', () => {
     it('prefers initial alt over options alt', () => {
-      const jsxImgAttrs = jsx.getImgAttrs(nvc({alt: 'Initial Alt'}), {alt: 'New Alt'});
+      const jsxImgAttrs = jsx.getImgAttrs(ute({alt: 'Initial Alt'}), {alt: 'New Alt'});
       expect(jsxImgAttrs.alt).toBe('Initial Alt');
-      expect(jsx.getImgAttrs(nvc, {alt: 'New Alt'}).alt).toBe('New Alt');
+      expect(jsx.getImgAttrs(ute, {alt: 'New Alt'}).alt).toBe('New Alt');
 
-      const htmlImgAttrs = html.getImgAttrs(nvc({alt: 'Initial Alt'}), {alt: 'New Alt'});
+      const htmlImgAttrs = html.getImgAttrs(ute({alt: 'Initial Alt'}), {alt: 'New Alt'});
       expect(htmlImgAttrs.alt).toBe('Initial Alt');
-      expect(html.getImgAttrs(nvc, {alt: 'New Alt'}).alt).toBe('New Alt');
+      expect(html.getImgAttrs(ute, {alt: 'New Alt'}).alt).toBe('New Alt');
     });
 
     it('uses srcSetBuilder when provided', () => {
-      const srcSetBuilder = vi.fn((yoot: Yoot) => `${yoot.url} 1x, ${nvc.dpr(2).url} 2x`);
-      const attrs = jsx.getImgAttrs(nvc, {srcSetBuilder});
+      const srcSetBuilder = vi.fn((yoot: Yoot) => `${yoot.url} 1x, ${ute.dpr(2).url} 2x`);
+      const attrs = jsx.getImgAttrs(ute, {srcSetBuilder});
 
-      expect(srcSetBuilder).toHaveBeenCalledWith(nvc);
+      expect(srcSetBuilder).toHaveBeenCalledWith(ute);
       expect(attrs.srcset).toBe(`${IMAGE_URL} 1x, ${IMAGE_URL}?dpr=2 2x`);
     });
 
     it('prioritizes srcSetBuilder over srcset string and includes sizes', () => {
       const srcSetBuilder = vi.fn((yoot: Yoot) => yoot.url.concat(' 1000w'));
-      const attrs = jsx.getImgAttrs(nvc, {
+      const attrs = jsx.getImgAttrs(ute, {
         srcset: `${IMAGE_URL} 500w`,
         srcSetBuilder,
         sizes: '50vw',
       });
-      expect(srcSetBuilder).toHaveBeenCalledWith(nvc);
+      expect(srcSetBuilder).toHaveBeenCalledWith(ute);
       expect(attrs.srcset).toBe(`${IMAGE_URL} 1000w`);
       expect(attrs.sizes).toBe('50vw');
     });
 
     it('includes sizes only if srcset or srcSetBuilder given', () => {
-      const attrsWithSizes = jsx.getImgAttrs(nvc, {
-        srcset: jsx.buildSrcSet({widths: [300]}, nvc),
+      const attrsWithSizes = jsx.getImgAttrs(ute, {
+        srcset: jsx.buildSrcSet({widths: [300]}, ute),
         sizes: '50vw',
       });
       expect(attrsWithSizes.sizes).toBe('50vw');
 
-      const attrsWithoutSrcset = jsx.getImgAttrs(nvc, {sizes: '100vw'});
+      const attrsWithoutSrcset = jsx.getImgAttrs(ute, {sizes: '100vw'});
       expect(attrsWithoutSrcset.sizes).toBeUndefined();
     });
 
     it('should return style and not width and height when fit is contain', () => {
-      const attrs = jsx.getImgAttrs(nvc.fit('contain').width(1000).height(1000));
+      const attrs = jsx.getImgAttrs(ute.fit('contain').width(1000).height(1000));
 
       expect(attrs.style).toEqual({maxWidth: '1000px', maxHeight: '1000px'});
       expect(attrs.width).toBeUndefined();
@@ -191,71 +209,71 @@ describe('@yoot/yoot - Helpers', () => {
     });
 
     it('HTML version converts keys to kebab-case', () => {
-      const attrs = html.getImgAttrs(nvc, {crossOrigin: 'anonymous'});
+      const attrs = html.getImgAttrs(ute, {crossOrigin: 'anonymous'});
       expect(attrs['cross-origin']).toBe('anonymous');
     });
   });
 
   describe('withImgAttrs', () => {
     it('is callable and returns src', () => {
-      expect(jsx.withImgAttrs({})(nvc).src).toBe(IMAGE_URL);
-      expect(html.withImgAttrs({})(nvc).src).toBe(IMAGE_URL);
+      expect(jsx.withImgAttrs({})(ute).src).toBe(IMAGE_URL);
+      expect(html.withImgAttrs({})(ute).src).toBe(IMAGE_URL);
     });
   });
 
   describe('getSourceAttrs', () => {
     it('returns srcset instead of src for images', () => {
-      const jsxSourceAttrs = jsx.getSourceAttrs(nvc);
+      const jsxSourceAttrs = jsx.getSourceAttrs(ute);
       expect(jsxSourceAttrs.src).toBeUndefined();
       expect(jsxSourceAttrs.srcset).toBe(IMAGE_URL);
 
-      const htmlSourceAttrs = html.getSourceAttrs(nvc);
+      const htmlSourceAttrs = html.getSourceAttrs(ute);
       expect(htmlSourceAttrs.src).toBeUndefined();
       expect(htmlSourceAttrs.srcset).toBe(IMAGE_URL);
     });
 
     it('returns src instead of srcset for videos', () => {
       const videoUrl = 'https://cdn.example.com/videos/video.mp4';
-      const nvc = yoot(videoUrl);
+      const ute = yoot(videoUrl);
 
-      const jsxSourceAttrs = jsx.getSourceAttrs(nvc);
+      const jsxSourceAttrs = jsx.getSourceAttrs(ute);
       expect(jsxSourceAttrs.srcset).toBeUndefined();
       expect(jsxSourceAttrs.src).toBe(videoUrl);
 
-      const htmlSourceAttrs = html.getSourceAttrs(nvc);
+      const htmlSourceAttrs = html.getSourceAttrs(ute);
       expect(htmlSourceAttrs.srcset).toBeUndefined();
       expect(htmlSourceAttrs.src).toBe(videoUrl);
     });
 
     it('does not return alt attribute', () => {
       // @ts-expect-error test for alt attribute
-      expect(jsx.getSourceAttrs(nvc.alt('test alt')).alt).toBeUndefined();
+      expect(jsx.getSourceAttrs(ute.alt('test alt')).alt).toBeUndefined();
       // @ts-expect-error test for alt attribute
-      expect(html.getSourceAttrs(nvc.alt('test alt')).alt).toBeUndefined();
+      expect(html.getSourceAttrs(ute.alt('test alt')).alt).toBeUndefined();
     });
 
     it('returns correct type attribute by file extension and format', () => {
       expect(jsx.getSourceAttrs(yoot(IMAGE_URL)).type).toBe('image/jpeg');
       expect(html.getSourceAttrs(yoot(IMAGE_URL)).type).toBe('image/jpeg');
 
-      expect(jsx.getSourceAttrs(nvc.format('jpg')).type).toBe('image/jpeg');
-      expect(html.getSourceAttrs(nvc.format('jpg')).type).toBe('image/jpeg');
+      expect(jsx.getSourceAttrs(ute.format('jpg')).type).toBe('image/jpeg');
+      expect(html.getSourceAttrs(ute.format('jpg')).type).toBe('image/jpeg');
 
-      expect(jsx.getSourceAttrs(nvc.format('png')).type).toBe('image/png');
-      expect(html.getSourceAttrs(nvc.format('png')).type).toBe('image/png');
+      expect(jsx.getSourceAttrs(ute.format('png')).type).toBe('image/png');
+      expect(html.getSourceAttrs(ute.format('png')).type).toBe('image/png');
 
-      expect(jsx.getSourceAttrs(nvc.format('webp')).type).toBe('image/webp');
-      expect(html.getSourceAttrs(nvc.format('webp')).type).toBe('image/webp');
+      expect(jsx.getSourceAttrs(ute.format('webp')).type).toBe('image/webp');
+      expect(html.getSourceAttrs(ute.format('webp')).type).toBe('image/webp');
     });
 
     it('mime type takes precedence over format', () => {
-      expect(jsx.getSourceAttrs(nvc.format('webp'), {type: 'image/jpeg'}).type).toBe('image/jpeg');
-      expect(html.getSourceAttrs(nvc.format('webp'), {type: 'image/jpeg'}).type).toBe('image/jpeg');
+      expect(jsx.getSourceAttrs(ute.format('webp'), {type: 'image/jpeg'}).type).toBe('image/jpeg');
+      expect(html.getSourceAttrs(ute.format('webp'), {type: 'image/jpeg'}).type).toBe('image/jpeg');
     });
 
     it('unsupported mime type should throw an error', () => {
-      expect(() => jsx.getSourceAttrs(nvc.format('webp'), {type: 'image/unsupported'})).toThrow();
-      expect(() => html.getSourceAttrs(nvc.format('webp'), {type: 'image/unsupported'})).toThrow();
+      expect(() => jsx.getSourceAttrs(ute.format('webp'), {type: 'image/unsupported'})).toThrow();
+      expect(() => html.getSourceAttrs(ute.format('webp'), {type: 'image/unsupported'})).toThrow();
     });
 
     it('uses srcSetBuilder if provided', () => {
