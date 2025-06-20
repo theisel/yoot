@@ -39,11 +39,29 @@ describe('@yoot/yoot - Helpers', () => {
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
+    it('builds srcset with width descriptors and initial width and height', () => {
+      const nvcWithDimensions = nvc.width(600).height(300);
+      const jsxSrcset = jsx.buildSrcSet({widths: [600, 900]}, nvcWithDimensions);
+      const htmlSrcset = html.buildSrcSet({widths: [600, 900]}, nvcWithDimensions);
+
+      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300 600w, ${IMAGE_URL}?width=900&height=450 900w`);
+      expect(htmlSrcset).toBe(jsxSrcset);
+    });
+
     it('builds srcset with density descriptors', () => {
       const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, nvc);
       const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, nvc);
 
       expect(jsxSrcset).toBe(`${IMAGE_URL}?dpr=1 1x, ${IMAGE_URL}?dpr=2 2x`);
+      expect(htmlSrcset).toBe(jsxSrcset);
+    });
+
+    it('builds srcset with density descriptors with initial width and height', () => {
+      const nvcWithDimensions = nvc.width(600).height(300);
+      const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, nvcWithDimensions);
+      const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, nvcWithDimensions);
+
+      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300&dpr=1 1x, ${IMAGE_URL}?width=600&height=300&dpr=2 2x`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 

@@ -98,7 +98,32 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
   if (Array.isArray(widths) && widths.length > 0) {
     for (const width of widths) {
       if (!isNumber(width) || width < 1) continue;
-      srcsetParts.push(yoot.width(width).toString().concat(` ${width}w`));
+
+      const ute = yoot.map((state) => {
+        const {directives} = state;
+        const {width: directiveWidth, height: directiveHeight} = directives;
+
+        // Set the width directive to the srcset width.
+        directives.width = width;
+
+        // If `height` isn't a number, there is no need to calculate the new value and set it.
+        if (!isNumber(directiveHeight)) return state;
+
+        // Calculate aspect ratio
+        const aspectRatio = isNumber(directiveWidth)
+          ? directiveWidth / directiveHeight // Prioritize defined dimensions
+          : isNumber(directives.aspectRatio)
+            ? directives.aspectRatio
+            : hasIntrinsicDimensions(state)
+              ? state.width / state.height
+              : undefined;
+
+        directives.height = isNumber(aspectRatio) ? Math.round(width / aspectRatio) : undefined;
+
+        return state;
+      });
+
+      srcsetParts.push(ute.url.concat(` ${width}w`));
     }
   } else if (Array.isArray(densities) && densities.length > 0) {
     for (const density of densities) {
