@@ -119,7 +119,7 @@ function yoot(state: YootState): Yoot {
     return api({src});
   };
   api.alt = (alt: string) => api({alt});
-  api.map = (fn: (state: YootState) => YootState) => api(fn({...state}));
+  api.map = (fn: (state: YootState) => YootState) => api(fn(deriveState(state)));
   // -- Directive methods --
   api.aspectRatio = api.ar = applyDirective('aspectRatio', mustBeInRange(1, Infinity));
   api.crop = applyDirective('crop', mustBeOneOf(allowedCrops));
