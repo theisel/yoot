@@ -9,7 +9,7 @@ Input for `yoot()`<!-- -->: a source URL string or a partial `YootState` object.
 **Signature:**
 
 ```typescript
-type YootInput = string | Yoot | SomeYootState;
+type YootInput = string | SomeYootState | Yoot | Record<string, unknown>;
 ```
 
 **References:** [Yoot](./yoot.yoot.md)

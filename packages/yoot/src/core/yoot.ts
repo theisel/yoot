@@ -1,11 +1,13 @@
 import {_getAdapter as getAdapter} from './adapter.ts';
 import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers.ts';
 import {YOOT_BRAND} from './store.ts';
-import {invariant, isEmpty, isNullish, isNumber, isString, isUrl} from './utils.ts';
+import {invariant, isEmpty, isNullish, isNumber, isPlainObject, isString, isUrl} from './utils.ts';
 
 // -- Module Exports --
 // API function and helpers
 export {createYoot as yoot};
+// For testing
+export {unwrapInput};
 // Yoot related types
 export type {Yoot, YootFactory, YootInput, YootState, PrimeStateInput};
 // Directive related types
@@ -147,7 +149,7 @@ function yoot(state: YootState): Yoot {
 
 /**
  * Normalizes input into a `SomeYootState` object.
- * @remarks Accepts a URL string, JSON string, partial state, or a `Yoot` instance.
+ * @remarks Accepts a URL string, JSON string, partial state, or a `Yoot` object.
  * @internal
  */
 function unwrapInput(input?: YootInput): SomeYootState {
@@ -155,8 +157,9 @@ function unwrapInput(input?: YootInput): SomeYootState {
     if (isUrl(input)) return {src: input};
 
     try {
-      // We may have a JSON string representing a state.
-      return JSON.parse(input);
+      // We may have a JSON string representing state.
+      const maybeState = JSON.parse(input);
+      return isPlainObject(maybeState) ? maybeState : {};
     } catch {
       return {};
     }
@@ -165,7 +168,7 @@ function unwrapInput(input?: YootInput): SomeYootState {
   // Is this a Yoot object?
   if (isYoot(input)) return input.toJSON();
 
-  return {...input};
+  return isPlainObject(input) ? {...input} : {};
 }
 
 /**
@@ -271,7 +274,7 @@ type DirectiveHandler<K extends keyof Directives> = (value: NonNullable<Directiv
  * Input for `yoot()`: a source URL string or a partial `YootState` object.
  * @public
  */
-type YootInput = string | Yoot | SomeYootState;
+type YootInput = string | SomeYootState | Yoot | Record<string, unknown>;
 
 /**
  * The public Yoot API: a callable factory for new states, with chainable methods.

@@ -1,6 +1,20 @@
 // -- Module Exports --
 export {hasIntrinsicDimensions, invariant};
-export {isKeyOf, isEmpty, isFunction, isNullish, isNumber, isString, isUrl};
+export {isKeyOf, isEmpty, isFunction, isNullish, isNumber, isPlainObject, isString, isUrl};
+
+/**
+ * Determines if a value is a plain object.
+ *
+ * @internal
+ * @param value - The value to check.
+ * @returns True if the value is a valid URL.
+ */
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  if (typeof value !== 'object' || value === null) return false;
+
+  const proto = Object.getPrototypeOf(value);
+  return proto === null || proto === Object.prototype;
+}
 
 /**
  * Determines if a value is a valid URL string.
@@ -28,9 +42,10 @@ function isUrl(value: unknown): value is string {
  * @param input - The object to check, potentially having optional width and height.
  * @returns True if `input.width` and `input.height` are both valid numbers.
  */
-function hasIntrinsicDimensions<Dimensions extends {width: number; height: number}, Input extends Partial<Dimensions>>(
-  input?: Input,
-): input is Dimensions & Input {
+function hasIntrinsicDimensions<
+  Dimensions extends {width: number; height: number},
+  Input extends Record<string, unknown>,
+>(input?: Input): input is Dimensions & Input {
   if (!input) return false;
   return isNumber(input.width) && isNumber(input.height);
 }
