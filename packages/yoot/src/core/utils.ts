@@ -42,9 +42,10 @@ function isUrl(value: unknown): value is string {
  * @param input - The object to check, potentially having optional width and height.
  * @returns True if `input.width` and `input.height` are both valid numbers.
  */
-function hasIntrinsicDimensions<Dimensions extends {width: number; height: number}, Input extends Partial<Dimensions>>(
-  input?: Input,
-): input is Dimensions & Input {
+function hasIntrinsicDimensions<
+  Dimensions extends {width: number; height: number},
+  Input extends Record<string, unknown>,
+>(input?: Input): input is Dimensions & Input {
   if (!input) return false;
   return isNumber(input.width) && isNumber(input.height);
 }
