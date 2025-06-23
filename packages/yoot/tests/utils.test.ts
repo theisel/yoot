@@ -2,12 +2,13 @@ import {describe, it, expect} from '@yoot/test-kit';
 
 import {
   hasIntrinsicDimensions,
+  invariant,
   isFunction,
   isNumber,
   isEmpty,
   isNullish,
   isKeyOf,
-  invariant,
+  isPlainObject,
   isString,
   isUrl,
 } from '../src/core/utils';
@@ -20,7 +21,6 @@ describe('utils', () => {
 
     it('returns false if input is undefined or has non-numeric dimensions', () => {
       expect(hasIntrinsicDimensions(undefined)).toBe(false);
-      // @ts-expect-error invalid type for test
       expect(hasIntrinsicDimensions({width: '100', height: 200})).toBe(false);
     });
   });
@@ -30,6 +30,58 @@ describe('utils', () => {
       expect(isFunction(() => {})).toBe(true);
       expect(isFunction('string')).toBe(false);
       expect(isFunction(123)).toBe(false);
+    });
+  });
+
+  describe('isPlainObject', () => {
+    it('returns true for a plain object literal', () => {
+      expect(isPlainObject({a: 1})).toBe(true);
+    });
+
+    it('returns true for an object with no prototype', () => {
+      const obj = Object.create(null);
+      expect(isPlainObject(obj)).toBe(true);
+    });
+
+    it('returns false for arrays', () => {
+      expect(isPlainObject([1, 2, 3])).toBe(false);
+    });
+
+    it('returns false for null', () => {
+      expect(isPlainObject(null)).toBe(false);
+    });
+
+    it('returns false for class instances', () => {
+      class Foo {
+        x = 1;
+      }
+      expect(isPlainObject(new Foo())).toBe(false);
+    });
+
+    it('returns false for functions', () => {
+      expect(isPlainObject(() => {})).toBe(false);
+    });
+
+    it('returns false for primitive types', () => {
+      expect(isPlainObject('hello')).toBe(false);
+      expect(isPlainObject(42)).toBe(false);
+      expect(isPlainObject(true)).toBe(false);
+      expect(isPlainObject(Symbol('x'))).toBe(false);
+      expect(isPlainObject(undefined)).toBe(false);
+    });
+
+    it('returns false for Date objects', () => {
+      expect(isPlainObject(new Date())).toBe(false);
+    });
+
+    it('returns false for RegExp objects', () => {
+      expect(isPlainObject(/abc/)).toBe(false);
+      expect(isPlainObject(new RegExp('abc'))).toBe(false);
+    });
+
+    it('returns false for Map and Set', () => {
+      expect(isPlainObject(new Map())).toBe(false);
+      expect(isPlainObject(new Set())).toBe(false);
     });
   });
 
