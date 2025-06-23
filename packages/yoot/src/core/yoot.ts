@@ -6,6 +6,8 @@ import {invariant, isEmpty, isNullish, isNumber, isPlainObject, isString, isUrl}
 // -- Module Exports --
 // API function and helpers
 export {createYoot as yoot};
+// For testing
+export {unwrapInput};
 // Yoot related types
 export type {Yoot, YootFactory, YootInput, YootState, PrimeStateInput};
 // Directive related types
@@ -147,7 +149,7 @@ function yoot(state: YootState): Yoot {
 
 /**
  * Normalizes input into a `SomeYootState` object.
- * @remarks Accepts a URL string, JSON string, partial state, or a `Yoot` instance.
+ * @remarks Accepts a URL string, JSON string, partial state, or a `Yoot` object.
  * @internal
  */
 function unwrapInput(input?: YootInput): SomeYootState {
