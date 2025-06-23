@@ -271,7 +271,7 @@ type DirectiveHandler<K extends keyof Directives> = (value: NonNullable<Directiv
  * Input for `yoot()`: a source URL string or a partial `YootState` object.
  * @public
  */
-type YootInput = string | Yoot | SomeYootState;
+type YootInput = string | SomeYootState | Yoot | Record<string, unknown>;
 
 /**
  * The public Yoot API: a callable factory for new states, with chainable methods.
