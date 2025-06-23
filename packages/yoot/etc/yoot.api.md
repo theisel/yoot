@@ -111,7 +111,7 @@ export function hasIntrinsicDimensions<
     width: number;
     height: number;
   },
-  Input extends Partial<Dimensions>,
+  Input extends Record<string, unknown>,
 >(input?: Input): input is Dimensions & Input;
 
 // @public
@@ -271,6 +271,12 @@ type SourceAttrsOptions = Prettify<Omit<SourceAttrs, 'height' | 'src' | 'width'>
 // @internal
 function toInlineStyle(props: unknown): string;
 
+// Warning: (ae-forgotten-export) The symbol "SomeYootState" needs to be exported by the entry point api-extractor.d.ts
+// Warning: (ae-internal-missing-underscore) The name "unwrapInput" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal
+export function unwrapInput(input?: YootInput): SomeYootState;
+
 // @public
 export type Vertical = 'top' | 'bottom';
 
@@ -318,10 +324,8 @@ export interface YootFactory {
   (input?: YootInput): Yoot;
 }
 
-// Warning: (ae-forgotten-export) The symbol "SomeYootState" needs to be exported by the entry point api-extractor.d.ts
-//
 // @public
-export type YootInput = string | Yoot | SomeYootState;
+export type YootInput = string | SomeYootState | Yoot | Record<string, unknown>;
 
 // @public
 export type YootState = {
