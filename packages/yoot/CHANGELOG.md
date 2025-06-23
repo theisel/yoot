@@ -1,5 +1,11 @@
 # @yoot/yoot
 
+## 0.4.2
+
+### Patch Changes
+
+- 11a8382: Relaxes `YootInput` type to accept generic object shapes (`Record<string, unknown>`).
+
 ## 0.4.1
 
 ### Patch Changes

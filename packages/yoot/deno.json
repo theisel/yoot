@@ -1,6 +1,6 @@
 {
   "name": "@yoot/yoot",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "ISC",
   "exports": {
     ".": "./src/index.ts",
