@@ -117,7 +117,10 @@ function stripDirectives(pathName: string): string {
 
 /** Returns DPR segment (e.g. '@2x') or empty. */
 function getDprPathSegment({dpr}: Directives): string {
-  return isNumber(dpr) ? `@${dpr}x` : '';
+  if (!isNumber(dpr)) return '';
+  dpr = Math.round(dpr); // Ensure dpr is rounded to nearest whole number
+  dpr = Math.max(1, Math.min(dpr, 3)); // Clamp dpr to 1-3
+  return dpr === 1 ? '' : `@${dpr}x`; // Return empty if dpr is 1
 }
 
 /** Returns the file extension, or an empty string if 'auto' or invalid. */
