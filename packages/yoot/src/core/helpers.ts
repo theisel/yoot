@@ -127,8 +127,9 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
     }
   } else if (Array.isArray(densities) && densities.length > 0) {
     for (const density of densities) {
-      if (!isNumber(density) || density < 1) continue;
-      srcsetParts.push(yoot.dpr(density).url.concat(` ${density}x`));
+      if (!isNumber(density) || density <= 0) continue;
+      const ute = density === 1 ? yoot : yoot.dpr(density);
+      srcsetParts.push(ute.url.concat(` ${density}x`));
     }
   }
 

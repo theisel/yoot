@@ -52,7 +52,7 @@ describe('@yoot/yoot - Helpers', () => {
       const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, ute);
       const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, ute);
 
-      expect(jsxSrcset).toBe(`${IMAGE_URL}?dpr=1 1x, ${IMAGE_URL}?dpr=2 2x`);
+      expect(jsxSrcset).toBe(`${IMAGE_URL} 1x, ${IMAGE_URL}?dpr=2 2x`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
@@ -61,7 +61,7 @@ describe('@yoot/yoot - Helpers', () => {
       const jsxSrcset = jsx.buildSrcSet({densities: [1, 2]}, uteWithDimensions);
       const htmlSrcset = html.buildSrcSet({densities: [1, 2]}, uteWithDimensions);
 
-      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300&dpr=1 1x, ${IMAGE_URL}?width=600&height=300&dpr=2 2x`);
+      expect(jsxSrcset).toBe(`${IMAGE_URL}?width=600&height=300 1x, ${IMAGE_URL}?width=600&height=300&dpr=2 2x`);
       expect(htmlSrcset).toBe(jsxSrcset);
     });
 
@@ -100,7 +100,7 @@ describe('@yoot/yoot - Helpers', () => {
       const jsxSrcsetDensities = jsx.buildSrcSet({densities: [0, -1, 1, 2]}, ute);
       const htmlSrcsetDensities = html.buildSrcSet({densities: [0, -1, 1, 2]}, ute);
 
-      expect(jsxSrcsetDensities).toBe(`${IMAGE_URL}?dpr=1 1x, ${IMAGE_URL}?dpr=2 2x`);
+      expect(jsxSrcsetDensities).toBe(`${IMAGE_URL} 1x, ${IMAGE_URL}?dpr=2 2x`);
       expect(htmlSrcsetDensities).toBe(jsxSrcsetDensities);
     });
 
