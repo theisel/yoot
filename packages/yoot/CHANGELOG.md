@@ -1,5 +1,11 @@
 # @yoot/yoot
 
+## 0.4.3
+
+### Patch Changes
+
+- 67ecce0: Skips applying the `dpr` directive in `buildSrcSet` for density `1` to avoid generating redundant URLs.
+
 ## 0.4.2
 
 ### Patch Changes

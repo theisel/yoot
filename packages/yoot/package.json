@@ -1,7 +1,7 @@
 {
   "name": "@yoot/yoot",
   "type": "module",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "The core library for yoot, providing a CDN-agnostic, chainable API for image URL transformations and adapter integration.",
   "keywords": [
     "yoot",
