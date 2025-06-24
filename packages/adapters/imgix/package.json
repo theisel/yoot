@@ -1,7 +1,7 @@
 {
   "name": "@yoot/imgix",
   "type": "module",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Imgix adapter for @yoot/yoot",
   "keywords": [
     "imgix",

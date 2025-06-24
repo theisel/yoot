@@ -1,5 +1,14 @@
 # @yoot/shopify
 
+## 0.3.3
+
+### Patch Changes
+
+- 67ecce0: Clamps the `dpr` directive to Shopify's supported range (1–3) and ensures it is a whole number.
+  Returns an empty path segment if `dpr` is 1 or not a number.
+- Updated dependencies [67ecce0]
+  - @yoot/yoot@0.4.3
+
 ## 0.3.2
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @yoot/imgix
 
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies [67ecce0]
+  - @yoot/yoot@0.4.3
+
 ## 0.3.2
 
 ### Patch Changes
