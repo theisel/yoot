@@ -224,7 +224,7 @@ type Attrs = {
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const {alt: alternateAlt, sizes, srcSetBuilder, ...passThroughAttrs} = options ?? {};
   const {src, height, width, ...derivedAttrs} = getAttrs(yoot);
-const alt = derivedAttrs.alt || alternateAlt;
+  const alt = derivedAttrs.alt || alternateAlt;
   const attrs: HTMLImageAttributes = {...passThroughAttrs};
   const imgAttrs: ImgAttrs = {src};
 
@@ -236,7 +236,7 @@ const alt = derivedAttrs.alt || alternateAlt;
   }
 
   // Apply `alt`
-    if (isString(alt)) imgAttrs.alt = alt;
+  if (isString(alt)) imgAttrs.alt = alt;
 
   // -- Apply `srcset` and fallback to `src` if not defined --
   // Overrides `srcset` if given
@@ -319,7 +319,7 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
   }
 
   /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/source */
-  const {intrinsicHeight, intrinsicWidth, src} = getAttrs(yoot);
+  const {width, height, src} = getAttrs(yoot);
   const sourceAttrs: SourceAttrs = {}; // Ignore `src` from the initial `sourceAttrs` object
 
   // Apply non-nullish pass-through attributes
@@ -329,9 +329,13 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
     (sourceAttrs as Record<string, unknown>)[key] = value;
   }
 
+  const formatIsAuto = () => yoot.toJSON().directives.format === 'auto';
+
   // Apply inferred `type` if not explicitly provided
   const mimeType = passThroughAttrs.type || getMimeType(yoot);
-  if (mimeType) sourceAttrs.type = mimeType;
+  // Only apply `type` if format is not 'auto'.
+  // Some CDNs dynamically determine the format based on accepts header.
+  if (mimeType && !formatIsAuto()) sourceAttrs.type = mimeType;
 
   // Are we dealing with an image?
   if (mimeType?.startsWith('image/')) {
@@ -339,13 +343,12 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
     if (isFunction(srcSetBuilder)) sourceAttrs.srcset = srcSetBuilder(yoot);
     else if (isString(srcset)) sourceAttrs.srcset = srcset;
     else sourceAttrs.srcset = src;
+    // Apply dimensions if available, good for debugging
+    if (isNumber(width)) sourceAttrs.width = width;
+    if (isNumber(height)) sourceAttrs.height = height;
   } else {
     sourceAttrs.src = src; // Only set `src` if it's not an image type (video/audio)
   }
-
-  // Apply intrinsic dimensions if available
-  if (isNumber(intrinsicWidth)) sourceAttrs.width = intrinsicWidth;
-  if (isNumber(intrinsicHeight)) sourceAttrs.height = intrinsicHeight;
 
   return sourceAttrs;
 }
