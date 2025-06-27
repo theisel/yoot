@@ -146,15 +146,15 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
  * @returns Object of derived HTML attributes.
  */
 function getAttrs(yoot: Yoot): Attrs {
-  const src = yoot.url;
-  const {width: intrinsicWidth, height: intrinsicHeight, directives, ...rest} = yoot.toJSON();
+  const {width: naturalWidth, height: naturalHeight, directives, ...rest} = yoot.toJSON();
   const hasTransformedDims = isNumber(directives.width) || isNumber(directives.height);
 
   // Prioritize transformation dimensions; fallback to intrinsic if no transform dims specified.
-  const width = hasTransformedDims ? directives.width : intrinsicWidth;
-  const height = hasTransformedDims ? directives.height : intrinsicHeight;
+  const width = hasTransformedDims ? directives.width : naturalWidth;
+  const height = hasTransformedDims ? directives.height : naturalHeight;
+
   // Initialize attributes with intrinsic dimensions and source URL
-  const attrs: Attrs = {...rest, intrinsicWidth, intrinsicHeight, src};
+  const attrs: Attrs = {...rest, naturalWidth, naturalHeight, src: yoot.url};
 
   if (isNumber(width)) attrs.width = width;
   if (isNumber(height)) attrs.height = height;
@@ -171,10 +171,10 @@ type Attrs = {
   src: string;
   /** Alt text */
   alt?: Maybe<string>;
-  /** Intrinsic height */
-  intrinsicHeight?: number;
-  /** Intrinsic width */
-  intrinsicWidth?: number;
+  /** Natural height */
+  naturalHeight?: number;
+  /** Natural width */
+  naturalWidth?: number;
   /** Derived width */
   width?: Maybe<number>;
   /** Derived height */
@@ -223,7 +223,7 @@ type Attrs = {
  */
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const {alt: alternateAlt, sizes, srcSetBuilder, ...passThroughAttrs} = options ?? {};
-  const {src, height, width, intrinsicHeight: __0, intrinsicWidth: __1, ...derivedAttrs} = getAttrs(yoot);
+  const {src, height, width, naturalHeight: __0, naturalWidth: __1, ...derivedAttrs} = getAttrs(yoot);
   const attrs: HTMLImageAttributes = {...passThroughAttrs, ...derivedAttrs};
   const imgAttrs: ImgAttrs = {src};
 
