@@ -223,8 +223,9 @@ type Attrs = {
  */
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const {alt: alternateAlt, sizes, srcSetBuilder, ...passThroughAttrs} = options ?? {};
-  const {src, height, width, naturalHeight: __0, naturalWidth: __1, ...derivedAttrs} = getAttrs(yoot);
-  const attrs: HTMLImageAttributes = {...passThroughAttrs, ...derivedAttrs};
+  const {src, height, width, ...derivedAttrs} = getAttrs(yoot);
+const alt = derivedAttrs.alt || alternateAlt;
+  const attrs: HTMLImageAttributes = {...passThroughAttrs};
   const imgAttrs: ImgAttrs = {src};
 
   // Apply non-nullish pass-through attributes
@@ -235,10 +236,7 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   }
 
   // Apply `alt`
-  let {alt} = derivedAttrs;
-  alt ||= alternateAlt;
-
-  if (isString(alt)) imgAttrs.alt = alt;
+    if (isString(alt)) imgAttrs.alt = alt;
 
   // -- Apply `srcset` and fallback to `src` if not defined --
   // Overrides `srcset` if given
