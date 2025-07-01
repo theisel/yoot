@@ -4,10 +4,16 @@
 
 ## html.ImgAttrs type
 
+Return type for `getImgAttrs`<!-- -->.
+
 **Signature:**
 
 ```typescript
-type ImgAttrs = KebabCasedProperties<_ImgAttrs>;
+type ImgAttrs = Prettify<
+  {
+    src: string;
+  } & {
+    [Key in keyof HTMLImageAttributes]?: NonNullable<HTMLImageAttributes[Key]>;
+  }
+>;
 ```
-
-**References:** [\_ImgAttrs](./yoot.jsx.imgattrs.md)

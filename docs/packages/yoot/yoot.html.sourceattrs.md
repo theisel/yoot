@@ -4,10 +4,12 @@
 
 ## html.SourceAttrs type
 
+Return type for `getSourceAttrs`<!-- -->.
+
 **Signature:**
 
 ```typescript
-type SourceAttrs = KebabCasedProperties<_SourceAttrs>;
+type SourceAttrs = {
+  [Key in keyof HTMLSourceAttributes]: NonNullable<HTMLSourceAttributes[Key]>;
+};
 ```
-
-**References:** [\_SourceAttrs](./yoot.jsx.sourceattrs.md)
