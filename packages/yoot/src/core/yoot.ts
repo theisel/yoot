@@ -131,7 +131,7 @@ function yoot(state: YootState): Yoot {
    * @returns The current state as a JSON object
    */
   function toJSON(): YootState {
-    return {...state, directives: {...(_normalizedDirectives ?? state.directives)}};
+    return deriveState(state);
   }
 
   /**
