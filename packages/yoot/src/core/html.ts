@@ -15,7 +15,7 @@ export {buildSrcSet, defineSrcSetBuilder} from './helpers.ts';
 export {getImgAttrs, getSourceAttrs, withImgAttrs, withSourceAttrs};
 export type {BuildSrcSetOptions, ImgAttrs, ImgAttrsOptions, SourceAttrs, SourceAttrsOptions, WithSrcSetBuilder};
 // For testing purposes
-export {propsToKebabCase, toInlineStyle};
+export {propsToHtmlAttrs, toInlineStyle};
 
 /**
  * Returns `<img>` attributes generated from a `Yoot` object, merged with optional custom attributes.
@@ -56,7 +56,7 @@ export {propsToKebabCase, toInlineStyle};
  * ```
  */
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
-  return propsToKebabCase(_getImgAttrs(yoot, options));
+  return propsToHtmlAttrs(_getImgAttrs(yoot, options));
 }
 
 /**
@@ -69,7 +69,7 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
  * @returns A function that accepts a `Yoot` object and returns HTML `<img>` attributes.
  */
 function withImgAttrs(options: ImgAttrsOptions): (yoot: Yoot, overrideOptions?: ImgAttrsOptions) => ImgAttrs {
-  return (yoot, overrideOptions) => propsToKebabCase(_getImgAttrs(yoot, {...options, ...overrideOptions}));
+  return (yoot, overrideOptions) => propsToHtmlAttrs(_getImgAttrs(yoot, {...options, ...overrideOptions}));
 }
 
 /**
@@ -81,7 +81,7 @@ function withImgAttrs(options: ImgAttrsOptions): (yoot: Yoot, overrideOptions?: 
  * @returns HTML attributes for a `<source>` element.
  */
 function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
-  return propsToKebabCase(_getSourceAttrs(yoot, options));
+  return propsToHtmlAttrs(_getSourceAttrs(yoot, options));
 }
 
 /**
@@ -120,7 +120,7 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
 function withSourceAttrs(
   options: SourceAttrsOptions,
 ): (yoot: Yoot, overrideOptions?: SourceAttrsOptions) => SourceAttrs {
-  return (yoot, overrideOptions) => propsToKebabCase(_getSourceAttrs(yoot, {...options, ...overrideOptions}));
+  return (yoot, overrideOptions) => propsToHtmlAttrs(_getSourceAttrs(yoot, {...options, ...overrideOptions}));
 }
 
 /**
@@ -133,7 +133,7 @@ function withSourceAttrs(
  *
  * @internal
  */
-function propsToKebabCase<T extends Record<string, unknown>>(attributes: T): KebabCasedProperties<T> {
+function propsToHtmlAttrs<T extends Record<string, unknown>>(attributes: T): PropsToHtmlAttrs<T> {
   const attrs: Record<string, unknown> = {};
 
   for (const key of Object.keys(attributes)) {
@@ -159,7 +159,7 @@ function propsToKebabCase<T extends Record<string, unknown>>(attributes: T): Keb
     attrs[attr] = value;
   }
 
-  return attrs as KebabCasedProperties<T>;
+  return attrs as PropsToHtmlAttrs<T>;
 }
 
 /**
@@ -184,15 +184,15 @@ function toInlineStyle(props: unknown): string {
 
 // --- Internal Utility Types ---
 
-type ImgAttrs = KebabCasedProperties<_ImgAttrs>;
-type SourceAttrs = KebabCasedProperties<_SourceAttrs>;
+type ImgAttrs = PropsToHtmlAttrs<_ImgAttrs>;
+type SourceAttrs = PropsToHtmlAttrs<_SourceAttrs>;
 
 /**
  * Converts the keys of type T to kebab-case.
  */
-type KebabCasedProperties<T> = {
+type PropsToHtmlAttrs<T> = {
   [K in keyof T as KebabCase<string & K>]: T[K];
-};
+} & {style?: string};
 
 /**
  * Converts a string literal type to kebab-case.

@@ -1,5 +1,5 @@
 import {describe, it, expect} from '@yoot/test-kit';
-import {toInlineStyle, propsToKebabCase} from '../src/core/html';
+import {toInlineStyle, propsToHtmlAttrs} from '../src/core/html';
 
 describe('@yoot/yoot - HTML Utilities', () => {
   describe('toInlineStyle', () => {
@@ -35,14 +35,14 @@ describe('@yoot/yoot - HTML Utilities', () => {
     });
   });
 
-  describe('propsToKebabCase', () => {
+  describe('propsToHtmlAttrs', () => {
     it('converts object keys to kebab-case only at first capitalized letter', () => {
       const input = {
         ariaAutoComplete: 'list',
         tabIndex: 0,
       };
 
-      const result = propsToKebabCase(input);
+      const result = propsToHtmlAttrs(input);
 
       expect(result).toEqual({
         'aria-autocomplete': 'list',
@@ -59,7 +59,7 @@ describe('@yoot/yoot - HTML Utilities', () => {
         },
       };
 
-      const result = propsToKebabCase(input);
+      const result = propsToHtmlAttrs(input);
 
       expect(result).toEqual({
         src: 'img.png',
@@ -74,7 +74,7 @@ describe('@yoot/yoot - HTML Utilities', () => {
         ariaAutoComplete: null,
       };
 
-      const result = propsToKebabCase(input);
+      const result = propsToHtmlAttrs(input);
 
       expect(result).toEqual({
         src: 'file.png',
@@ -83,10 +83,10 @@ describe('@yoot/yoot - HTML Utilities', () => {
     });
 
     it('omits style attribute when empty style value is given', () => {
-      expect(propsToKebabCase({style: {}})).toEqual({});
-      expect(propsToKebabCase({style: null})).toEqual({});
-      expect(propsToKebabCase({style: undefined})).toEqual({});
-      expect(propsToKebabCase({style: ''})).toEqual({});
+      expect(propsToHtmlAttrs({style: {}})).toEqual({});
+      expect(propsToHtmlAttrs({style: null})).toEqual({});
+      expect(propsToHtmlAttrs({style: undefined})).toEqual({});
+      expect(propsToHtmlAttrs({style: ''})).toEqual({});
     });
   });
 });
