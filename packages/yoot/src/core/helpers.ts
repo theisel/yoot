@@ -146,7 +146,7 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
  * @returns Object of derived HTML attributes.
  */
 function getAttrs(yoot: Yoot): Attrs {
-  const {width: naturalWidth, height: naturalHeight, directives, ...rest} = yoot.toJSON();
+  const {width: naturalWidth, height: naturalHeight, directives, ...rest} = yoot.toResolvedJSON();
   const hasTransformedDims = isNumber(directives.width) || isNumber(directives.height);
 
   // Prioritize transformation dimensions; fallback to intrinsic if no transform dims specified.
@@ -247,7 +247,7 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const hasHeight = isNumber(height);
 
   // -- Apply style to fit `contain` directive --
-  const state = yoot.toJSON();
+  const state = yoot.toResolvedJSON();
 
   if (state.directives.fit === 'contain') {
     imgAttrs.style = {};
@@ -329,7 +329,7 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
     (sourceAttrs as Record<string, unknown>)[key] = value;
   }
 
-  const formatIsAuto = () => yoot.toJSON().directives.format === 'auto';
+  const formatIsAuto = () => yoot.toResolvedJSON().directives.format === 'auto';
 
   // Apply inferred `type` if not explicitly provided
   const mimeType = passThroughAttrs.type || getMimeType(yoot);
@@ -496,7 +496,7 @@ type MimeType = (typeof MIME_TYPES)[keyof typeof MIME_TYPES];
  * @internal
  */
 function getMimeType(yoot: Yoot): MimeType | undefined {
-  const {format} = yoot.toJSON().directives;
+  const {format} = yoot.toResolvedJSON().directives;
   // Try to get the format from the directives first
   if (isKeyOf(format, MIME_TYPES)) return MIME_TYPES[format];
   // If no format is specified, try to get it from the file extension

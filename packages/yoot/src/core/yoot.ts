@@ -1,4 +1,4 @@
-import {_getAdapter as getAdapter} from './adapter.ts';
+import {_getAdapter as provideAdapter, type Adapter} from './adapter.ts';
 import {mustBeOneOf, mustBeInRange, normalizeDirectives} from './helpers.ts';
 import {YOOT_BRAND} from './store.ts';
 import {invariant, isEmpty, isNullish, isNumber, isPlainObject, isString, isUrl} from './utils.ts';
@@ -53,11 +53,47 @@ function yoot(state: YootState): Yoot {
   // --- Internal State & Computation ---
 
   // Lazily computed and cached URL and normalized directives
+  let _adapter: Adapter | undefined;
   let _generatedUrl: string | undefined;
   let _normalizedDirectives: Directives | undefined;
 
   /**
-   * Generates and caches the final image URL and normalized directives.
+   * Retrieves the adapter for the current state.
+   *
+   * @returns The adapter for the current state.
+   * @throws If `state.src` is missing.
+   */
+  function getAdapter(): Adapter {
+    if (_adapter) return _adapter;
+    assertSrc(state, 'Image source URL is required');
+    _adapter = provideAdapter(new URL(state.src));
+    return _adapter;
+  }
+
+  /**
+   * Computes and caches the directives for the current `yoot` object.
+   *
+   * @returns A new `Directives` object.
+   */
+  function getNormalizedDirectives(): Directives {
+    if (_normalizedDirectives) return _normalizedDirectives;
+
+    const {src} = state;
+    // If `src` is missing, normalize directives based on the current state.
+    if (!src) {
+      _normalizedDirectives = normalizeDirectives(state);
+      return _normalizedDirectives;
+    }
+
+    const stateCopy = deriveState({...state, src}) as YootState & {src: string};
+    const primedState = getAdapter().primeState?.(stateCopy) ?? stateCopy;
+
+    _normalizedDirectives = normalizeDirectives(primedState);
+    return _normalizedDirectives;
+  }
+
+  /**
+   * Generates and caches the final image URL.
    *
    * @returns The generated image URL.
    * @throws If `state.src` is missing.
@@ -65,16 +101,9 @@ function yoot(state: YootState): Yoot {
   function generateUrl() {
     if (_generatedUrl) return _generatedUrl;
 
-    assertSrc(state, 'Image source URL is required');
-
-    const adapter = getAdapter(new URL(state.src));
-    const primedState = adapter.primeState?.({...state}) ?? {...state};
-
-    _normalizedDirectives = normalizeDirectives(primedState);
-
-    _generatedUrl = adapter.generateUrl({
-      src: state.src,
-      directives: _normalizedDirectives,
+    _generatedUrl = getAdapter().generateUrl({
+      src: state.src!, // `src` is guaranteed to be a string here
+      directives: getNormalizedDirectives(),
     });
 
     return _generatedUrl;
@@ -85,13 +114,12 @@ function yoot(state: YootState): Yoot {
    * @returns The normalized URL or `null` if `state.src` is empty.
    */
   function baseUrl() {
-    const src = state.src;
+    const {src} = state;
     // If src is empty, return null
     if (isEmpty(src)) return null;
     try {
       const url = new URL(src);
-      const adapter = getAdapter(url);
-      return adapter?.normalizeUrl(url) ?? null;
+      return getAdapter().normalizeUrl(url) ?? null;
     } catch {
       return null;
     }
@@ -104,6 +132,15 @@ function yoot(state: YootState): Yoot {
    */
   function toJSON(): YootState {
     return {...state, directives: {...(_normalizedDirectives ?? state.directives)}};
+  }
+
+  /**
+   * Clones the current state and normalizes directives.
+   *
+   * @returns A fully resolved state object, with directives normalized.
+   */
+  function toResolvedJSON(): YootState {
+    return deriveState({...state, directives: getNormalizedDirectives()});
   }
 
   // -- API Object --
@@ -138,6 +175,7 @@ function yoot(state: YootState): Yoot {
     [YOOT_BRAND]: {value: true},
     // -- Output methods --
     toJSON: {value: toJSON},
+    toResolvedJSON: {value: toResolvedJSON},
     toString: {value: generateUrl},
     url: {get: generateUrl},
     baseUrl: {get: baseUrl},
@@ -369,6 +407,11 @@ interface OutputMethods {
    * @returns A shallow-cloned `YootState` object.
    */
   toJSON: () => YootState;
+  /**
+   * Returns a serializable copy of the current state with normalized directives.
+   * @returns A shallow-cloned `YootState` object.
+   */
+  toResolvedJSON: () => YootState;
   /**
    * Returns the transformed image URL. Same as `url()`.
    * @throws Error If `state.src` is not a valid string.
