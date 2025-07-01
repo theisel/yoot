@@ -89,6 +89,8 @@ function getAttrs(yoot: Yoot): Attrs;
 // @public
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs;
 
+// Warning: (ae-forgotten-export) The symbol "ImgAttrs_2" needs to be exported by the entry point api-extractor.d.ts
+//
 // @public
 function getImgAttrs_2(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs_2;
 
@@ -100,19 +102,24 @@ function getMimeType(yoot: Yoot): MimeType_2 | undefined;
 // @public
 function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs;
 
+// Warning: (ae-forgotten-export) The symbol "SourceAttrs_2" needs to be exported by the entry point api-extractor.d.ts
+//
 // @public
 function getSourceAttrs_2(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs_2;
 
-// Warning: (ae-internal-missing-underscore) The name "hasIntrinsicDimensions" should be prefixed with an underscore because the declaration is marked as @internal
-//
 // @internal
-export function hasIntrinsicDimensions<
+function hasDimensions<
   Dimensions extends {
     width: number;
     height: number;
   },
   Input extends Record<string, unknown>,
 >(input?: Input): input is Dimensions & Input;
+
+// Warning: (ae-internal-missing-underscore) The name "hasIntrinsicDimensions" should be prefixed with an underscore because the declaration is marked as @internal
+//
+// @internal @deprecated (undocumented)
+export const hasIntrinsicDimensions: typeof hasDimensions;
 
 // @public
 export type Horizontal = 'left' | 'right';
@@ -125,17 +132,22 @@ declare namespace html {
     getSourceAttrs_2 as getSourceAttrs,
     withImgAttrs_2 as withImgAttrs,
     withSourceAttrs_2 as withSourceAttrs,
+    normalizeDirectives,
     BuildSrcSetOptions,
-    ImgAttrs_2 as ImgAttrs,
+    ImgAttrs,
     ImgAttrsOptions,
-    SourceAttrs_2 as SourceAttrs,
+    SourceAttrs,
     SourceAttrsOptions,
     WithSrcSetBuilder,
-    propsToKebabCase,
-    toInlineStyle,
+    getAttrs,
+    getMimeType,
+    mustBeInRange,
+    mustBeOneOf,
+    MIME_TYPES,
   };
 }
 
+// Warning: (ae-forgotten-export) The symbol "Prettify" needs to be exported by the entry point api-extractor.d.ts
 // Warning: (ae-forgotten-export) The symbol "HTMLImageAttributes" needs to be exported by the entry point api-extractor.d.ts
 //
 // @public
@@ -147,18 +159,12 @@ type ImgAttrs = Prettify<
   }
 >;
 
-// Warning: (ae-forgotten-export) The symbol "KebabCasedProperties" needs to be exported by the entry point api-extractor.d.ts
-//
-// @public (undocumented)
-type ImgAttrs_2 = KebabCasedProperties<ImgAttrs>;
-
-// Warning: (ae-forgotten-export) The symbol "Prettify" needs to be exported by the entry point api-extractor.d.ts
-//
 // @public
 type ImgAttrsOptions = Prettify<WithSrcSetBuilder & Omit<ImgAttrs, 'height' | 'src' | 'width'>>;
 
 declare namespace internal {
   export {
+    hasDimensions as _hasDimensions,
     hasIntrinsicDimensions as _hasIntrinsicDimensions,
     isKeyOf as _isKeyOf,
     invariant as _invariant,
@@ -235,6 +241,7 @@ export interface OutputMethods {
   readonly baseUrl: string | null;
   readonly hasSrc: boolean;
   toJSON: () => YootState;
+  toResolvedJSON: () => YootState;
   toString: () => string;
   readonly url: string;
 }
@@ -246,9 +253,6 @@ export const passThroughAdapter: Adapter;
 export type PrimeStateInput = {
   src: string;
 } & Omit<YootState, 'src'>;
-
-// @internal
-function propsToKebabCase<T extends Record<string, unknown>>(attributes: T): KebabCasedProperties<T>;
 
 // Warning: (ae-forgotten-export) The symbol "RegisterAdaptersFunction" needs to be exported by the entry point api-extractor.d.ts
 //
@@ -262,14 +266,8 @@ type SourceAttrs = {
   [Key in keyof HTMLSourceAttributes]: NonNullable<HTMLSourceAttributes[Key]>;
 };
 
-// @public (undocumented)
-type SourceAttrs_2 = KebabCasedProperties<SourceAttrs>;
-
 // @public
 type SourceAttrsOptions = Prettify<Omit<SourceAttrs, 'height' | 'src' | 'width'> & WithSrcSetBuilder>;
-
-// @internal
-function toInlineStyle(props: unknown): string;
 
 // Warning: (ae-forgotten-export) The symbol "SomeYootState" needs to be exported by the entry point api-extractor.d.ts
 // Warning: (ae-internal-missing-underscore) The name "unwrapInput" should be prefixed with an underscore because the declaration is marked as @internal
@@ -325,7 +323,7 @@ export interface YootFactory {
 }
 
 // @public
-export type YootInput = string | SomeYootState | Yoot | Record<string, unknown>;
+export type YootInput = string | SomeYootState | Yoot | Record<string, unknown> | null | undefined;
 
 // @public
 export type YootState = {
