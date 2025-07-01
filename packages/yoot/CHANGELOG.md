@@ -1,5 +1,25 @@
 # @yoot/yoot
 
+## 0.5.0
+
+### Minor Changes
+
+- 93fdbc9: Adds the `toResolvedJSON` method, which returns a fully resolved state object where the directives are computed and normalized.
+- 93fdbc9: **BREAKING CHANGE:** The behavior of the `.toJSON()` method has changed.
+
+  `.toJSON()` now returns a raw copy of the object's state and ignores any previous normalized directives.
+
+  **Migration:** Use `.toResolvedJSON()` to get fully resolved and normalized state.
+
+### Patch Changes
+
+- 93fdbc9: Aligns the `YootInput` type with runtime logic, which already supports `null` and `undefined` values.
+- 93fdbc9: Corrects the `style` attribute typing to accurately reflect its runtime transformation from an object to a string.
+- 93fdbc9: Corrects attributes returned by `getSourceAttrs` helper:
+
+  - The `width` and `height` attributes now reflect the final transformed dimensions instead of the original.
+  - The `type` attribute is no longer being set when `format` directive is `auto`.
+
 ## 0.4.3
 
 ### Patch Changes
