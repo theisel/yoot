@@ -1,5 +1,17 @@
 # @yoot/sanity
 
+## 0.3.4
+
+### Patch Changes
+
+- 93fdbc9: **Internal maintenance:** Updated function call to use the renamed `hasDimensions` utility.
+- Updated dependencies [93fdbc9]
+- Updated dependencies [93fdbc9]
+- Updated dependencies [93fdbc9]
+- Updated dependencies [93fdbc9]
+- Updated dependencies [93fdbc9]
+  - @yoot/yoot@0.5.0
+
 ## 0.3.3
 
 ### Patch Changes
