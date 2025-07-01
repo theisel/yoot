@@ -283,6 +283,29 @@ describe('@yoot/yoot - Helpers', () => {
       expect(srcSetBuilder).toHaveBeenCalled();
       expect(attrs.srcset).toContain('format=png');
     });
+
+    it('should not include type attribute when format is auto', () => {
+      const _ute = ute.format('auto');
+
+      const jsxAttrs = jsx.getSourceAttrs(_ute);
+      const htmlAttrs = html.getSourceAttrs(_ute);
+
+      expect(jsxAttrs.type).toBeUndefined();
+      expect(htmlAttrs.type).toBeUndefined();
+    });
+
+    it('should return transformed dimensions', () => {
+      const ute = yoot({src: IMAGE_URL, width: 2048, height: 2048}).width(200).height(100);
+
+      const jsxAttrs = jsx.getSourceAttrs(ute);
+      const htmlAttrs = html.getSourceAttrs(ute);
+
+      expect(jsxAttrs.width).toBe(200);
+      expect(jsxAttrs.height).toBe(100);
+
+      expect(htmlAttrs.width).toBe(200);
+      expect(htmlAttrs.height).toBe(100);
+    });
   });
 
   describe('withSourceAttrs', () => {

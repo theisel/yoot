@@ -146,15 +146,15 @@ function buildSrcSet(options: BuildSrcSetOptions, yoot: Yoot): string {
  * @returns Object of derived HTML attributes.
  */
 function getAttrs(yoot: Yoot): Attrs {
-  const src = yoot.url;
-  const {width: intrinsicWidth, height: intrinsicHeight, directives, ...rest} = yoot.toJSON();
+  const {width: naturalWidth, height: naturalHeight, directives, ...rest} = yoot.toResolvedJSON();
   const hasTransformedDims = isNumber(directives.width) || isNumber(directives.height);
 
   // Prioritize transformation dimensions; fallback to intrinsic if no transform dims specified.
-  const width = hasTransformedDims ? directives.width : intrinsicWidth;
-  const height = hasTransformedDims ? directives.height : intrinsicHeight;
+  const width = hasTransformedDims ? directives.width : naturalWidth;
+  const height = hasTransformedDims ? directives.height : naturalHeight;
+
   // Initialize attributes with intrinsic dimensions and source URL
-  const attrs: Attrs = {...rest, intrinsicWidth, intrinsicHeight, src};
+  const attrs: Attrs = {...rest, naturalWidth, naturalHeight, src: yoot.url};
 
   if (isNumber(width)) attrs.width = width;
   if (isNumber(height)) attrs.height = height;
@@ -171,10 +171,10 @@ type Attrs = {
   src: string;
   /** Alt text */
   alt?: Maybe<string>;
-  /** Intrinsic height */
-  intrinsicHeight?: number;
-  /** Intrinsic width */
-  intrinsicWidth?: number;
+  /** Natural height */
+  naturalHeight?: number;
+  /** Natural width */
+  naturalWidth?: number;
   /** Derived width */
   width?: Maybe<number>;
   /** Derived height */
@@ -223,8 +223,9 @@ type Attrs = {
  */
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const {alt: alternateAlt, sizes, srcSetBuilder, ...passThroughAttrs} = options ?? {};
-  const {src, height, width, intrinsicHeight: __0, intrinsicWidth: __1, ...derivedAttrs} = getAttrs(yoot);
-  const attrs: HTMLImageAttributes = {...passThroughAttrs, ...derivedAttrs};
+  const {src, height, width, ...derivedAttrs} = getAttrs(yoot);
+  const alt = derivedAttrs.alt || alternateAlt;
+  const attrs: HTMLImageAttributes = {...passThroughAttrs};
   const imgAttrs: ImgAttrs = {src};
 
   // Apply non-nullish pass-through attributes
@@ -235,9 +236,6 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   }
 
   // Apply `alt`
-  let {alt} = derivedAttrs;
-  alt ||= alternateAlt;
-
   if (isString(alt)) imgAttrs.alt = alt;
 
   // -- Apply `srcset` and fallback to `src` if not defined --
@@ -249,7 +247,7 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const hasHeight = isNumber(height);
 
   // -- Apply style to fit `contain` directive --
-  const state = yoot.toJSON();
+  const state = yoot.toResolvedJSON();
 
   if (state.directives.fit === 'contain') {
     imgAttrs.style = {};
@@ -321,7 +319,7 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
   }
 
   /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/source */
-  const {intrinsicHeight, intrinsicWidth, src} = getAttrs(yoot);
+  const {width, height, src} = getAttrs(yoot);
   const sourceAttrs: SourceAttrs = {}; // Ignore `src` from the initial `sourceAttrs` object
 
   // Apply non-nullish pass-through attributes
@@ -331,9 +329,13 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
     (sourceAttrs as Record<string, unknown>)[key] = value;
   }
 
+  const formatIsAuto = () => yoot.toResolvedJSON().directives.format === 'auto';
+
   // Apply inferred `type` if not explicitly provided
   const mimeType = passThroughAttrs.type || getMimeType(yoot);
-  if (mimeType) sourceAttrs.type = mimeType;
+  // Only apply `type` if format is not 'auto'.
+  // Some CDNs dynamically determine the format based on accepts header.
+  if (mimeType && !formatIsAuto()) sourceAttrs.type = mimeType;
 
   // Are we dealing with an image?
   if (mimeType?.startsWith('image/')) {
@@ -341,13 +343,12 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
     if (isFunction(srcSetBuilder)) sourceAttrs.srcset = srcSetBuilder(yoot);
     else if (isString(srcset)) sourceAttrs.srcset = srcset;
     else sourceAttrs.srcset = src;
+    // Apply dimensions if available, good for debugging
+    if (isNumber(width)) sourceAttrs.width = width;
+    if (isNumber(height)) sourceAttrs.height = height;
   } else {
     sourceAttrs.src = src; // Only set `src` if it's not an image type (video/audio)
   }
-
-  // Apply intrinsic dimensions if available
-  if (isNumber(intrinsicWidth)) sourceAttrs.width = intrinsicWidth;
-  if (isNumber(intrinsicHeight)) sourceAttrs.height = intrinsicHeight;
 
   return sourceAttrs;
 }
@@ -495,7 +496,7 @@ type MimeType = (typeof MIME_TYPES)[keyof typeof MIME_TYPES];
  * @internal
  */
 function getMimeType(yoot: Yoot): MimeType | undefined {
-  const {format} = yoot.toJSON().directives;
+  const {format} = yoot.toResolvedJSON().directives;
   // Try to get the format from the directives first
   if (isKeyOf(format, MIME_TYPES)) return MIME_TYPES[format];
   // If no format is specified, try to get it from the file extension

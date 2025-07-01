@@ -4,4 +4,12 @@
  * @packageDocumentation
  * @public
  */
-export * from './core/html.ts';
+export {
+  buildSrcSet,
+  defineSrcSetBuilder,
+  getImgAttrs,
+  getSourceAttrs,
+  withImgAttrs,
+  withSourceAttrs,
+} from './core/html.ts';
+export type * from './core/helpers.ts';

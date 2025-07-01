@@ -82,6 +82,21 @@ Returns a serializable copy of the current state.
 </td></tr>
 <tr><td>
 
+[toResolvedJSON](./yoot.outputmethods.toresolvedjson.md)
+
+</td><td>
+
+</td><td>
+
+() =&gt; [YootState](./yoot.yootstate.md)
+
+</td><td>
+
+Returns a serializable copy of the current state with normalized directives.
+
+</td></tr>
+<tr><td>
+
 [toString](./yoot.outputmethods.tostring.md)
 
 </td><td>

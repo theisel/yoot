@@ -110,6 +110,8 @@ Description
 
 </td><td>
 
+Return type for `getImgAttrs`<!-- -->.
+
 </td></tr>
 <tr><td>
 
@@ -125,6 +127,8 @@ Options for `getImgAttrs` and `withImgAttrs`<!-- -->.
 [SourceAttrs](./yoot.html.sourceattrs.md)
 
 </td><td>
+
+Return type for `getSourceAttrs`<!-- -->.
 
 </td></tr>
 <tr><td>

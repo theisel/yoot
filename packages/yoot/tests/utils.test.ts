@@ -1,7 +1,7 @@
 import {describe, it, expect} from '@yoot/test-kit';
 
 import {
-  hasIntrinsicDimensions,
+  hasDimensions,
   invariant,
   isFunction,
   isNumber,
@@ -14,14 +14,14 @@ import {
 } from '../src/core/utils';
 
 describe('utils', () => {
-  describe('hasIntrinsicDimensions', () => {
+  describe('hasDimensions', () => {
     it('returns true for object with valid width and height', () => {
-      expect(hasIntrinsicDimensions({width: 100, height: 200})).toBe(true);
+      expect(hasDimensions({width: 100, height: 200})).toBe(true);
     });
 
     it('returns false if input is undefined or has non-numeric dimensions', () => {
-      expect(hasIntrinsicDimensions(undefined)).toBe(false);
-      expect(hasIntrinsicDimensions({width: '100', height: 200})).toBe(false);
+      expect(hasDimensions(undefined)).toBe(false);
+      expect(hasDimensions({width: '100', height: 200})).toBe(false);
     });
   });
 

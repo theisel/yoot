@@ -5,11 +5,7 @@
  */
 import {defineAdapter} from '@yoot/yoot';
 import type {Adapter, DirectiveNames, Directives, GenerateUrlInput, YootState, PrimeStateInput} from '@yoot/yoot';
-import {
-  _isKeyOf as isKeyOf,
-  _isEmpty as isEmpty,
-  _hasIntrinsicDimensions as hasIntrinsicDimensions,
-} from '@yoot/yoot/internal';
+import {_isKeyOf as isKeyOf, _isEmpty as isEmpty, _hasDimensions as hasDimensions} from '@yoot/yoot/internal';
 
 // -- Module Exports --
 export {adapter};
@@ -49,9 +45,8 @@ function normalizeUrl(url: URL): string {
  */
 function primeState(input: PrimeStateInput): YootState {
   const hasAspectRatio = 'aspectRatio' in input.directives;
-  const isMissingDimensions = !hasIntrinsicDimensions(input);
 
-  if (hasAspectRatio && isMissingDimensions) {
+  if (hasAspectRatio && !hasDimensions(input)) {
     const dimensions = getDimensionsFromUrl(new URL(input.src));
     return {...input, ...dimensions};
   }

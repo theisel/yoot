@@ -7,6 +7,7 @@
  * @internal
  */
 export {
+  hasDimensions as _hasDimensions,
   hasIntrinsicDimensions as _hasIntrinsicDimensions,
   isKeyOf as _isKeyOf,
   invariant as _invariant,
