@@ -1,7 +1,7 @@
 import type {GenerateUrlInput} from './adapter.ts';
 import type {Directives, Yoot, YootState} from './yoot.ts';
 import type {HTMLImageAttributes, HTMLSourceAttributes, Maybe, Prettify} from './types.ts';
-import {isKeyOf, isFunction, hasIntrinsicDimensions, invariant, isNumber, isString, isNullish} from './utils.ts';
+import {isKeyOf, isFunction, hasIntrinsicDimensions, invariant, isNumber, isString} from './utils.ts';
 
 export {
   buildSrcSet,
@@ -309,19 +309,12 @@ function getSourceAttrs(yoot: Yoot, options?: SourceAttrsOptions): SourceAttrs {
 
   /** @see https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/source */
   const {width, height, src} = getAttrs(yoot);
-  const sourceAttrs: SourceAttrs = {}; // Ignore `src` from the initial `sourceAttrs` object
-
-  // Apply non-nullish pass-through attributes
-  for (const [key, value] of Object.entries(passThroughAttrs)) {
-    if (isNullish(value)) continue;
-    // TODO - Is there a better way to type this?
-    (sourceAttrs as Record<string, unknown>)[key] = value;
-  }
+  const sourceAttrs: SourceAttrs = {...passThroughAttrs}; // Ignore `src` from the initial `sourceAttrs` object
 
   const formatIsAuto = () => yoot.toResolvedJSON().directives.format === 'auto';
 
   // Apply inferred `type` if not explicitly provided
-  const mimeType = passThroughAttrs.type || getMimeType(yoot);
+  const mimeType = sourceAttrs.type || getMimeType(yoot);
   // Only apply `type` if format is not 'auto'.
   // Some CDNs dynamically determine the format based on accepts header.
   if (mimeType && !formatIsAuto()) sourceAttrs.type = mimeType;
