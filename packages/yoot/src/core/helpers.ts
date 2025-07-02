@@ -241,7 +241,7 @@ function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   // -- Apply `srcset` and fallback to `src` if not defined --
   // Overrides `srcset` if given
   if (isFunction(srcSetBuilder)) imgAttrs.srcset = srcSetBuilder(yoot);
-  if (isString(sizes) && isString(attrs.srcset)) imgAttrs.sizes = sizes;
+  if (isString(sizes) && isString(imgAttrs.srcset)) imgAttrs.sizes = sizes;
 
   const hasWidth = isNumber(width);
   const hasHeight = isNumber(height);

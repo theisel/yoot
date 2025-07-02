@@ -189,13 +189,24 @@ describe('@yoot/yoot - Helpers', () => {
       expect(attrs.sizes).toBe('50vw');
     });
 
-    it('includes sizes only if srcset or srcSetBuilder given', () => {
-      const attrsWithSizes = jsx.getImgAttrs(ute, {
+    it('should return sizes only if srcset has been given or generated via srcSetBuilder', () => {
+      // `srcset` is provided
+      const attrsWithSrcset = jsx.getImgAttrs(ute, {
         srcset: jsx.buildSrcSet({widths: [300]}, ute),
         sizes: '50vw',
       });
-      expect(attrsWithSizes.sizes).toBe('50vw');
 
+      expect(attrsWithSrcset.sizes).toBe('50vw');
+
+      // `srcSetBuilder` is provided
+      const attrsWithSrcSetBuilder = jsx.getImgAttrs(ute, {
+        srcSetBuilder: jsx.defineSrcSetBuilder({widths: [300]}),
+        sizes: '50vw',
+      });
+
+      expect(attrsWithSrcSetBuilder.sizes).toBe('50vw');
+
+      // No `srcset` or `srcSetBuilder` provided
       const attrsWithoutSrcset = jsx.getImgAttrs(ute, {sizes: '100vw'});
       expect(attrsWithoutSrcset.sizes).toBeUndefined();
     });
