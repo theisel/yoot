@@ -224,19 +224,8 @@ type Attrs = {
 function getImgAttrs(yoot: Yoot, options?: ImgAttrsOptions): ImgAttrs {
   const {alt: alternateAlt, sizes, srcSetBuilder, ...passThroughAttrs} = options ?? {};
   const {src, height, width, ...derivedAttrs} = getAttrs(yoot);
-  const alt = derivedAttrs.alt || alternateAlt;
-  const attrs: HTMLImageAttributes = {...passThroughAttrs};
-  const imgAttrs: ImgAttrs = {src};
-
-  // Apply non-nullish pass-through attributes
-  for (const [key, value] of Object.entries(attrs)) {
-    if (isNullish(value)) continue;
-    // TODO - Is there a better way to type this?
-    (imgAttrs as Record<string, unknown>)[key] = value;
-  }
-
-  // Apply `alt`
-  if (isString(alt)) imgAttrs.alt = alt;
+  const alt = derivedAttrs.alt || alternateAlt || ''; // Ensure `alt` is always a string, even if empty
+  const imgAttrs: ImgAttrs = {src, alt, ...passThroughAttrs};
 
   // -- Apply `srcset` and fallback to `src` if not defined --
   // Overrides `srcset` if given
