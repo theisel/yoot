@@ -1,5 +1,11 @@
 # @yoot/yoot
 
+## 0.5.1
+
+### Patch Changes
+
+- d08f71f: Fixes `getImgAttrs` helper where the `sizes` attribute wasn't returned when the `srcSetBuilder` was provided.
+
 ## 0.5.0
 
 ### Minor Changes

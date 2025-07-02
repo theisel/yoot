@@ -1,5 +1,12 @@
 # @yoot/cloudinary
 
+## 0.3.5
+
+### Patch Changes
+
+- Updated dependencies [d08f71f]
+  - @yoot/yoot@0.5.1
+
 ## 0.3.4
 
 ### Patch Changes
