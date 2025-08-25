@@ -1,5 +1,11 @@
 # @yoot/cloudinary
 
+## 0.3.6
+
+### Patch Changes
+
+- e5ae64a: **Docs:** Corrected the `Node / NPM` installation instructions to explicitly include the `@yoot/yoot` peer dependency, ensuring proper module resolution in Node environments.
+
 ## 0.3.5
 
 ### Patch Changes
