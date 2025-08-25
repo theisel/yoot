@@ -33,10 +33,8 @@
 ### Node / NPM
 
 ```bash
-npm install @yoot/cloudinary
+npm install @yoot/cloudinary @yoot/yoot
 ```
-
-> The core library (`@yoot/yoot`) is automatically installed.
 
 ### Deno / JSR
 

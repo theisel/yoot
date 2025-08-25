@@ -33,10 +33,8 @@
 ### Node / NPM
 
 ```bash
-npm install @yoot/shopify
+npm install @yoot/shopify @yoot/yoot
 ```
-
-> The core library (`@yoot/yoot`) is automatically installed.
 
 ### Deno / JSR
 
