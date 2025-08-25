@@ -33,10 +33,8 @@
 ### Node / NPM
 
 ```bash
-npm install @yoot/sanity
+npm install @yoot/sanity @yoot/yoot
 ```
-
-> The core library (`@yoot/yoot`) is automatically installed.
 
 ### Deno / JSR
 

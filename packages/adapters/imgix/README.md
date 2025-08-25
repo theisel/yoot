@@ -33,10 +33,8 @@
 ### Node / NPM
 
 ```bash
-npm install @yoot/imgix
+npm install @yoot/imgix @yoot/yoot
 ```
-
-> The core library (`@yoot/yoot`) is automatically installed.
 
 ### Deno / JSR
 
